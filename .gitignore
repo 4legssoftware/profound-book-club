@@ -1,0 +1,26 @@
+.DS_Store
+.idea/
+
+infrastructure/*.pyc
+infrastructure/.terraform/
+infrastructure/.terraform.lock.hcl
+
+content-*.tar.gz
+create_config_version.json
+run.*json
+
+node_modules/
+
+# pnpm
+pnpm-debug.log*
+.pnpm-debug.log*
+.pnpm-store
+
+# CDK
+cdk.out/
+cdk.context.json
+*.js
+*.d.ts
+!jest.config.js
+!scripts/smoke-test.js
+# Allow JS files in specific locations if needed (add exceptions here)
