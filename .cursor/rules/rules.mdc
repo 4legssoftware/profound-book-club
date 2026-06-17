@@ -1,0 +1,56 @@
+---
+alwaysApply: true
+---
+
+# Profound Book Club — Project Rules
+
+Epic context: `docs/e1-website-foundation/epic-website-foundation.md`.
+
+## Init Rules
+
+* Don't add comments that are redundant or obvious. Only add comments that provide meaningful context or explanations.
+
+## Git Rules
+
+* **Trunk-based development (TBD):** Integrate to `main` frequently; pushing to `main` is the normal path. There is **no
+  routine PR workflow** — review → commit → push to `main` triggers the stage/prod pipeline (see epic).
+* **Local review:** Prefer applying agent work on `main` with a **staged** diff so pre-commit hooks and diffs are easy to
+  review. Do **not** create a feature branch for routine story work unless the user explicitly asks for one.
+* Never commit or push directly to `main` unless explicitly instructed to do so.
+* Never commit or push unless explicitly instructed to do so.
+* **Commit workflow:** Always show the proposed commit message and staged changes for review BEFORE executing the commit.
+* Wait for explicit approval ("proceed", "commit it", etc.) before running git commit.
+* Prefer **segment-sized commits** (~400 added lines max). Run `git diff --staged --stat` before commit; if the diff spans
+  multiple checklist layers, split before pushing.
+
+## Delivery & Infrastructure
+
+* **Repos:** `profound-book-club` (app + CDK per environment account); `4ls-org` (AWS Organization OU/accounts, Route 53
+  hosted zones, DNS validation and alias records via Terraform).
+* **Pipeline:** Modeled on **4ls-site** — Commit → Acceptance (stage) → Production (prod), no manual approval gate. GitHub
+  Actions → AWS via **OIDC** (no long-lived keys).
+* **dev** is **never** deployed by the pipeline — update dev manually from localhost (CDK). Pipeline handles **stage** and
+  **prod** only.
+* **Domains:** `dev.profound-book-club.org` / `stage.profound-book-club.org` / `profound-book-club.org`. Apex is
+  canonical; `www` 301-redirects to the bare domain.
+* **IaC split:** CDK owns app infrastructure (CloudFront, S3 origin, ACM cert request) in each environment account;
+  Terraform owns org-level DNS in the `4ls-org` root account.
+
+## Tooling
+
+* Use **PNPM** for dependency management (root and `infrastructure/`).
+* Use **TypeScript** from the start so an Astro migration can drop in later without disturbing pipeline or infrastructure.
+
+## Code Style
+
+* Use single quotes for strings consistently
+* Limit line length to 120 chars wherever possible
+* Include trailing commas in dictionaries and lists
+* Avoid redundant comments that simply restate what the code already clearly expresses
+* Only add comments when they explain "why" not "what"
+* Let the code speak for itself through clear naming and structure
+
+## Documentation Style
+
+* Name markdown documents with all lower case names and kabob-case
+* Epic and story docs live under `docs/e*-*/` (e.g. `docs/e1-website-foundation/`)
