@@ -128,20 +128,20 @@ no registrar NS cutover.
 
 ### Segment 1 — CDK scaffold + synth verification (`profound-book-club`)
 
-- [ ] Ensure site build emits **`404.html`** in `dist/` (static copy or minimal page) for CloudFront error responses
-- [ ] Add `infrastructure/` package (PNPM, TypeScript, CDK) mirroring **4ls-site** layout — `package.json`, `cdk.json`,
+- [x] Ensure site build emits **`404.html`** in `dist/` (static copy or minimal page) for CloudFront error responses
+- [x] Add `infrastructure/` package (PNPM, TypeScript, CDK) mirroring **4ls-site** layout — `package.json`, `cdk.json`,
   `tsconfig.json`, `bin/`, `lib/`
-- [ ] Implement constructs: `WebsiteBucket`, `CloudFrontDistribution` (OAC, `index.html` root, **403/404 → `/404.html`**,
+- [x] Implement constructs: `WebsiteBucket`, `CloudFrontDistribution` (OAC, `index.html` root, **403/404 → `/404.html`**,
   IPv6, `PriceClass_100`), `AcmCertificate`, `CertificateStack` (`us-east-1`)
-- [ ] Implement main stack: S3 + CloudFront; **no Route53 construct** (`createRoute53Records: false`); wire
+- [x] Implement main stack: S3 + CloudFront; **no Route53 construct** (`createRoute53Records: false`); wire
   `CERTIFICATE_ARN` / `skipDomainAliases` for cert-validation bootstrap
-- [ ] CloudFront Function (viewer-request) on **each environment** — 301 `www` hostname → canonical FQDN for that env
-- [ ] Environment config in `bin/` — account IDs from Story 1; FQDNs and bucket names per table above; region `us-east-2`
+- [x] CloudFront Function (viewer-request) on **each environment** — 301 `www` hostname → canonical FQDN for that env
+- [x] Environment config in `bin/` — account IDs from Story 1; FQDNs and bucket names per table above; region `us-east-2`
   (main), `us-east-1` (cert stack)
-- [ ] Stack outputs: `BucketName`, `DistributionId`, `WebsiteURL`, `CertificateArn` (cert stack)
-- [ ] Add CDK snapshot or synth tests + assertions on key resources (bucket block public access, OAC origin, error
+- [x] Stack outputs: `BucketName`, `DistributionId`, `WebsiteURL`, `CertificateArn` (cert stack)
+- [x] Add CDK snapshot or synth tests + assertions on key resources (bucket block public access, OAC origin, error
   responses, prod www function when cert present)
-- [ ] Run: `pnpm install` (root + `infrastructure/`), `pnpm run build` (infra tsc), `cd infrastructure && pnpm run synth`
+- [x] Run: `pnpm install` (root + `infrastructure/`), `pnpm run build` (infra tsc), `cd infrastructure && pnpm run synth`
   for dev/stage/prod
 - [ ] **Stop for review:** synth output and test results before any AWS deploy
 
