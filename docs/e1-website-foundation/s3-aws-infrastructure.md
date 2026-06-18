@@ -77,8 +77,7 @@ reviewable without splitting Shortcut tickets. Defer GitHub Actions OIDC and pip
 | Site build output | Ready | `pnpm run build` → `dist/` (Story 2) |
 | Dev deploy command | Stub | `.cursor/commands/deploy-dev-book-club.md` — expects `scripts/deploy-infrastructure-dev.sh` |
 | Org SSO / IAM | Ready | Story 1 — S3 bucket ARNs already use domain-shaped names in SSO policies |
-| Route 53 zone | Exists in AWS | `profound-book-club.org` hosted zone already in org Route 53; **not yet in Terraform** — add
-  `route53-profound-book-club.tf` with data source (or import), not `aws_route53_zone` create |
+| Route 53 zone | In AWS + TF data source | `route53-profound-book-club.tf` references existing zone; ACM/alias records in Segments 3+ |
 
 **Reference patterns** (mirror **4ls-site**; adapt for apex domain + Terraform-only DNS):
 
@@ -143,14 +142,14 @@ no registrar NS cutover.
   responses, prod www function when cert present)
 - [x] Run: `pnpm install` (root + `infrastructure/`), `pnpm run build` (infra tsc), `cd infrastructure && pnpm run synth`
   for dev/stage/prod
-- [ ] **Stop for review:** synth output and test results before any AWS deploy
+- [x] **Stop for review:** synth output and test results before any AWS deploy
 
 ### Segment 2 — Org hosted zone reference (`4ls-org`)
 
-- [ ] Add `route53-profound-book-club.tf` — `data "aws_route53_zone" "profound_book_club"` for existing
+- [x] Add `route53-profound-book-club.tf` — `data "aws_route53_zone" "profound_book_club"` for existing
   `profound-book-club.org` zone (org root account); import into state if zone was created outside Terraform
-- [ ] Record hosted zone ID in story **Notes**
-- [ ] Run: `terraform fmt`, `tflint`, `terraform validate`; TFC plan review (expect no zone-create churn — records only in
+- [ ] Record hosted zone ID in story **Notes** _(after TFC plan resolves data source)_
+- [x] Run: `terraform fmt`, `tflint`, `terraform validate`; TFC plan review (expect no zone-create churn — records only in
   later segments)
 - [ ] **Stop for review:** plan confirms data source resolves existing zone before ACM validation records
 
@@ -208,4 +207,8 @@ no registrar NS cutover.
 
 ## Notes
 
-_Populate during implementation — hosted zone ID, cert ARNs, CloudFront domain names, distribution IDs._
+**Segment 2 (`4ls-org`):** `route53-profound-book-club.tf` adds `data.aws_route53_zone.profound_book_club` for the
+existing `profound-book-club.org` zone. Local `terraform fmt` / `tflint` / `validate` pass; **hosted zone ID** to be
+recorded after Terraform Cloud plan (requires org root credentials).
+
+_Populate during implementation — cert ARNs, CloudFront domain names, distribution IDs._
