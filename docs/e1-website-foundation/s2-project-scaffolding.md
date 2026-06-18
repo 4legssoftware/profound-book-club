@@ -46,10 +46,10 @@ to Stories 3–5.
 | Item | Status | Notes |
 |------|--------|-------|
 | GitHub repo | Exists | Public; `main` default branch; remote `origin` configured |
-| Branch protection | Not enabled | AC still open; **4ls-site** baseline verified: force-push + deletion blocked, no PR gate, no required checks |
+| Branch protection | Enabled | Mirrors **4ls-site**: force-push + deletion blocked; no PR gate; status checks deferred to Story 4 |
 | Site content | Missing | No `index.html`, `site/`, or build output in repo |
 | PNPM / TS / lint | Missing | No `package.json`, `tsconfig.json`, or ESLint config |
-| README | Stub | Title only — needs setup/build instructions |
+| README | Complete | Prerequisites, dev, build, lint; pointers to Story 3 dev deploy and Story 4 pipeline |
 | `.gitignore` | Partial | Has `node_modules/`, `cdk.out/`; **`dist/` not listed yet** — add in Segment 2 |
 
 **Reference patterns** (mirror **4ls-site** where noted):
@@ -129,9 +129,9 @@ to Stories 3–5.
 
 ### Segment 3 — README and GitHub branch protection
 
-- [ ] Expand `README.md` — prerequisites (Node/pnpm), install, local preview, `pnpm run build`, pointer to future dev
+- [x] Expand `README.md` — prerequisites (Node/pnpm), install, local preview, `pnpm run build`, pointer to future dev
   deploy (Story 3) and pipeline (Story 4)
-- [ ] Enable `main` branch protection on `4legssoftware/profound-book-club` (Question 4 — 4ls-site baseline)
+- [x] Enable `main` branch protection on `4legssoftware/profound-book-club` (Question 4 — 4ls-site baseline)
 - [ ] Push segments to `main`; confirm GitHub repo reflects site + tooling
 
 ### Final — Verification and story close
