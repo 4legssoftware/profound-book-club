@@ -4,6 +4,8 @@ Static site and infrastructure for [The Profound Book Club](https://profound-boo
 
 Epic context: [`docs/e1-website-foundation/epic-website-foundation.md`](docs/e1-website-foundation/epic-website-foundation.md).
 
+Contributions from outside the maintainer team go through fork + pull request — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Prerequisites
 
 - **Node.js** `v26.3.1` (see [`.nvmrc`](.nvmrc))
