@@ -115,17 +115,17 @@ to Stories 3–5.
   `src/routes/index.tsx`
 - [x] Open locally in a browser — scroll nav, section anchors, responsive spot-check (served via `python3 -m http.server`
   in `src/pages/`; HTTP 200, content verified)
-- [ ] **Stop for review:** staged diff is mostly site content; confirm this matches the intended v1 page
+- [x] **Stop for review:** staged diff is mostly site content; confirm this matches the intended v1 page
 
 ### Segment 2 — PNPM, TypeScript, lint, and build passthrough
 
-- [ ] Add root `package.json` with `packageManager`, scripts (`build`, `lint`; optional `dev` static server)
-- [ ] Add `.npmrc`, `pnpm-lock.yaml`, `.nvmrc` (**Node `v26.3.1`**, **pnpm `11.8.0`**)
-- [ ] Add root `tsconfig.json` scoped to `scripts/**/*` (and future TS) — mirror 4ls-site posture until Astro
-- [ ] Add ESLint + Prettier config (Question 3 — Lovable-style); scripts `lint` and `format`; ensure `pnpm run lint` passes
-- [ ] Implement thin `build` script: copy agreed site source → **`dist/`** (passthrough acceptable)
-- [ ] Run: `pnpm install`, `pnpm run lint`, `pnpm run build` — verify `dist/index.html` (and assets if any)
-- [ ] Confirm `dist/` is gitignored; source lives outside `dist/`
+- [x] Add root `package.json` with `packageManager`, scripts (`build`, `lint`; optional `dev` static server)
+- [x] Add `.npmrc`, `pnpm-lock.yaml`, `.nvmrc` (**Node `v26.3.1`**, **pnpm `11.8.0`**)
+- [x] Add root `tsconfig.json` scoped to `scripts/**/*` (and future TS) — mirror 4ls-site posture until Astro
+- [x] Add ESLint + Prettier config (Question 3 — Lovable-style); scripts `lint` and `format`; ensure `pnpm run lint` passes
+- [x] Implement thin `build` script: copy agreed site source → **`dist/`** (passthrough acceptable)
+- [x] Run: `pnpm install`, `pnpm run lint`, `pnpm run build` — verify `dist/index.html` (and assets if any)
+- [x] Confirm `dist/` is gitignored; source lives outside `dist/`
 
 ### Segment 3 — README and GitHub branch protection
 

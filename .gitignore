@@ -11,6 +11,8 @@ run.*json
 
 node_modules/
 
+dist/
+
 # pnpm
 pnpm-debug.log*
 .pnpm-debug.log*
