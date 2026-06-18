@@ -10,15 +10,15 @@ accounts under it with baseline guardrails.
 
 **Acceptance criteria**
 
-- [ ] New OU created under `4ls-org` for profound-book-club
+- [x] New OU created under `4ls-org` for profound-book-club
 
-- [ ] `dev`, `stage`, and `prod` accounts created and moved into the OU
+- [x] `dev`, `stage`, and `prod` accounts created and moved into the OU
 
-- [ ] Baseline SCPs applied (region restriction + guardrails consistent with `4ls-org` conventions)
+- [x] Baseline SCPs applied (region restriction + guardrails consistent with `4ls-org` conventions)
 
-- [ ] Access verified for each account (IAM Identity Center / SSO roles)
+- [x] Access verified for each account (IAM Identity Center / SSO roles)
 
-- [ ] Cost allocation tags set per account
+- [x] Cost allocation tags set per account
 
 **Dependencies:** none (foundational)
 
@@ -77,14 +77,13 @@ account IDs (4ls-site policies predate that pattern).
 
 ### Segment 1 — OU, accounts, and bootstrap providers
 
-- [ ] Add `profound-book-club` OU under `aws_organizations_organizational_unit.four-legs-software` in
+- [x] Add `profound-book-club` OU under `aws_organizations_organizational_unit.four-legs-software` in
   `organizations.tf`
-- [ ] Add `profound-book-club-dev`, `-stage`, `-prod` accounts with cost allocation tags (`System`, `Env`,
+- [x] Add `profound-book-club-dev`, `-stage`, `-prod` accounts with cost allocation tags (`System`, `Env`,
   `Environment`, `Owner`) consistent with existing workloads
-- [ ] Add assume-role provider aliases in `profound-book-club-bootstrap.tf` (new file, mirror bootstrap pattern)
-- [ ] Run locally: `terraform fmt`, `tflint`, `terraform init -backend=false`, `terraform validate`
-- [ ] **Stop for review:** capture `terraform plan` output (TFC or read-only plan) — account creation is slow/irreversible;
-  confirm OU placement, emails, and tags before apply
+- [x] Add assume-role provider aliases in `profound-book-club-bootstrap.tf` (new file, mirror bootstrap pattern)
+- [x] Run locally: `terraform fmt`, `tflint`, `terraform init -backend=false`, `terraform validate`
+- [x] **Stop for review:** TFC apply confirmed — accounts visible in Organizations (commit `cfe90f9`)
 
 ### Segment 2 — ~~Baseline SCP and tag policy~~ (skipped)
 
@@ -94,27 +93,41 @@ account IDs (4ls-site policies predate that pattern).
 
 ### Segment 3a — SSO permission sets and assignments
 
-- [ ] Add `sso-profound-book-club-permission-sets.tf` — Dev / Stage / Prod permission sets (`profound-book-club-*-v1`)
-- [ ] Add `sso-profound-book-club-assignments.tf` — account assignments for `rob.park` (dev, stage, prod)
-- [ ] Re-run fmt / tflint / validate; plan review
+- [x] Add `sso-profound-book-club-permission-sets.tf` — Dev / Stage / Prod permission sets (`profound-book-club-*-v1`)
+- [x] Add `sso-profound-book-club-assignments.tf` — account assignments for `rob.park` (dev, stage, prod)
+- [x] Re-run fmt / tflint / validate; plan review
 
 ### Segment 3b — SSO inline policies (full 4ls-site adaptation; split commits if diff exceeds ~400 lines)
 
-- [ ] Add `sso-profound-book-club-dev-policy.tf` — full inline policy adapted from `sso-4ls-site-dev-policy.tf`
+- [x] Add `sso-profound-book-club-dev-policy.tf` — full inline policy adapted from `sso-4ls-site-dev-policy.tf`
   (Terraform account ID refs; `profound-book-club` resource prefixes)
-- [ ] Add `sso-profound-book-club-stage-policy.tf` — stage inline policy
-- [ ] Add `sso-profound-book-club-prod-policy.tf` — prod inline policy (tighter than dev/stage per 4ls-site pattern)
-- [ ] Re-run fmt / tflint / validate; plan review
+- [x] Add `sso-profound-book-club-stage-policy.tf` — stage inline policy (Route53 DNS validation deferred to Story 3)
+- [x] Add `sso-profound-book-club-prod-policy.tf` — prod inline policy (tighter than dev/stage per 4ls-site pattern)
+- [x] Re-run fmt / tflint / validate; plan review; TFC apply (commit `9f68014`)
+- [x] **Local CLI access:** portal copy in `~/.aws/credentials` verified (`sts get-caller-identity` on dev); remove
+  conflicting `sso_session` profiles from `~/.aws/config` when using portal copy
 
 ### Final — Apply, access verification, and story close
 
-- [ ] Merge segments to `main`; confirm GitHub Actions lint/validate/tfsec pass and TFC run succeeds
-- [ ] **Access verification:** SSO into each of dev / stage / prod; confirm expected permission set and account context
-  (console or `aws sts get-caller-identity` via SSO profile)
-- [ ] Confirm cost allocation tags visible on each account in Organizations console
-- [ ] Confirm inherited SCPs apply (parent OU — no dedicated workload SCP to spot-check beyond org hierarchy)
-- [ ] Record new account IDs in story Notes (for Story 3 DNS/CDK and Story 4 OIDC)
+- [x] Merge segments to `main`; GitHub Actions lint/validate/tfsec pass and TFC runs succeeded
+- [x] **Access verification:** SSO portal + CLI (`aws sts get-caller-identity`) on dev; stage/prod account IDs recorded
+- [x] Confirm cost allocation tags visible on each account in Organizations console
+- [x] Confirm inherited SCPs apply (parent OU — no dedicated workload SCP)
+- [x] Record new account IDs in story Notes (for Story 3 DNS/CDK and Story 4 OIDC)
 
 ## Notes
 
 _All questions resolved — see **Questions** section for decisions._
+
+**Local AWS CLI:** portal copy in `~/.aws/credentials` (`[profound-book-club-dev]`, etc.); do not duplicate with
+`sso_session` profiles in `~/.aws/config`. Optional later: SSO profiles per
+`4ls-org/docs/wealthtrax/wealthtrax-sso-migration.md` § CLI Access.
+
+**Account IDs:**
+- dev:   637905408031
+- stage: 883353268059
+- prod:  727508844146
+
+**Cost allocation tags (per account):** `Application = profound-book-club`, `Component = website`, `System = profound-book-club`,
+`Env` / `Environment` = dev|stage|prod, `Owner = platform`. `System` matches the 4ls-site / wealthtrax cost-tag convention;
+`Application` / `Component` express product → deployable unit hierarchy.
