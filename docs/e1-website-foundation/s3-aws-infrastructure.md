@@ -77,7 +77,7 @@ reviewable without splitting Shortcut tickets. Defer GitHub Actions OIDC and pip
 | Site build output | Ready | `pnpm run build` → `dist/` (Story 2) |
 | Dev deploy command | Stub | `.cursor/commands/deploy-dev-book-club.md` — expects `scripts/deploy-infrastructure-dev.sh` |
 | Org SSO / IAM | Ready | Story 1 — S3 bucket ARNs already use domain-shaped names in SSO policies |
-| Route 53 zone | In AWS + TF data source | `route53-profound-book-club.tf` references existing zone; ACM/alias records in Segments 3+ |
+| Route 53 zone | In AWS + TF data source | Zone ID `Z02858163FD16TMT7WSTS`; ACM/alias records in Segment 3+ |
 
 **Reference patterns** (mirror **4ls-site**; adapt for apex domain + Terraform-only DNS):
 
@@ -148,10 +148,10 @@ no registrar NS cutover.
 
 - [x] Add `route53-profound-book-club.tf` — `data "aws_route53_zone" "profound_book_club"` for existing
   `profound-book-club.org` zone (org root account); import into state if zone was created outside Terraform
-- [ ] Record hosted zone ID in story **Notes** _(after TFC plan resolves data source)_
+- [x] Record hosted zone ID in story **Notes**
 - [x] Run: `terraform fmt`, `tflint`, `terraform validate`; TFC plan review (expect no zone-create churn — records only in
   later segments)
-- [ ] **Stop for review:** plan confirms data source resolves existing zone before ACM validation records
+- [x] **Stop for review:** plan confirms data source resolves existing zone before ACM validation records
 
 ### Segment 3 — Dev environment end-to-end (both repos)
 
@@ -207,8 +207,7 @@ no registrar NS cutover.
 
 ## Notes
 
-**Segment 2 (`4ls-org`):** `route53-profound-book-club.tf` adds `data.aws_route53_zone.profound_book_club` for the
-existing `profound-book-club.org` zone. Local `terraform fmt` / `tflint` / `validate` pass; **hosted zone ID** to be
-recorded after Terraform Cloud plan (requires org root credentials).
+**Route 53 hosted zone (`profound-book-club.org`):** `Z02858163FD16TMT7WSTS` — resolved via TFC apply on
+`data.aws_route53_zone.profound_book_club` (`4ls-org` commit `7f90f88`).
 
 _Populate during implementation — cert ARNs, CloudFront domain names, distribution IDs._
