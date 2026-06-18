@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Profound Book Club</title>
+  <meta name="description" content="A long-running reading group exploring Dr. W. Edwards Deming's System of Profound Knowledge — together, slowly, and with conversation that matters.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; }
+    
+.pbc {
+  --paper: #f4ede1;
+  --paper-deep: #ebe1cd;
+  --ink: #1a1814;
+  --ink-soft: #3a342a;
+  --ink-mute: #6b5f4e;
+  --rule: #c9bda4;
+  --accent: #a8321e;
+  --accent-deep: #7a2415;
+  --gold: #b8923a;
+  --shadow: rgba(26, 24, 20, 0.08);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(184, 146, 58, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(168, 50, 30, 0.03) 0%, transparent 50%);
+}
+
+.pbc::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.pbc * { box-sizing: border-box; }
+.pbc main, .pbc nav, .pbc footer { position: relative; z-index: 2; }
+
+.pbc nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 2.5rem;
+  background: rgba(244, 237, 225, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pbc .nav-mark { font-family: 'Fraunces', serif; font-weight: 600; font-style: italic; font-size: 1.1rem; letter-spacing: 0.02em; color: var(--ink); text-decoration: none; }
+.pbc .nav-mark .ampersand { color: var(--accent); font-style: italic; }
+.pbc .nav-links { display: flex; gap: 2.5rem; list-style: none; margin: 0; padding: 0; }
+.pbc .nav-links a { color: var(--ink-soft); text-decoration: none; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; transition: color 0.2s; position: relative; }
+.pbc .nav-links a:hover { color: var(--accent); }
+.pbc .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+.pbc .nav-links a:hover::after { width: 100%; }
+@media (max-width: 720px) { .pbc .nav-links { display: none; } .pbc nav { padding: 1rem 1.25rem; } }
+
+.pbc .hero {
+  min-height: 100vh;
+  padding: 8rem 2.5rem 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+  position: relative; border-bottom: 1px solid var(--rule);
+  max-width: 1400px; margin: 0 auto;
+}
+.pbc .hero::before {
+  content: 'EST. — A SOCIETY FOR PROFOUND READING';
+  position: absolute; top: 6rem; left: 2.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.3em; color: var(--ink-mute);
+}
+.pbc .hero-text { position: relative; z-index: 2; }
+.pbc .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+.pbc .hero-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--accent); }
+.pbc h1.hero-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(3rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 2rem; color: var(--ink); }
+.pbc h1.hero-title .italic { font-style: italic; font-weight: 400; color: var(--accent); }
+.pbc .hero-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.3rem; line-height: 1.5; color: var(--ink-soft); max-width: 32rem; margin-bottom: 2rem; padding-left: 1.5rem; border-left: 2px solid var(--accent); }
+.pbc .hero-meta { display: flex; gap: 3rem; margin-top: 3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mute); }
+.pbc .hero-meta-item .num { display: block; font-family: 'Fraunces', serif; font-size: 2.25rem; color: var(--ink); font-weight: 500; line-height: 1; margin-bottom: 0.35rem; font-style: italic; }
+.pbc .hero-visual { position: relative; aspect-ratio: 1; max-width: 520px; margin: 0 auto; width: 100%; }
+.pbc .control-chart { width: 100%; height: 100%; }
+@media (max-width: 900px) {
+  .pbc .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+  .pbc .hero::before { display: none; }
+  .pbc .hero-visual { max-width: 380px; }
+  .pbc .hero-meta { flex-wrap: wrap; gap: 2rem; }
+}
+
+.pbc section { padding: 6rem 2.5rem; position: relative; max-width: 1400px; margin: 0 auto; }
+.pbc .section-header { display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: end; margin-bottom: 4rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+.pbc .section-number { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; letter-spacing: 0.2em; color: var(--accent); }
+.pbc .section-title { font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 500; line-height: 1; letter-spacing: -0.015em; margin: 0; color: var(--ink); }
+.pbc .section-title .italic { font-style: italic; color: var(--ink-mute); font-weight: 400; }
+
+.pbc #current { background: linear-gradient(180deg, transparent 0%, rgba(184, 146, 58, 0.04) 100%); }
+.pbc .current-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+.pbc .book-cover-area { position: relative; }
+.pbc .book-tag { position: absolute; top: -1rem; left: -1rem; background: var(--accent); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; padding: 0.5rem 0.9rem; text-transform: uppercase; z-index: 2; transform: rotate(-3deg); }
+.pbc .book-card { aspect-ratio: 3/4.2; background: var(--paper-deep); border: 1px solid var(--rule); padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 20px 40px -20px var(--shadow), 0 4px 8px -4px var(--shadow); position: relative; }
+.pbc .book-card::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--rule); pointer-events: none; }
+.pbc .book-card-top { text-align: center; }
+.pbc .book-card-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem; color: var(--accent); margin-bottom: 0.5rem; }
+.pbc .book-card-author-prefix { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-mute); margin-top: 0.5rem; }
+.pbc .book-card-title { font-family: 'Fraunces', serif; font-size: 2rem; line-height: 1.1; font-weight: 500; text-align: center; padding: 1rem 0; color: var(--ink); }
+.pbc .book-card-ornament { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 0.5rem; font-style: italic; }
+.pbc .book-card-author { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; text-align: center; color: var(--ink-soft); }
+.pbc .book-card-bottom { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-mute); }
+.pbc .current-details h3 { font-family: 'Fraunces', serif; font-size: 2.5rem; line-height: 1.05; font-weight: 500; margin: 0 0 0.5rem; letter-spacing: -0.01em; color: var(--ink); }
+.pbc .current-author { font-family: 'Fraunces', serif; font-style: italic; color: var(--ink-mute); font-size: 1.1rem; margin-bottom: 2rem; }
+.pbc .current-abstract { font-size: 1.05rem; line-height: 1.7; color: var(--ink-soft); margin-bottom: 2.5rem; }
+.pbc .deming-link { background: var(--paper-deep); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin-bottom: 2.5rem; }
+.pbc .deming-link-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+.pbc .deming-link-text { font-family: 'Fraunces', serif; font-style: italic; color: var(--ink); line-height: 1.5; margin: 0; }
+.pbc .schedule { border: 1px solid var(--rule); background: var(--paper); }
+.pbc .schedule-header { background: var(--ink); color: var(--paper); padding: 0.75rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+.pbc .schedule-row { display: grid; grid-template-columns: 80px 110px 1fr; gap: 1.5rem; padding: 0.9rem 1.25rem; border-top: 1px solid var(--rule); align-items: center; font-size: 0.9rem; }
+.pbc .schedule-row:first-of-type { border-top: none; }
+.pbc .schedule-row--break { background: rgba(184, 146, 58, 0.05); }
+.pbc .schedule-row--break .schedule-week, .pbc .schedule-row--break .schedule-date, .pbc .schedule-row--break .schedule-content { color: var(--ink-mute); font-style: italic; }
+.pbc .schedule-week { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-mute); letter-spacing: 0.15em; }
+.pbc .schedule-date { font-family: 'Fraunces', serif; font-style: italic; color: var(--accent); }
+.pbc .schedule-content { color: var(--ink-soft); }
+@media (max-width: 900px) { .pbc .current-grid { grid-template-columns: 1fr; } .pbc .book-cover-area { max-width: 380px; margin: 0 auto; } }
+
+.pbc #chronology { background: var(--paper-deep); max-width: none; margin: 0; padding-left: max(2.5rem, calc((100vw - 1340px) / 2)); padding-right: max(2.5rem, calc((100vw - 1340px) / 2)); }
+.pbc .chronology-intro { max-width: 42rem; font-family: 'Fraunces', serif; font-size: 1.2rem; line-height: 1.6; color: var(--ink-soft); font-style: italic; margin-bottom: 4rem; }
+.pbc .chronology-list { border-top: 1px solid var(--rule); list-style: none; padding: 0; margin: 0; }
+.pbc .chronology-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 2.5rem; align-items: baseline; padding: 1.75rem 0; border-bottom: 1px solid var(--rule); transition: background 0.3s ease, padding 0.3s ease; position: relative; }
+.pbc .chronology-item:hover { background: rgba(168, 50, 30, 0.04); padding-left: 1rem; }
+.pbc .chron-num { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--ink-mute); letter-spacing: 0.1em; }
+.pbc .chron-title { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; line-height: 1.25; margin: 0; }
+.pbc .chron-title .by { font-style: italic; font-weight: 400; color: var(--ink-mute); font-size: 1.05rem; }
+.pbc .chronology-item:hover .chron-title { color: var(--accent); }
+.pbc .chron-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mute); text-align: right; white-space: nowrap; }
+@media (max-width: 720px) {
+  .pbc .chronology-item { grid-template-columns: 70px 1fr; gap: 1.25rem; }
+  .pbc .chron-meta { grid-column: 2; text-align: left; margin-top: 0.3rem; white-space: normal; }
+}
+
+.pbc .conversations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.pbc .conv-card { background: var(--paper-deep); border: 1px solid var(--rule); padding: 1.75rem; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; }
+.pbc .conv-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -12px var(--shadow); }
+.pbc .conv-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3rem; height: 3px; background: var(--accent); }
+.pbc .conv-card-quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.1rem; line-height: 1.5; margin: 0.5rem 0 1rem; color: var(--ink-soft); }
+.pbc .conv-card-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mute); margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; }
+.pbc .conv-card-meta a { color: var(--accent); text-decoration: none; }
+.pbc .conv-card-meta a:hover { text-decoration: underline; }
+.pbc .conversations-placeholder { background: var(--paper-deep); border: 1px dashed var(--rule); padding: 3rem; text-align: center; color: var(--ink-mute); font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; }
+
+.pbc #psa { background: var(--ink); color: var(--paper); max-width: none; margin: 0; padding-left: max(2.5rem, calc((100vw - 1340px) / 2)); padding-right: max(2.5rem, calc((100vw - 1340px) / 2)); }
+.pbc #psa .section-header { border-color: rgba(244, 237, 225, 0.15); }
+.pbc #psa .section-number { color: var(--gold); }
+.pbc #psa .section-title { color: var(--paper); }
+.pbc #psa .section-title .italic { color: rgba(244, 237, 225, 0.5); }
+.pbc .psa-intro { max-width: 42rem; font-family: 'Fraunces', serif; font-style: italic; font-size: 1.15rem; color: rgba(244, 237, 225, 0.7); margin-bottom: 3rem; line-height: 1.6; }
+.pbc .psa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+.pbc .psa-card { border: 1px solid rgba(244, 237, 225, 0.15); padding: 2rem; transition: border-color 0.3s ease, background 0.3s ease; position: relative; }
+.pbc .psa-card:hover { border-color: var(--gold); background: rgba(184, 146, 58, 0.05); }
+.pbc .psa-card-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.pbc .psa-card-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 500; line-height: 1.2; margin: 0 0 0.75rem; color: var(--paper); }
+.pbc .psa-card-desc { font-size: 0.95rem; line-height: 1.55; color: rgba(244, 237, 225, 0.7); margin-bottom: 1.5rem; }
+.pbc .psa-card-link { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: gap 0.3s ease, color 0.3s ease; }
+.pbc .psa-card-link::after { content: '→'; }
+.pbc .psa-card-link:hover { gap: 0.85rem; color: var(--gold); }
+
+.pbc #contact { text-align: center; padding: 8rem 2.5rem; }
+.pbc .contact-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 4rem; color: var(--accent); margin-bottom: 1rem; line-height: 1; }
+.pbc .contact-line { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 1.5rem; }
+.pbc .contact-headline { font-family: 'Fraunces', serif; font-size: clamp(2.25rem, 4vw, 3.5rem); line-height: 1.1; font-weight: 500; max-width: 36rem; margin: 0 auto 2.5rem; color: var(--ink); }
+.pbc .contact-headline .italic { font-style: italic; color: var(--accent); }
+.pbc .contact-cta { display: inline-block; padding: 1rem 2.5rem; background: var(--ink); color: var(--paper); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.25em; text-transform: uppercase; transition: background 0.3s ease, transform 0.2s ease; }
+.pbc .contact-cta:hover { background: var(--accent); transform: translateY(-2px); }
+
+.pbc footer { border-top: 1px solid var(--rule); padding: 3rem 2.5rem 4rem; text-align: center; background: var(--paper-deep); }
+.pbc .footer-quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.2rem; color: var(--ink-soft); max-width: 38rem; margin: 0 auto 1.5rem; line-height: 1.5; }
+.pbc .footer-attribution { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 2rem; }
+.pbc .footer-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 0.85rem; color: var(--ink-mute); }
+
+.pbc .chart-process-line { stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: pbc-draw-line 2.5s ease 0.4s forwards; }
+@keyframes pbc-draw-line { to { stroke-dashoffset: 0; } }
+.pbc .chart-point { opacity: 0; animation: pbc-point-appear 0.4s ease forwards; }
+@keyframes pbc-point-appear { to { opacity: 1; } }
+
+.pbc .hero-text > * { opacity: 0; animation: pbc-fade-up 0.9s ease forwards; }
+.pbc .hero-text > *:nth-child(1) { animation-delay: 0.15s; }
+.pbc .hero-text > *:nth-child(2) { animation-delay: 0.3s; }
+.pbc .hero-text > *:nth-child(3) { animation-delay: 0.45s; }
+.pbc .hero-text > *:nth-child(4) { animation-delay: 0.6s; }
+.pbc .hero-visual { opacity: 0; animation: pbc-fade-up 1.2s ease 0.35s forwards; }
+@keyframes pbc-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"The Profound Book Club","description":"We learn from reading books together, make a difference through our rich conversations, and have fun throughout the process.","email":"robert.park+profound@4legssoftware.com"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Sidewinder","author":{"@type":"Person","name":"Dr. Ron Westrum"},"description":"Ron Westrum's history of the Sidewinder air-to-air missile — and, more deeply, of the unusual organizational culture at China Lake that made its development possible. A study in how a small team, given the right conditions, produced a revolutionary weapon while peers with vastly greater resources could not. Westrum, an organizational sociologist, examines the question that runs through all of his work: what kind of culture allows people to do extraordinary things?"}</script>
+</head>
+<body>
+  <div class="pbc">
+    <nav>
+      <a href="#top" class="nav-mark">The Profound <span class="ampersand">&amp;</span> Book Club</a>
+      <ul class="nav-links">
+        <li><a href="#current">Current</a></li>
+        <li><a href="#chronology">Chronology</a></li>
+        <li><a href="#conversations">Conversations</a></li>
+        <li><a href="#psa">Of Interest</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-text">
+          <p class="hero-eyebrow">A Study in Profound Knowledge</p>
+          <h1 class="hero-title">The Profound <span class="italic">Book Club</span></h1>
+          <p class="hero-tagline">We learn from reading books together, make a difference through our rich conversations, and have fun throughout the process.</p>
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <span class="num">16</span>
+              Volumes Read
+            </div>
+            <div class="hero-meta-item">
+              <span class="num">∞</span>
+              Conversations
+            </div>
+            <div class="hero-meta-item">
+              <span class="num">1</span>
+              System of Profound Knowledge
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <svg class="control-chart" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M30 0H0V30" fill="none" stroke="rgba(26,24,20,0.06)" stroke-width="0.5" />
+              </pattern>
+            </defs>
+            <rect x="20" y="20" width="380" height="260" fill="url(#grid)" />
+            <rect x="20" y="20" width="380" height="260" fill="none" stroke="var(--rule)" stroke-width="0.6" />
+            <line x1="20" y1="60" x2="400" y2="60" stroke="var(--accent)" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.6" />
+            <line x1="20" y1="150" x2="400" y2="150" stroke="var(--ink-soft)" stroke-width="1" />
+            <line x1="20" y1="240" x2="400" y2="240" stroke="var(--accent)" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.6" />
+            <text x="408" y="63" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--ink-mute)">UCL</text>
+            <text x="408" y="153" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--ink-mute)">x̄</text>
+            <text x="408" y="243" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--ink-mute)">LCL</text>
+            <path class="chart-process-line" d="M45,210 L75,185 L105,195 L135,170 L165,190 L195,158 L225,152 L255,128 L285,122 L315,45 L345,132 L375,102 L395,122" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linejoin="round" />
+            <circle class="chart-point" cx="45" cy="210" r="3.2" fill="var(--ink)" style="animation-delay: 0.9s" />
+            <circle class="chart-point" cx="75" cy="185" r="3.2" fill="var(--ink)" style="animation-delay: 1.02s" />
+            <circle class="chart-point" cx="105" cy="195" r="3.2" fill="var(--ink)" style="animation-delay: 1.14s" />
+            <circle class="chart-point" cx="135" cy="170" r="3.2" fill="var(--ink)" style="animation-delay: 1.26s" />
+            <circle class="chart-point" cx="165" cy="190" r="3.2" fill="var(--ink)" style="animation-delay: 1.38s" />
+            <circle class="chart-point" cx="195" cy="158" r="3.2" fill="var(--ink)" style="animation-delay: 1.5s" />
+            <circle class="chart-point" cx="225" cy="152" r="3.2" fill="var(--ink)" style="animation-delay: 1.62s" />
+            <circle class="chart-point" cx="255" cy="128" r="3.2" fill="var(--ink)" style="animation-delay: 1.74s" />
+            <circle class="chart-point" cx="285" cy="122" r="3.2" fill="var(--ink)" style="animation-delay: 1.86s" />
+            <circle class="chart-point" cx="315" cy="45" r="6" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.5" fill-opacity="0" style="animation-delay: 1.98s" />
+            <circle class="chart-point" cx="345" cy="132" r="3.2" fill="var(--ink)" style="animation-delay: 2.1s" />
+            <circle class="chart-point" cx="375" cy="102" r="3.2" fill="var(--ink)" style="animation-delay: 2.22s" />
+            <circle class="chart-point" cx="395" cy="122" r="3.2" fill="var(--ink)" style="animation-delay: 2.34s" />
+            <text x="210" y="305" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="2" fill="var(--ink-mute)">FIG. I — A SYSTEM UNDER STATISTICAL CONTROL</text>
+            <text x="12" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="2" fill="var(--ink-mute)" transform="rotate(-90 12 150)">UNDERSTANDING</text>
+            <text x="210" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="2" fill="var(--ink-mute)">BOOKS READ — IN SEQUENCE</text>
+            <text x="335" y="30" text-anchor="end" font-family="Fraunces, serif" font-size="10" font-style="italic" fill="var(--accent)">a special cause —</text>
+            <text x="335" y="42" text-anchor="end" font-family="Fraunces, serif" font-size="10" font-style="italic" fill="var(--accent)">worth investigating</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="current">
+        <div class="section-header">
+          <span class="section-number">§ I. — IN PROGRESS</span>
+          <h2 class="section-title">Now Reading <span class="italic">— together</span></h2>
+        </div>
+        <div class="current-grid">
+          <div class="book-cover-area">
+            <span class="book-tag">Current Selection</span>
+            <div class="book-card">
+              <div class="book-card-top">
+                <div class="book-card-mark">№ XVI</div>
+                <div class="book-card-author-prefix">A Selection of</div>
+              </div>
+              <div>
+                <div class="book-card-title">Sidewinder</div>
+                <div class="book-card-ornament" style="text-align: center;">❦</div>
+                <div class="book-card-author">Dr. Ron Westrum</div>
+              </div>
+              <div class="book-card-bottom">The Profound Book Club</div>
+            </div>
+          </div>
+          <div class="current-details">
+            <h3>Sidewinder</h3>
+            <p class="current-author">— Dr. Ron Westrum</p>
+            <p class="current-abstract">Ron Westrum's history of the Sidewinder air-to-air missile — and, more deeply, of the unusual organizational culture at China Lake that made its development possible. A study in how a small team, given the right conditions, produced a revolutionary weapon while peers with vastly greater resources could not. Westrum, an organizational sociologist, examines the question that runs through all of his work: what kind of culture allows people to do extraordinary things?</p>
+            <div class="deming-link">
+              <span class="deming-link-label">Connection to Profound Knowledge</span>
+              <p class="deming-link-text">Westrum's typology of organizational cultures — pathological, bureaucratic, generative — sits squarely within the psychology of people that Deming placed at the heart of Profound Knowledge. The Sidewinder story is a case study in what becomes possible when a system is designed to flow information freely, treat failure as learning, and trust the people closest to the work.</p>
+            </div>
+            <div class="schedule">
+              <div class="schedule-header">
+                <span>Meeting Schedule</span>
+                <span>summer 2026</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 1</span>
+                <span class="schedule-date">Jun 12</span>
+                <span class="schedule-content">Chapters 1–4</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 2</span>
+                <span class="schedule-date">Jun 19</span>
+                <span class="schedule-content">Chapters 5–7</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 3</span>
+                <span class="schedule-date">Jun 26</span>
+                <span class="schedule-content">Chapters 8–11</span>
+              </div>
+              <div class="schedule-row schedule-row--break">
+                <span class="schedule-week">—</span>
+                <span class="schedule-date">Jul 3</span>
+                <span class="schedule-content">No meeting · U.S. holiday weekend</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 4</span>
+                <span class="schedule-date">Jul 10</span>
+                <span class="schedule-content">Chapters 12–14</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 5</span>
+                <span class="schedule-date">Jul 17</span>
+                <span class="schedule-content">Chapters 15–17</span>
+              </div>
+              <div class="schedule-row">
+                <span class="schedule-week">Week 6</span>
+                <span class="schedule-date">Jul 24</span>
+                <span class="schedule-content">Chapters 18–19</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="chronology">
+        <div class="section-header">
+          <span class="section-number">§ II. — A CHRONOLOGY</span>
+          <h2 class="section-title">Books We&rsquo;ve Read <span class="italic">— in sequence</span></h2>
+        </div>
+        <p class="chronology-intro">
+          Each selection connects, in some way, to Dr. Deming&rsquo;s System of
+          Profound Knowledge — whether written by Deming himself, by those who
+          worked alongside him, or by thinkers whose work illuminates the same
+          fundamental ideas about systems, variation, knowledge, and people.
+        </p>
+        <ol class="chronology-list">
+          <li class="chronology-item">
+            <span class="chron-num">2023.08</span>
+            <h3 class="chron-title">Deming's Journey to Profound Knowledge<span class="by"> — John Willis</span></h3>
+            <span class="chron-meta">Biography · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2023.10</span>
+            <h3 class="chron-title">The World of W. Edwards Deming<span class="by"> — Cecilia S. Kilian</span></h3>
+            <span class="chron-meta">Memoir · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2024.01</span>
+            <h3 class="chron-title">Wiring the Winning Organization<span class="by"> — Gene Kim &amp; Steven Spear</span></h3>
+            <span class="chron-meta">Systems · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2024.04</span>
+            <h3 class="chron-title">Win-Win<span class="by"> — John Dues</span></h3>
+            <span class="chron-meta">Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2024.06</span>
+            <h3 class="chron-title">Learning to Lead, Leading to Learn<span class="by"> — Katie Anderson</span></h3>
+            <span class="chron-meta">Leadership · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2024.09</span>
+            <h3 class="chron-title">Deming &amp; Goldratt<span class="by"> — Domenico Lepore &amp; Oded Cohen</span></h3>
+            <span class="chron-meta">Systems · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2024.11</span>
+            <h3 class="chron-title">Idealized Design<span class="by"> — Russell L. Ackoff, Jason Magidson &amp; Herbert J. Addison</span></h3>
+            <span class="chron-meta">Design · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.01</span>
+            <h3 class="chron-title">The New Economics<span class="by"> — W. Edwards Deming</span></h3>
+            <span class="chron-meta">Primary text · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.04</span>
+            <h3 class="chron-title">Rebels of Reason<span class="by"> — John Willis &amp; Derek Lewis</span></h3>
+            <span class="chron-meta">Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.06</span>
+            <h3 class="chron-title">Sys-Tao<span class="by"> — Woody Williams</span></h3>
+            <span class="chron-meta">Philosophy · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.07</span>
+            <h3 class="chron-title">Deming's Road to Continual Improvement<span class="by"> — William W. Scherkenbach</span></h3>
+            <span class="chron-meta">Practice · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.09</span>
+            <h3 class="chron-title">Thinking in Systems<span class="by"> — Donella Meadows</span></h3>
+            <span class="chron-meta">Systems · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2025.11</span>
+            <h3 class="chron-title">Twenty Things You Need to Know<span class="by"> — Donald J. Wheeler</span></h3>
+            <span class="chron-meta">Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2026.01</span>
+            <h3 class="chron-title">Out of the Crisis<span class="by"> — W. Edwards Deming</span></h3>
+            <span class="chron-meta">Primary text · Direct</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2026.02</span>
+            <h3 class="chron-title">The Phoenix Project<span class="by"> — Gene Kim, Kevin Behr, George Spafford</span></h3>
+            <span class="chron-meta">Novel · Adjacent</span>
+          </li>
+          <li class="chronology-item">
+            <span class="chron-num">2026.06</span>
+            <h3 class="chron-title">Sidewinder<span class="by"> — Dr. Ron Westrum</span></h3>
+            <span class="chron-meta">Current selection</span>
+          </li>
+        </ol>
+      </section>
+
+      <section id="conversations">
+        <div class="section-header">
+          <span class="section-number">§ III. — IN THE OPEN</span>
+          <h2 class="section-title">Conversations <span class="italic">— continued elsewhere</span></h2>
+        </div>
+        <p class="chronology-intro" style="margin-bottom: 2.5rem;">
+          Some of what we&rsquo;ve read together has spilled out into the wider
+          world — into LinkedIn posts, comment threads, and conversations that
+          pull others into the orbit.
+        </p>
+        <div class="conversations-grid">
+          <article class="conv-card">
+            <p class="conv-card-quote">&ldquo;We can learn a great deal from William Scherkenbach about how to operationalize the Deming philosophy — in business, government, and academia.&rdquo;</p>
+            <div class="conv-card-meta">
+              <span>Mike Harris · Blog</span>
+              <a href="https://testandanalysis.home.blog/2025/09/16/quality-comes-first-a-review-of-demings-road-to-continual-improvement-by-william-w-scherkenbach/" target="_blank" rel="noreferrer">Read →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="psa">
+        <div class="section-header">
+          <span class="section-number">§ IV. — OF INTEREST</span>
+          <h2 class="section-title">Worth Your Attention <span class="italic">— elsewhere</span></h2>
+        </div>
+        <p class="psa-intro">
+          Events, talks, and resources that orbit the same questions we wrestle
+          with in the club — promoted here because they&rsquo;re worth your time.
+        </p>
+        <div class="psa-grid">
+          <article class="psa-card">
+            <div class="psa-card-label">Event · 18th Annual Forum</div>
+            <h3 class="psa-card-title">In2:InThinking Network Forum 2026</h3>
+            <p class="psa-card-desc">This year's theme: &quot;Curiosity / What If…?&quot; — a gathering of practitioners working in the tradition of systems thinking and Profound Knowledge.</p>
+            <a class="psa-card-link" href="https://www.in2in.org/events" target="_blank" rel="noreferrer">Visit</a>
+          </article>
+          <article class="psa-card">
+            <div class="psa-card-label">Video Series · The Deming Institute</div>
+            <h3 class="psa-card-title">Deming's 14 Points — video series</h3>
+            <p class="psa-card-desc">A walk through the Fourteen Points, one at a time, from the institute that stewards Deming's work.</p>
+            <a class="psa-card-link" href="https://www.youtube.com/@DemingInstitute" target="_blank" rel="noreferrer">Visit</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="contact-mark">❦</div>
+        <p class="contact-line">— Join the conversation —</p>
+        <h2 class="contact-headline">Curious enough to <span class="italic">read with us?</span></h2>
+        <a class="contact-cta" href="mailto:robert.park%2Bprofound@4legssoftware.com?subject=Joining%20the%20Profound%20Book%20Club">Get in Touch</a>
+      </section>
+    </main>
+
+    <footer>
+      <p class="footer-quote">&ldquo;It is not enough to do your best; you must know what to do, and then do your best.&rdquo;</p>
+      <p class="footer-attribution">— W. Edwards Deming</p>
+      <p class="footer-mark">The Profound Book Club · est. for conversation, continued learning, and fun</p>
+    </footer>
+  </div>
+</body>
+</html>

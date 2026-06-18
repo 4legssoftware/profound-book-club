@@ -110,10 +110,11 @@ to Stories 3–5.
 - [x] Resolve Question 1 — **`profound-conversations` = reference**; implement v1 in `profound-book-club` (static page,
   not TanStack import)
 - [x] Resolve Question 2 — source under **`src/pages/`**; build emits **`dist/`**
-- [ ] Implement static single-page site at **`src/pages/index.html`** (or equivalent) from Lovable reference — preserve
+- [x] Implement static single-page site at **`src/pages/index.html`** (or equivalent) from Lovable reference — preserve
   top anchor nav and section IDs; pull content from `profound-conversations/src/content/*` and layout from
   `src/routes/index.tsx`
-- [ ] Open locally in a browser — scroll nav, section anchors, responsive spot-check
+- [x] Open locally in a browser — scroll nav, section anchors, responsive spot-check (served via `python3 -m http.server`
+  in `src/pages/`; HTTP 200, content verified)
 - [ ] **Stop for review:** staged diff is mostly site content; confirm this matches the intended v1 page
 
 ### Segment 2 — PNPM, TypeScript, lint, and build passthrough
