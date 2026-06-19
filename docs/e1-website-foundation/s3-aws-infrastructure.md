@@ -1,10 +1,9 @@
 # S3 — DNS + TLS + CloudFront/S3 infrastructure (CDK app / Terraform DNS) [sc-537]
 
-**Related epic:** [`epic-website-foundation.md`](./epic-website-foundation.md) — Story 3 delivers custom domains
-(`dev.profound-book-club.org`, `stage.profound-book-club.org`, `profound-book-club.org`) with the **4ls custom-domains
-pattern**: CDK in each app account (CloudFront, S3 origin, ACM in `us-east-1`); Terraform in **`4ls-org`** (hosted zone,
-validation CNAMEs, stable alias records). Apex is canonical; **`www` 301-redirects to apex** (prod). Story 4 (pipeline)
-depends on this story.
+**Related epic:** [`epic-website-foundation.md`](./epic-website-foundation.md) — Story 3 delivers the **4ls custom-domains
+pattern** for all environments (CDK in each app account; Terraform DNS in **`4ls-org`**) and proves it **end-to-end on
+dev** (`dev.profound-book-club.org`). Stage/prod cert deploy, alias records, and HTTPS verification continue in **Story 4**
+(pipeline). Apex is canonical; **`www` 301-redirects to the bare domain** on each environment.
 
 **Description**
 
@@ -15,33 +14,38 @@ canonical — `www` 301-redirects to the bare domain.
 
 **App side — CDK (per environment account)**
 
-- [ ] Private S3 origin + CloudFront via OAC; default root object set; anchor/single-page-friendly error handling
+- [x] Private S3 origin + CloudFront via OAC; default root object set; **403/404 → `/404.html`** error responses
 
-- [ ] ACM certificate requested **in us-east-1** for each environment domain (`dev.`, `stage.`, apex `+ www`)
+- [x] ACM certificate stack in **us-east-1** for each environment domain (`dev.`, `stage.`, apex `+ www`); **dev cert
+  issued** — stage/prod cert deploy deferred to Story 4
 
-- [ ] `www` → apex 301 redirect (CloudFront Function, viewer-request)
+- [x] `www` → canonical hostname **301 redirect** on each environment (CloudFront Function, viewer-request)
 
-- [ ] CDK app runs cleanly for a **local `dev` deploy** (dev is never deployed by the pipeline)
+- [x] CDK app synth-clean for dev/stage/prod; **local `dev` deploy complete** (dev is never deployed by the pipeline)
 
 **Org side — Terraform (`4ls-org` root account)**
 
-- [ ] `profound-book-club.org` hosted zone created/managed in the org-owned Route 53
+- [x] `profound-book-club.org` hosted zone referenced in Terraform (existing zone — no create or NS cutover)
 
-- [ ] ACM DNS validation records added so each environment's cert can be issued
+- [x] ACM DNS validation records for **dev**; pattern ready for stage/prod in Story 4
 
-- [ ] Stable alias (A/AAAA) records: apex `+ www` → the environment's CloudFront distribution
+- [x] Stable alias **A** records (mirrors **4ls-site**): **dev** apex `+ www` → dev CloudFront distribution; stage/prod
+  aliases deferred to Story 4
 
 **One-time validation boundary (per environment)**
 
-- [ ] App infra requests cert → validation records extracted → org DNS proves ownership → cert issued
+- [x] **Dev:** cert requested → validation CNAMEs in org DNS → cert issued
 
-- [ ] Issued cert reference stored securely (e.g., SSM parameter) for automated pipeline use
+- [x] **Dev:** issued cert ARN in story **Notes** and **`CERTIFICATE_ARN_DEV`** GitHub secret; stage/prod secrets in
+  Story 4
 
 **Verification**
 
-- [ ] `dev.`, `stage.`, and apex `profound-book-club.org` all resolve over HTTPS; `www` redirects to apex
+- [x] **`dev.profound-book-club.org`** resolves over HTTPS; **`www.dev.…`** 301-redirects to dev canonical hostname
 
-- [ ] Cache invalidation approach defined (used by the pipeline in Story 4)
+- [ ] **`stage.…` and apex `profound-book-club.org`** — deferred to Story 4 (per Q5)
+
+- [x] Cache invalidation approach defined (`scripts/deploy-content-dev.sh`; pipeline mirrors in Story 4)
 
 >
 Ownership stays split: CloudFront/certs live with the app, DNS lives with the org. After the one-time validation per
@@ -73,11 +77,11 @@ reviewable without splitting Shortcut tickets. Defer GitHub Actions OIDC and pip
 
 | Item | Status | Notes |
 |------|--------|-------|
-| `infrastructure/` CDK app | Missing | Story 3 creates it (Story 2 explicitly deferred CDK) |
-| Site build output | Ready | `pnpm run build` → `dist/` (Story 2) |
-| Dev deploy command | Ready | `scripts/deploy-*.sh` + `.cursor/commands/deploy-dev-book-club.md` |
-| Org SSO / IAM | Ready | Story 1 — S3 bucket ARNs already use domain-shaped names in SSO policies |
-| Route 53 zone | In AWS + TF data source | Zone ID `Z02858163FD16TMT7WSTS`; ACM/alias records in Segment 3+ |
+| `infrastructure/` CDK app | **Complete** | Synth + tests pass; dev deployed |
+| Site build output | Ready | `pnpm run build` → `dist/` (includes `404.html`) |
+| Dev deploy scripts | **Complete** | `scripts/deploy-dev-cert.sh`, `deploy-infrastructure-dev.sh`, `deploy-content-dev.sh` |
+| Org SSO / IAM | Ready | Story 1 — S3 bucket ARNs use domain-shaped names in SSO policies |
+| Route 53 zone + dev DNS | **Complete** | Zone ID `Z02858163FD16TMT7WSTS`; dev validation CNAMEs + alias A records applied |
 
 **Reference patterns** (mirror **4ls-site**; adapt for apex domain + Terraform-only DNS):
 
@@ -174,7 +178,7 @@ no registrar NS cutover.
 
 **Repo: `4ls-org`**
 
-- [x] Add A/AAAA alias records: `dev.profound-book-club.org` and `www.dev.profound-book-club.org` → dev CloudFront
+- [x] Add alias A records: `dev.profound-book-club.org` and `www.dev.profound-book-club.org` → dev CloudFront
   distribution
 - [x] TFC apply
 

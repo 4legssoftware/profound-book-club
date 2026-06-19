@@ -1,0 +1,32 @@
+name: Question
+description: Ask about the site, repo setup, or how to contribute
+title: '[Question]: '
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For setup and contribution workflow, see [CONTRIBUTING.md](https://github.com/4legssoftware/profound-book-club/blob/main/CONTRIBUTING.md)
+        and [README.md](https://github.com/4legssoftware/profound-book-club/blob/main/README.md).
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Include what you tried and where you got stuck, if relevant.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Live site content or behavior
+        - Local development setup
+        - Pull requests or contributing
+        - Infrastructure or deployment
+        - Other
+    validations:
+      required: true

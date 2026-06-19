@@ -1,0 +1,75 @@
+name: Bug report
+description: Something is broken on the live site or in local development
+title: '[Bug]: '
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Search [existing issues](https://github.com/4legssoftware/profound-book-club/issues)
+        first so we can avoid duplicates.
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where did you see this?
+      options:
+        - Production (profound-book-club.org)
+        - Stage (stage.profound-book-club.org)
+        - Dev (dev.profound-book-club.org)
+        - Local development (`pnpm dev`)
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Page URL or anchor
+      description: Full URL, or the section of the single-page site (for example `#books`).
+      placeholder: https://profound-book-club.org/#books
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you do before the problem appeared?
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Firefox 128 on macOS
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, console errors, or other context help.
+    validations:
+      required: false

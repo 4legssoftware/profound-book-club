@@ -28,10 +28,28 @@ pnpm run build  # verify the production build
 
 ## Suggesting changes
 
+### Before opening an issue
+
+Anyone with a GitHub account can open an issue on this public repository. Before you do:
+
+1. **Search first** — check [existing issues](https://github.com/4legssoftware/profound-book-club/issues) and avoid
+   duplicates.
+2. **Pick a template** — use **Bug report**, **Feature request**, or **Question** when you create an issue. Blank
+   issues are disabled so reports stay structured.
+3. **Bug reports** — say where you saw the problem (production, stage, dev, or local), how to reproduce it, and what you
+   expected instead. Include the page URL or anchor and browser when relevant.
+4. **Feature requests** — describe the problem and your proposed change. For substantial work, wait for maintainer
+   feedback before opening a pull request.
+5. **Questions** — read this guide and the [README](README.md) first; say what you already tried.
+6. **Stay on topic** — issues are for the book club site and this repository. Requests for deploy access, org membership,
+   or unrelated spam will be closed.
+
+Maintainers triage, label, respond, and close issues. Opening an issue does not guarantee a change will be made.
+
 ### Issues
 
-Open a [GitHub issue](https://github.com/4legssoftware/profound-book-club/issues) for bugs, ideas, or questions before
-starting large changes. That helps avoid duplicate work and confirms the approach is wanted.
+Open a [GitHub issue](https://github.com/4legssoftware/profound-book-club/issues/new/choose) for bugs, ideas, or
+questions before starting large changes. That helps avoid duplicate work and confirms the approach is wanted.
 
 ### Pull requests
 
