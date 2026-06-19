@@ -1,14 +1,12 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
-import { IHostedZone, HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 import { AcmCertificate } from './acm-certificate';
-import { Environment, getWwwHostname, hostedZoneName } from './env-config';
+import { Environment, getWwwHostname } from './env-config';
 
 interface CertificateStackProps extends StackProps {
   fqdnRoot: string;
   environment: Environment;
-  hostedZoneId?: string;
 }
 
 export class CertificateStack extends Stack {
@@ -23,7 +21,7 @@ export class CertificateStack extends Stack {
       },
     });
 
-    const { fqdnRoot, environment, hostedZoneId } = props;
+    const { fqdnRoot, environment } = props;
 
     cdk.Tags.of(this).add('4ls:environment', environment);
     cdk.Tags.of(this).add('4ls:source', 'profound-book-club');
@@ -32,26 +30,9 @@ export class CertificateStack extends Stack {
     cdk.Tags.of(this).add('4ls:owner', 'platform');
     cdk.Tags.of(this).add('4ls:managed-by', 'cdk');
 
-    let hostedZone: IHostedZone | undefined;
-    if (hostedZoneId && hostedZoneId.trim() !== '') {
-      try {
-        hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-          hostedZoneId: hostedZoneId.trim(),
-          zoneName: hostedZoneName,
-        });
-      } catch (error) {
-        console.warn(
-          'Could not reference hosted zone (may be in different account). ' +
-            'Certificate will require manual DNS validation. Error:',
-          error,
-        );
-      }
-    }
-
     const cert = new AcmCertificate(this, 'Certificate', {
       domainName: fqdnRoot,
       subjectAlternativeNames: [getWwwHostname(fqdnRoot)],
-      hostedZone,
     });
 
     this.certificate = cert;

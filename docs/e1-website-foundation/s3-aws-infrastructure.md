@@ -75,7 +75,7 @@ reviewable without splitting Shortcut tickets. Defer GitHub Actions OIDC and pip
 |------|--------|-------|
 | `infrastructure/` CDK app | Missing | Story 3 creates it (Story 2 explicitly deferred CDK) |
 | Site build output | Ready | `pnpm run build` → `dist/` (Story 2) |
-| Dev deploy command | Stub | `.cursor/commands/deploy-dev-book-club.md` — expects `scripts/deploy-infrastructure-dev.sh` |
+| Dev deploy command | Ready | `scripts/deploy-*.sh` + `.cursor/commands/deploy-dev-book-club.md` |
 | Org SSO / IAM | Ready | Story 1 — S3 bucket ARNs already use domain-shaped names in SSO policies |
 | Route 53 zone | In AWS + TF data source | Zone ID `Z02858163FD16TMT7WSTS`; ACM/alias records in Segment 3+ |
 
@@ -157,33 +157,33 @@ no registrar NS cutover.
 
 **Repo: `profound-book-club`**
 
-- [ ] Add `scripts/deploy-dev-cert.sh` and `scripts/deploy-infrastructure-dev.sh` (mirror **4ls-site**; profile
+- [x] Add `scripts/deploy-dev-cert.sh` and `scripts/deploy-infrastructure-dev.sh` (mirror **4ls-site**; profile
   `profound-book-club-dev`; stack names prefixed e.g. `ProfoundBookClub-…`)
-- [ ] Deploy cert stack to dev account (`us-east-1`); capture validation CNAME name/value from ACM
+- [x] Deploy cert stack to dev account (`us-east-1`); capture validation CNAME name/value from ACM
 
 **Repo: `4ls-org`**
 
-- [ ] Add ACM validation CNAME record(s) for `dev.profound-book-club.org` and `www.dev.profound-book-club.org` in
+- [x] Add ACM validation CNAME record(s) for `dev.profound-book-club.org` and `www.dev.profound-book-club.org` in
   `route53-profound-book-club.tf`
-- [ ] TFC apply; wait until ACM status `ISSUED`
+- [x] TFC apply; wait until ACM status `ISSUED`
 
 **Repo: `profound-book-club`**
 
-- [ ] Record issued cert ARN in story **Notes**; add **`CERTIFICATE_ARN_DEV`** GitHub repo secret (Story 4 adds stage/prod)
-- [ ] Deploy main CDK stack with `CERTIFICATE_ARN`; capture CloudFront domain name
+- [x] Record issued cert ARN in story **Notes**; add **`CERTIFICATE_ARN_DEV`** GitHub repo secret (Story 4 adds stage/prod)
+- [x] Deploy main CDK stack with `CERTIFICATE_ARN`; capture CloudFront domain name
 
 **Repo: `4ls-org`**
 
-- [ ] Add A/AAAA alias records: `dev.profound-book-club.org` and `www.dev.profound-book-club.org` → dev CloudFront
+- [x] Add A/AAAA alias records: `dev.profound-book-club.org` and `www.dev.profound-book-club.org` → dev CloudFront
   distribution
-- [ ] TFC apply
+- [x] TFC apply
 
 **Repo: `profound-book-club`**
 
-- [ ] Dev content deploy: `pnpm run build`, `aws s3 sync dist/ …`, `aws cloudfront create-invalidation --paths '/*'`
-- [ ] Verify: `curl -I https://dev.profound-book-club.org` — HTTPS 200; `curl -I https://www.dev.profound-book-club.org`
+- [x] Dev content deploy: `pnpm run build`, `aws s3 sync dist/ …`, `aws cloudfront create-invalidation --paths '/*'`
+- [x] Verify: `curl -I https://dev.profound-book-club.org` — HTTPS 200; `curl -I https://www.dev.profound-book-club.org`
   → **301** to dev canonical hostname
-- [ ] **Stop for review:** dev custom domain live — **Story 3 deploy scope ends here**
+- [x] **Stop for review:** dev custom domain live — **Story 3 deploy scope ends here**
 
 ### Segment 4 — Stage environment _(deferred to Story 4)_
 
@@ -195,19 +195,30 @@ no registrar NS cutover.
 
 ### Final — Verification, invalidation contract, and story close
 
-- [ ] **Verification (Story 3 scope):** `https://dev.profound-book-club.org` and www redirect live; `pnpm run synth` and
+- [x] **Verification (Story 3 scope):** `https://dev.profound-book-club.org` and www redirect live; `pnpm run synth` and
   CDK tests pass; Terraform plan clean for org DNS changes applied in this story
 - [ ] **Deferred AC:** stage/prod HTTPS verification completes in **Story 4** (per Q5)
-- [ ] **Cache invalidation:** document approach for Story 4 — distribution ID from stack output / env; invalidate `/*`
-  after S3 sync (see `.cursor/commands/deploy-dev-book-club.md`); GitHub secrets for cert ARNs (not SSM)
-- [ ] **Coverage:** CDK snapshot tests + key property assertions (bucket, OAC, cert region, prod redirect function)
-- [ ] **Long files:** after functional work, review any new infra file > ~200 lines for split (prefer small constructs like
-  4ls-site)
-- [ ] Record hosted zone ID, cert ARNs, CloudFront domains, and distribution IDs in story **Notes** for Story 4
+- [x] **Cache invalidation:** `./scripts/deploy-content-dev.sh` — reads `DistributionId` from stack output, invalidates
+  `/*` after S3 sync; Story 4 pipeline should mirror this pattern with GitHub secrets for cert ARNs
+- [x] **Coverage:** CDK template tests + key property assertions (bucket, OAC, cert region, www redirect function)
+- [x] **Long files:** infra source files under ~102 lines — no split needed
+- [x] Record hosted zone ID, cert ARNs, CloudFront domains, and distribution IDs in story **Notes** for Story 4
 
 ## Notes
 
-**Route 53 hosted zone (`profound-book-club.org`):** `Z02858163FD16TMT7WSTS` — resolved via TFC apply on
-`data.aws_route53_zone.profound_book_club` (`4ls-org` commit `7f90f88`).
+**Route 53 hosted zone (`profound-book-club.org`):** `Z02858163FD16TMT7WSTS` — `4ls-org` commit `7f90f88`.
 
-_Populate during implementation — cert ARNs, CloudFront domain names, distribution IDs._
+**Dev (account `637905408031`):**
+
+| Item | Value |
+|------|--------|
+| ACM cert (us-east-1) | `arn:aws:acm:us-east-1:637905408031:certificate/63c034b7-bdaa-4f5f-8485-60caaac71d8d` — **ISSUED** |
+| Cert stack | `ProfoundBookClub-Certificate-dev` |
+| Main stack | `ProfoundBookClubStack` (us-east-2) |
+| S3 bucket | `dev.profound-book-club.org` |
+| CloudFront distribution | `E2FAUPP5RRTK3D` → `d3js4nnsuutsi8.cloudfront.net` |
+| GitHub secret | `CERTIFICATE_ARN_DEV` set |
+
+**4ls-org DNS commits:** validation CNAMEs `65e4d04`, TFC IAM `65e8acc`, alias A records `b127dbb`.
+
+**Verified:** `https://dev.profound-book-club.org` → HTTP/2 200 (CloudFront); `www.dev.…` → 301 → dev canonical.
