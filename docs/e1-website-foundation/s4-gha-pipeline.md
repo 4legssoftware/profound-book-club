@@ -91,7 +91,7 @@ signal.
 | Root `package.json` | Ready | `build`, `lint`, `format`; **no `test` script** (N/A for static v1) |
 | `infrastructure/` | Ready | Jest tests + `pnpm run synth`; dev deployed locally |
 | GitHub OIDC (`4ls-org`) | **Complete** | `4ls-org` commit `2843ad3`; TFC applied |
-| Stage/prod certs + DNS | **Deferred from S3** | Segments 3 and 5 below |
+| Stage/prod certs + DNS | **Segment 3 complete** | Stage cert issued, DNS aliases applied; HTTPS 200 pending Segment 4 content deploy |
 | Branch protection | Partial | S2 enabled baseline; **required status checks** deferred to this story |
 
 **Reference patterns** (mirror **4ls-site**; adapt names/domains):
@@ -180,22 +180,24 @@ _Repeat Story 3 dev pattern; required before first stage pipeline deploy._
 
 **Repo: `profound-book-club`**
 
-- [ ] Deploy cert stack to stage account (`DEPLOY_CERTS_ONLY=true`, `ENVIRONMENT=stage`); capture ACM validation CNAMEs
+- [x] Add `scripts/pro-stage.sh`, `deploy-stage-cert.sh`, `deploy-infrastructure-stage.sh` (mirror dev; profile
+  `profound-book-club-stage`; CDK bootstrap us-east-1 / us-east-2)
+- [x] Deploy cert stack to stage account (`./scripts/deploy-stage-cert.sh`); capture ACM validation CNAMEs
 
 **Repo: `4ls-org`**
 
-- [ ] Add stage ACM validation CNAME record(s) in `route53-profound-book-club.tf`
-- [ ] TFC apply; wait until ACM status **ISSUED**
+- [x] Add stage ACM validation CNAME record(s) in `route53-profound-book-club.tf`
+- [x] TFC apply; wait until ACM status **ISSUED**
 
 **Repo: `profound-book-club`**
 
-- [ ] Set GitHub secret **`CERTIFICATE_ARN_STAGE`**; record ARN in story **Notes**
-- [ ] _(Optional local verify)_ Deploy main stack to stage with cert ARN; capture CloudFront domain
+- [x] Set GitHub secret **`CERTIFICATE_ARN_STAGE`**; record ARN in story **Notes**
+- [x] _(Optional local verify)_ Deploy main stack to stage with cert ARN; capture CloudFront domain
 
 **Repo: `4ls-org`**
 
-- [ ] Add alias A records: `stage.profound-book-club.org` + `www.stage.profound-book-club.org` → stage CloudFront
-- [ ] TFC apply
+- [x] Add alias A records: `stage.profound-book-club.org` + `www.stage.profound-book-club.org` → stage CloudFront
+- [x] TFC apply
 
 - [ ] **Stop for review:** `curl -I https://stage.profound-book-club.org` — HTTPS 200 (after first content deploy)
 
@@ -241,7 +243,20 @@ _(Populate during implementation.)_
 | CloudFront | `E2FAUPP5RRTK3D` |
 | GitHub secret | `CERTIFICATE_ARN_DEV` ✅ |
 
-**Stage / prod:** _pending Segments 3 and 5._
+**Stage (account `883353268059`):**
+
+| Item | Value |
+|------|--------|
+| ACM cert (us-east-1) | `arn:aws:acm:us-east-1:883353268059:certificate/66049654-7925-4396-842c-8fcfb3e1efd2` — **ISSUED** |
+| Cert stack | `ProfoundBookClub-Certificate-stage` |
+| Main stack | `ProfoundBookClubStack` (us-east-2) |
+| S3 bucket | `stage.profound-book-club.org` |
+| CloudFront distribution | `E1MG8OL4OH1ECS` → `d1icyeb0awmpt1.cloudfront.net` |
+| GitHub secret | `CERTIFICATE_ARN_STAGE` ✅ |
+
+**4ls-org DNS commits (stage):** validation CNAMEs `e798a68`, alias A records `d2b0075`.
+
+**Prod:** _pending Segment 5._
 
 **OIDC role ARNs (`4ls-org` commit `2843ad3`):**
 
