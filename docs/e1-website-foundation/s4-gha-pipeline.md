@@ -9,8 +9,8 @@ pipeline run.
 **Description**
 
 End-to-end CI/CD via GitHub Actions authenticating to AWS through OIDC, following the 4ls-site 3-stage flow. Trunk-based
-development: no PR workflow — review → commit → push to `main` triggers the pipeline. **dev is never deployed here** (
-localhost only); the pipeline handles stage and prod.
+development: review → commit → push to `main` triggers the full deploy pipeline. Optional **`pr.yml`** runs commit-stage
+checks on pull requests (no deploy). **dev is never deployed here** (localhost only); the pipeline handles stage and prod.
 
 **Commit stage** _(target ≤ 5 min)_
 
@@ -36,13 +36,13 @@ localhost only); the pipeline handles stage and prod.
 
 **Production stage**
 
-- [ ] Repeat the same deploy logic to `prod` (only configuration differs)
+- [x] Repeat the same deploy logic to `prod` (only configuration differs)
 
-- [ ] Run smoke tests against `prod`
+- [x] Run smoke tests against `prod`
 
 - [x] Same smoke tests run in the acceptance suite against `stage` to confirm they still pass
 
-- [ ] No manual approval gate
+- [x] No manual approval gate
 
 >
 Notes: acceptance/smoke tests are written against the current static asset structure and updated when Astro lands (Story
@@ -69,8 +69,8 @@ signal.
 | Environment | Account ID | FQDN | Deploy role (after Segment 1) | Cert secret |
 |-------------|------------|------|-------------------------------|-------------|
 | dev | `637905408031` | `dev.profound-book-club.org` | `arn:aws:iam::637905408031:role/gha-deploy-dev` | `CERTIFICATE_ARN_DEV` ✅ |
-| stage | `883353268059` | `stage.profound-book-club.org` | `arn:aws:iam::883353268059:role/gha-deploy-stage` | `CERTIFICATE_ARN_STAGE` — Story 4 |
-| prod | `727508844146` | `profound-book-club.org` | `arn:aws:iam::727508844146:role/gha-deploy-prod` | `CERTIFICATE_ARN_PROD` — Story 4 |
+| stage | `883353268059` | `stage.profound-book-club.org` | `arn:aws:iam::883353268059:role/gha-deploy-stage` | `CERTIFICATE_ARN_STAGE` ✅ |
+| prod | `727508844146` | `profound-book-club.org` | `arn:aws:iam::727508844146:role/gha-deploy-prod` | `CERTIFICATE_ARN_PROD` ✅ |
 
 **CDK / deploy conventions (`profound-book-club`):**
 
@@ -87,18 +87,19 @@ signal.
 
 | Item | Status | Notes |
 |------|--------|-------|
-| `.github/workflows/` | **Segment 4 ✅** | Stage pipeline green on `main`; prod smoke pending Segment 5 DNS |
-| Root `package.json` | Ready | `build`, `lint`, `format`; **no `test` script** (N/A for static v1) |
+| `.github/workflows/` | **Complete** | `main.yml` — full pipeline; `pr.yml` — commit-stage on PRs |
+| Root `package.json` | Ready | `build`, `lint`, `format`, `format:check`, `smoke-test` |
 | `infrastructure/` | Ready | Jest tests + `pnpm run synth`; dev deployed locally |
 | GitHub OIDC (`4ls-org`) | **Complete** | `4ls-org` commit `2843ad3`; TFC applied |
-| Stage/prod certs + DNS | **Segment 3 complete** | Stage cert issued, DNS aliases applied; HTTPS 200 pending Segment 4 content deploy |
-| Branch protection | Partial | S2 enabled baseline; **required status checks** deferred to this story |
+| Stage/prod certs + DNS | **Complete** | Manual bootstrap per env; TFC validation + alias records applied |
+| Branch protection | **Complete** | `main` — `Lint`, `Build`, `Deploy Infrastructure (Stage)`; PRs use `pr.yml` checks |
 
 **Reference patterns** (mirror **4ls-site**; adapt names/domains):
 
 | Concern | Reference | Notes |
 |---------|-----------|-------|
 | Full pipeline | `4ls-site/.github/workflows/main.yml` | lint → build → stage infra/app → smoke → prod infra/app → smoke → summary/notify |
+| PR commit-stage | `.github/workflows/pr.yml` | lint, build, CDK test on `pull_request` — no AWS deploy |
 | OIDC Terraform | `4ls-org/infrastructure/modules/common/4ls-site-github-oidc.tf` | Per-account OIDC provider + `gha-deploy-{env}` + CDK policy; prod trust **main only** |
 | OIDC test workflow | `4ls-org/docs/wealthtrax/wealthtrax-test-oidc.yml` | Optional `workflow_dispatch` sanity check before full deploy |
 | Smoke tests | `4ls-site/scripts/smoke-test.js` | Adapt paths for single-page static site; pass `SITE_URL` from stack output |
@@ -129,7 +130,8 @@ signal.
    earlier than 4ls-site’s `30 15 * * 5`.
 
 5. ~~**Branch protection status checks**~~ — **Resolved:** require **`Lint`**, **`Build`**, and **`Deploy Infrastructure
-   (Stage)`** on `main` after workflow lands — no PR gate.
+   (Stage)`** on `main` ( **`Main / …`** check names). PRs use **`pr.yml`** (`PR / Lint`, `PR / Build`, `PR / CDK Test`). No
+   routine PR gate for maintainer trunk flow.
 
 6. ~~**Stage/prod cert bootstrap**~~ — **Resolved:** **Manual bootstrap per env** (Segments 3 and 5) — deploy cert
    stacks, add Terraform validation CNAMEs, wait for ISSUED, set `CERTIFICATE_ARN_STAGE` / `CERTIFICATE_ARN_PROD` secrets;
@@ -174,7 +176,7 @@ _Wired in workflow; **first green deploy** blocked until Segment 3 (`CERTIFICATE
 - [x] Add root `smoke-test` script — `/` 2xx + `www` → 301 to canonical FQDN
 - [x] **Stop for review:** workflow ~590 lines — parity with 4ls-site; ready to commit
 
-### Segment 3 — Stage cert, DNS, and secret (both repos)
+### Segment 3 — Stage cert, DNS, and secret (both repos) ✅
 
 _Repeat Story 3 dev pattern; required before first stage pipeline deploy._
 
@@ -208,32 +210,29 @@ _Repeat Story 3 dev pattern; required before first stage pipeline deploy._
 - [x] Verify **`www.stage.…` → 301** to stage canonical hostname
 - [x] **Stop for review:** stage jobs all green; overall workflow failed on **Smoke Tests (Prod)** — `www.profound-book-club.org` DNS not yet in place (Segment 5)
 
-### Segment 5 — Prod cert, DNS, and secret (both repos)
+### Segment 5 — Prod cert, DNS, and secret (both repos) ✅
 
-- [ ] Repeat Segment 3 pattern for prod (apex + `www.profound-book-club.org`)
-- [ ] Set GitHub secret **`CERTIFICATE_ARN_PROD`**; alias A records for apex + www → prod CloudFront
-- [ ] **Stop for review:** prod cert issued and DNS aliases applied before enabling prod deploy jobs
+- [x] Repeat Segment 3 pattern for prod (apex + `www.profound-book-club.org`) — scripts `pro-prod.sh`, `deploy-prod-cert.sh`,
+  `deploy-infrastructure-prod.sh`
+- [x] Set GitHub secret **`CERTIFICATE_ARN_PROD`**; alias A records for apex + www → prod CloudFront (`4ls-org` `7a78358`)
+- [x] **Stop for review:** prod cert **ISSUED**; DNS aliases applied; main stack custom domain live
 
-### Segment 6 — Prod pipeline + branch protection
+### Segment 6 — Prod pipeline + branch protection ✅
 
-- [ ] Enable prod deploy/smoke jobs in workflow; push to `main`
-- [ ] Verify prod smoke tests against `https://profound-book-club.org`; **`www` → 301** to apex
-- [ ] Update `main` branch protection — required status checks: **`Lint`**, **`Build`**, **`Deploy Infrastructure (Stage)`**
-  (no PR gate)
-- [ ] Document `[skip ci]` convention in README for docs-only commits (Shortcut still moves on story prep commits)
+- [x] Prod deploy/smoke jobs in `main.yml`; full green run [`27978268880`](https://github.com/4legssoftware/profound-book-club/actions/runs/27978268880) (`d0a1da0`)
+- [x] Verify prod smoke tests against `https://profound-book-club.org`; **`www` → 301** to apex
+- [x] `main` branch protection — required status checks: **`Lint`**, **`Build`**, **`Deploy Infrastructure (Stage)`**
+- [x] Add **`pr.yml`** — commit-stage on PRs ([PR #1](https://github.com/4legssoftware/profound-book-club/pull/1)); documented **`[skip ci]`** in README
 
-### Final — Verification, coverage, and story close
+### Final — Verification, coverage, and story close ✅
 
-- [ ] **Verification:** commit stage (lint, build, CDK test) ≤ 5 min; full pipeline stage → prod green on `main`
-- [ ] **Coverage:** CDK Jest tests still pass; smoke script covers deployed static v1 (`/` minimum)
-- [ ] **Long files:** if `main.yml` exceeds ~400 lines, extract reusable composite action or shared bash only if it aids
-  readability — otherwise accept parity with 4ls-site
-- [ ] Record OIDC role ARNs, stage/prod cert ARNs, CloudFront distribution IDs, and first green run URL in **Notes**
-- [ ] Mark acceptance criteria complete; Story 5 (Astro) can update smoke paths without pipeline structural change
+- [x] **Verification:** commit stage ≤ 5 min; full pipeline stage → prod green on `main`
+- [x] **Coverage:** CDK Jest tests pass in CI; smoke script covers `/` + www redirect on stage and prod
+- [x] **Long files:** `main.yml` ~591 lines — accepted; parity with **4ls-site**, no extract
+- [x] Record OIDC role ARNs, stage/prod cert ARNs, CloudFront distribution IDs, and pipeline run URLs in **Notes**
+- [x] Story complete — Story 5 (Astro) updates smoke paths only; pipeline structure unchanged
 
 ## Notes
-
-_(Populate during implementation.)_
 
 **Dev (Story 3 — unchanged by pipeline):**
 
@@ -258,7 +257,26 @@ _(Populate during implementation.)_
 
 **4ls-org DNS commits (stage):** validation CNAMEs `e798a68`, alias A records `d2b0075`.
 
-**Prod:** _pending Segment 5._
+**Prod (account `727508844146`):**
+
+| Item | Value |
+|------|--------|
+| ACM cert (us-east-1) | `arn:aws:acm:us-east-1:727508844146:certificate/622ec5cf-0a9d-49c9-b739-d51e1e9ace68` — **ISSUED** |
+| Cert stack | `ProfoundBookClub-Certificate-prod` |
+| Main stack | `ProfoundBookClubStack` (us-east-2) |
+| S3 bucket | `profound-book-club.org` |
+| CloudFront distribution | `EMZFL51Z9E80Q` → `d652h0aq33l80.cloudfront.net` |
+| GitHub secret | `CERTIFICATE_ARN_PROD` ✅ |
+
+**4ls-org DNS commits (prod):** validation CNAMEs `a5579be`, alias A records `7a78358`.
+
+**Pipeline runs:**
+
+| Run | URL | Notes |
+|-----|-----|-------|
+| First green stage only | [`27971265342`](https://github.com/4legssoftware/profound-book-club/actions/runs/27971265342) | Prod smoke failed — DNS pending (`ccdfb6a`) |
+| First full green (stage → prod) | [`27978268880`](https://github.com/4legssoftware/profound-book-club/actions/runs/27978268880) | All jobs success (`d0a1da0`) |
+| Post-`pr.yml` merge | [`27979848833`](https://github.com/4legssoftware/profound-book-club/actions/runs/27979848833) | Full pipeline green after PR #1 merge |
 
 **OIDC role ARNs (`4ls-org` commit `2843ad3`):**
 

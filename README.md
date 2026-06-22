@@ -49,14 +49,34 @@ The build copies `src/pages/` → `dist/`. Story 3+ deploy scripts sync `dist/` 
 
 ```bash
 pnpm run lint
-pnpm run format
+pnpm run format        # write
+pnpm run format:check  # CI uses this
 ```
 
-## Deploy (coming in later stories)
+## CI/CD
 
-| Environment      | How                                      | Story                                                    |
-| ---------------- | ---------------------------------------- | -------------------------------------------------------- |
-| **dev**          | Manual from localhost (CDK + S3 sync)    | Story 3 — see `.cursor/commands/deploy-dev-book-club.md` |
-| **stage / prod** | Push to `main` → GitHub Actions pipeline | Story 4                                                  |
+| Workflow | Trigger | What runs |
+| -------- | ------- | --------- |
+| **`main.yml`** | Push to `main`, weekly cron, manual | Lint → Build → CDK Test → deploy **stage** → smoke → deploy **prod** → smoke |
+| **`pr.yml`** | Pull request to `main` | Lint → Build → CDK Test only (no deploy) |
 
-**dev** is never deployed by the pipeline. Domains: `dev.profound-book-club.org`, `stage.profound-book-club.org`, `profound-book-club.org`.
+**dev** is never deployed by the pipeline. Maintainer workflow is review → commit → push `main`. External contributions use fork + PR — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Skipping the pipeline
+
+Add **`[skip ci]`** anywhere in the commit message to skip **`main.yml`** on push (docs-only updates, story prep commits, etc.). Example:
+
+```text
+[sc-538] Record story completion [skip ci]
+```
+
+`pr.yml` still runs on open pull requests. Shortcut story-prep commits commonly use `[skip ci]` so the ticket moves to In Progress without a deploy.
+
+## Deploy
+
+| Environment | How | Notes |
+| ----------- | --- | ----- |
+| **dev** | Manual from localhost | `.cursor/commands/deploy-dev-book-club.md` |
+| **stage / prod** | Push to `main` → `main.yml` | One-time cert/DNS bootstrap per env — see story doc |
+
+Domains: `dev.profound-book-club.org`, `stage.profound-book-club.org`, `profound-book-club.org` (apex canonical; `www` 301-redirects).
