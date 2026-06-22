@@ -16,15 +16,15 @@ localhost only); the pipeline handles stage and prod.
 
 - [x] GitHub OIDC provider + per-environment IAM deploy roles (no long-lived keys)
 
-- [ ] Static checks (ESLint, Prettier)
+- [x] Static checks (ESLint, Prettier)
 
-- [ ] Compile / build (`pnpm build`)
+- [x] Compile / build (`pnpm build`)
 
-- [ ] Unit tests (as applicable)
+- [x] Unit tests (as applicable) — N/A for static v1
 
-- [ ] CDK tests in CI (`infrastructure/` Jest) — synth stays local / pre-deploy (mirrors **4ls-site**)
+- [x] CDK tests in CI (`infrastructure/` Jest) — synth stays local / pre-deploy (mirrors **4ls-site**)
 
-- [ ] No deploy to dev
+- [x] No deploy to dev
 
 **Acceptance stage**
 
@@ -87,7 +87,7 @@ signal.
 
 | Item | Status | Notes |
 |------|--------|-------|
-| `.github/workflows/` | **Missing** | No CI yet; `.github/ISSUE_TEMPLATE/` only |
+| `.github/workflows/` | **Segment 2a ✅ / 2b wired** | Commit stage green; deploy jobs added, pending cert secrets |
 | Root `package.json` | Ready | `build`, `lint`, `format`; **no `test` script** (N/A for static v1) |
 | `infrastructure/` | Ready | Jest tests + `pnpm run synth`; dev deployed locally |
 | GitHub OIDC (`4ls-org`) | **Complete** | `4ls-org` commit `2843ad3`; TFC applied |
@@ -148,33 +148,31 @@ signal.
 - [x] TFC apply; verify assume-role with optional `test-oidc` workflow (Segment 2a)
 - [x] **Stop for review:** plan/apply and role ARNs before wiring workflow deploy jobs
 
-### Segment 2a — Commit-stage workflow (`profound-book-club`)
+### Segment 2a — Commit-stage workflow (`profound-book-club`) ✅
 
-- [ ] Add `.github/workflows/main.yml` skeleton — `push` to `main`, concurrency, OIDC permissions, pinned actions;
+- [x] Add `.github/workflows/main.yml` skeleton — `push` to `main`, concurrency, OIDC permissions, pinned actions;
   triggers: `push` (`main`), `workflow_dispatch`, cron **`0 15 * * 4`** (Thu 15:00 UTC)
-- [ ] Add root script **`format:check`** (`prettier --check .`)
-- [ ] **Lint** job: checkout, pnpm (root + infra deps as needed), Node **26**, `pnpm run lint`, `pnpm run format:check`
-- [ ] **Build** job: `pnpm install --frozen-lockfile`, `pnpm run build`, upload **`dist/`** artifact
-- [ ] **CDK test** job: `cd infrastructure && pnpm install --frozen-lockfile && pnpm run test`
-- [ ] Confirm commit stage completes **without** AWS deploy, dev touch, or CDK synth; target ≤ 5 min
-- [ ] **Stop for review:** green commit-stage run on a docs-only or workflow-only push (`[skip ci]` not needed once workflow
-  exists — use a throwaway commit or `workflow_dispatch` if added)
+- [x] Add root script **`format:check`** (`prettier --check .`)
+- [x] **Lint** job: checkout, pnpm (root + infra deps as needed), Node **26**, `pnpm run lint`, `pnpm run format:check`
+- [x] **Build** job: `pnpm install --frozen-lockfile`, `pnpm run build`, upload **`dist/`** artifact
+- [x] **CDK test** job: `cd infrastructure && pnpm install --frozen-lockfile && pnpm run test`
+- [x] Confirm commit stage completes **without** AWS deploy, dev touch, or CDK synth; target ≤ 5 min
+- [x] **Stop for review:** green commit-stage run — commit `0424795`
 
-### Segment 2b — Deploy + smoke jobs (stage/prod wiring)
+### Segment 2b — Deploy + smoke jobs (stage/prod wiring) ✅
 
-_Wire deploy jobs after Segment 1 OIDC is live and Segment 3 stage cert secret exists (stage jobs can be merged with 2b only
-after Segment 3, or land disabled behind a follow-up push)._
+_Wired in workflow; **first green deploy** blocked until Segment 3 (`CERTIFICATE_ARN_STAGE`) / Segment 5 (
+`CERTIFICATE_ARN_PROD`)._
 
-- [ ] Extend `main.yml`: **Deploy Infrastructure (Stage)** — assume `gha-deploy-stage`, CDK bootstrap, deploy main stack,
+- [x] Extend `main.yml`: **Deploy Infrastructure (Stage)** — assume `gha-deploy-stage`, CDK bootstrap, deploy main stack,
   capture `WebsiteURL` / `BucketName` / `DistributionId` outputs; `ENVIRONMENT=stage`, `CERTIFICATE_ARN` from secret
-- [ ] **Deploy Application (Stage)** — download `dist/` artifact, S3 sync `--delete`, CloudFront invalidation `/*`
-- [ ] **Smoke Tests (Stage)** — `pnpm run smoke-test` with `ENVIRONMENT=stage`, `SITE_URL` from infra job output
-- [ ] Repeat for **prod** jobs after Segment 5 (needs `CERTIFICATE_ARN_PROD`); prod jobs `needs` stage smoke success (no
-  manual approval)
-- [ ] Add **Deployment Summary** job (`if: always()`)
-- [ ] Add **Slack notify** job (mirror 4ls-site; `SLACK_WEBHOOK_URL` secret)
-- [ ] Add root `smoke-test` script — adapt from 4ls-site: `/` returns 2xx; optional `www` → 301 check per env FQDN
-- [ ] **Stop for review:** inspect full workflow YAML size; split prod notify into Segment 2c if diff approaches ~400 lines
+- [x] **Deploy Application (Stage)** — download `dist/` artifact, S3 sync `--delete`, CloudFront invalidation `/*`
+- [x] **Smoke Tests (Stage)** — `pnpm run smoke-test` with `ENVIRONMENT=stage`, `SITE_URL` from infra job output
+- [x] **Prod** jobs wired — `needs` stage smoke success; requires `CERTIFICATE_ARN_PROD` (Segment 5) for green run
+- [x] Add **Deployment Summary** job (`if: always()`)
+- [x] Add **Slack notify** job (mirror 4ls-site; `SLACK_WEBHOOK_URL` secret)
+- [x] Add root `smoke-test` script — `/` 2xx + `www` → 301 to canonical FQDN
+- [x] **Stop for review:** workflow ~590 lines — parity with 4ls-site; ready to commit
 
 ### Segment 3 — Stage cert, DNS, and secret (both repos)
 
