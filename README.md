@@ -54,9 +54,9 @@ pnpm run format
 
 ## Deploy (coming in later stories)
 
-| Environment | How | Story |
-|-------------|-----|-------|
-| **dev** | Manual from localhost (CDK + S3 sync) | Story 3 — see `.cursor/commands/deploy-dev-book-club.md` |
-| **stage / prod** | Push to `main` → GitHub Actions pipeline | Story 4 |
+| Environment      | How                                      | Story                                                    |
+| ---------------- | ---------------------------------------- | -------------------------------------------------------- |
+| **dev**          | Manual from localhost (CDK + S3 sync)    | Story 3 — see `.cursor/commands/deploy-dev-book-club.md` |
+| **stage / prod** | Push to `main` → GitHub Actions pipeline | Story 4                                                  |
 
 **dev** is never deployed by the pipeline. Domains: `dev.profound-book-club.org`, `stage.profound-book-club.org`, `profound-book-club.org`.

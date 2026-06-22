@@ -10,7 +10,8 @@
     "build": "node scripts/build.mjs",
     "dev": "serve src/pages --listen 3000",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

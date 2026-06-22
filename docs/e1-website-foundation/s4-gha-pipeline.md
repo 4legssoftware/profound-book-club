@@ -14,7 +14,7 @@ localhost only); the pipeline handles stage and prod.
 
 **Commit stage** _(target ≤ 5 min)_
 
-- [ ] GitHub OIDC provider + per-environment IAM deploy roles (no long-lived keys)
+- [x] GitHub OIDC provider + per-environment IAM deploy roles (no long-lived keys)
 
 - [ ] Static checks (ESLint, Prettier)
 
@@ -22,7 +22,7 @@ localhost only); the pipeline handles stage and prod.
 
 - [ ] Unit tests (as applicable)
 
-- [ ] One CDK synth/test per stack, run as a parallel job
+- [ ] CDK tests in CI (`infrastructure/` Jest) — synth stays local / pre-deploy (mirrors **4ls-site**)
 
 - [ ] No deploy to dev
 
@@ -90,7 +90,7 @@ signal.
 | `.github/workflows/` | **Missing** | No CI yet; `.github/ISSUE_TEMPLATE/` only |
 | Root `package.json` | Ready | `build`, `lint`, `format`; **no `test` script** (N/A for static v1) |
 | `infrastructure/` | Ready | Jest tests + `pnpm run synth`; dev deployed locally |
-| GitHub OIDC (`4ls-org`) | **Missing** | Story 1 deferred; mirror `4ls-site-github-oidc.tf` |
+| GitHub OIDC (`4ls-org`) | **Complete** | `4ls-org` commit `2843ad3`; TFC applied |
 | Stage/prod certs + DNS | **Deferred from S3** | Segments 3 and 5 below |
 | Branch protection | Partial | S2 enabled baseline; **required status checks** deferred to this story |
 
@@ -137,16 +137,16 @@ signal.
 
 ## Implementation Checklist
 
-### Segment 1 — GitHub OIDC IAM (`4ls-org`)
+### Segment 1 — GitHub OIDC IAM (`4ls-org`) ✅
 
-- [ ] Add `profound-book-club-github-oidc.tf` mirroring `4ls-site-github-oidc.tf` — OIDC provider + `gha-deploy-dev` /
+- [x] Add `profound-book-club-github-oidc.tf` mirroring `4ls-site-github-oidc.tf` — OIDC provider + `gha-deploy-dev` /
   `gha-deploy-stage` / `gha-deploy-prod` in all three accounts
-- [ ] Trust policy: `repo:4legssoftware/profound-book-club:*` for dev and stage; **`ref:refs/heads/main` only** for prod
-- [ ] Attach CDK deploy policy (CloudFormation, S3, CloudFront, ACM, IAM, etc.) per 4ls-site
-- [ ] Outputs: role ARNs for dev/stage/prod (document in story **Notes**)
-- [ ] Run: `terraform fmt`, `tflint`, `terraform validate`; TFC plan review
-- [ ] TFC apply; verify assume-role with optional `test-oidc` workflow (Segment 2a)
-- [ ] **Stop for review:** plan/apply and role ARNs before wiring workflow deploy jobs
+- [x] Trust policy: `repo:4legssoftware/profound-book-club:*` for dev and stage; **`ref:refs/heads/main` only** for prod
+- [x] Attach CDK deploy policy (CloudFormation, S3, CloudFront, ACM, IAM, etc.) per 4ls-site
+- [x] Outputs: role ARNs for dev/stage/prod (document in story **Notes**)
+- [x] Run: `terraform fmt`, `tflint`, `terraform validate`; TFC plan review
+- [x] TFC apply; verify assume-role with optional `test-oidc` workflow (Segment 2a)
+- [x] **Stop for review:** plan/apply and role ARNs before wiring workflow deploy jobs
 
 ### Segment 2a — Commit-stage workflow (`profound-book-club`)
 
@@ -155,10 +155,8 @@ signal.
 - [ ] Add root script **`format:check`** (`prettier --check .`)
 - [ ] **Lint** job: checkout, pnpm (root + infra deps as needed), Node **26**, `pnpm run lint`, `pnpm run format:check`
 - [ ] **Build** job: `pnpm install --frozen-lockfile`, `pnpm run build`, upload **`dist/`** artifact
-- [ ] **CDK test** job (parallel): `cd infrastructure && pnpm install --frozen-lockfile && pnpm run test`
-- [ ] **CDK synth** job (parallel): synth main + cert stacks for dev/stage/prod (`ENVIRONMENT` matrix or sequential synth
-  with `DEPLOY_CERTS_ONLY` / default app entry)
-- [ ] Confirm commit stage completes **without** AWS deploy or dev touch; target ≤ 5 min
+- [ ] **CDK test** job: `cd infrastructure && pnpm install --frozen-lockfile && pnpm run test`
+- [ ] Confirm commit stage completes **without** AWS deploy, dev touch, or CDK synth; target ≤ 5 min
 - [ ] **Stop for review:** green commit-stage run on a docs-only or workflow-only push (`[skip ci]` not needed once workflow
   exists — use a throwaway commit or `workflow_dispatch` if added)
 
@@ -226,7 +224,7 @@ _Repeat Story 3 dev pattern; required before first stage pipeline deploy._
 
 ### Final — Verification, coverage, and story close
 
-- [ ] **Verification:** commit stage (lint, build, CDK test, synth) ≤ 5 min; full pipeline stage → prod green on `main`
+- [ ] **Verification:** commit stage (lint, build, CDK test) ≤ 5 min; full pipeline stage → prod green on `main`
 - [ ] **Coverage:** CDK Jest tests still pass; smoke script covers deployed static v1 (`/` minimum)
 - [ ] **Long files:** if `main.yml` exceeds ~400 lines, extract reusable composite action or shared bash only if it aids
   readability — otherwise accept parity with 4ls-site
@@ -247,4 +245,10 @@ _(Populate during implementation.)_
 
 **Stage / prod:** _pending Segments 3 and 5._
 
-**OIDC role ARNs:** _pending Segment 1._
+**OIDC role ARNs (`4ls-org` commit `2843ad3`):**
+
+| Environment | Role ARN |
+|-------------|----------|
+| dev | `arn:aws:iam::637905408031:role/gha-deploy-dev` |
+| stage | `arn:aws:iam::883353268059:role/gha-deploy-stage` |
+| prod | `arn:aws:iam::727508844146:role/gha-deploy-prod` |
