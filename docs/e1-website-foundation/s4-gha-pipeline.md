@@ -28,11 +28,11 @@ localhost only); the pipeline handles stage and prod.
 
 **Acceptance stage**
 
-- [ ] Deploy to `stage` (CDK), sync build output to S3, invalidate CloudFront
+- [x] Deploy to `stage` (CDK), sync build output to S3, invalidate CloudFront
 
-- [ ] Run acceptance tests against the deployed `stage` environment
+- [x] Run acceptance tests against the deployed `stage` environment
 
-- [ ] Contract tests where external dependencies exist — N/A for the static site today
+- [x] Contract tests where external dependencies exist — N/A for the static site today
 
 **Production stage**
 
@@ -40,7 +40,7 @@ localhost only); the pipeline handles stage and prod.
 
 - [ ] Run smoke tests against `prod`
 
-- [ ] Same smoke tests run in the acceptance suite against `stage` to confirm they still pass
+- [x] Same smoke tests run in the acceptance suite against `stage` to confirm they still pass
 
 - [ ] No manual approval gate
 
@@ -87,7 +87,7 @@ signal.
 
 | Item | Status | Notes |
 |------|--------|-------|
-| `.github/workflows/` | **Segment 2a ✅ / 2b wired** | Commit stage green; deploy jobs added, pending cert secrets |
+| `.github/workflows/` | **Segment 4 ✅** | Stage pipeline green on `main`; prod smoke pending Segment 5 DNS |
 | Root `package.json` | Ready | `build`, `lint`, `format`; **no `test` script** (N/A for static v1) |
 | `infrastructure/` | Ready | Jest tests + `pnpm run synth`; dev deployed locally |
 | GitHub OIDC (`4ls-org`) | **Complete** | `4ls-org` commit `2843ad3`; TFC applied |
@@ -199,14 +199,14 @@ _Repeat Story 3 dev pattern; required before first stage pipeline deploy._
 - [x] Add alias A records: `stage.profound-book-club.org` + `www.stage.profound-book-club.org` → stage CloudFront
 - [x] TFC apply
 
-- [ ] **Stop for review:** `curl -I https://stage.profound-book-club.org` — HTTPS 200 (after first content deploy)
+- [x] **Stop for review:** `curl -I https://stage.profound-book-club.org` — HTTPS 200 (pipeline content deploy `ccdfb6a`)
 
-### Segment 4 — First green stage pipeline run (`profound-book-club`)
+### Segment 4 — First green stage pipeline run (`profound-book-club`) ✅
 
-- [ ] Push workflow + smoke script; trigger pipeline on `main`
-- [ ] Verify acceptance stage: CDK deploy, S3 sync, invalidation, smoke tests pass against `stage.profound-book-club.org`
-- [ ] Verify **`www.stage.…` → 301** to stage canonical hostname
-- [ ] **Stop for review:** stage pipeline green before prod cert work
+- [x] Push workflow + smoke script; trigger pipeline on `main` — run [`27971265342`](https://github.com/4legssoftware/profound-book-club/actions/runs/27971265342) (`ccdfb6a`)
+- [x] Verify acceptance stage: CDK deploy, S3 sync, invalidation, smoke tests pass against `stage.profound-book-club.org`
+- [x] Verify **`www.stage.…` → 301** to stage canonical hostname
+- [x] **Stop for review:** stage jobs all green; overall workflow failed on **Smoke Tests (Prod)** — `www.profound-book-club.org` DNS not yet in place (Segment 5)
 
 ### Segment 5 — Prod cert, DNS, and secret (both repos)
 
@@ -253,6 +253,8 @@ _(Populate during implementation.)_
 | S3 bucket | `stage.profound-book-club.org` |
 | CloudFront distribution | `E1MG8OL4OH1ECS` → `d1icyeb0awmpt1.cloudfront.net` |
 | GitHub secret | `CERTIFICATE_ARN_STAGE` ✅ |
+
+**First green stage pipeline run:** [`27971265342`](https://github.com/4legssoftware/profound-book-club/actions/runs/27971265342) — Lint, Build, CDK Test, Deploy Infrastructure/Application (Stage), Smoke Tests (Stage) all **success** (`ccdfb6a`, 2026-06-22).
 
 **4ls-org DNS commits (stage):** validation CNAMEs `e798a68`, alias A records `d2b0075`.
 
