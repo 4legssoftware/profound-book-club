@@ -12,16 +12,16 @@ changes. Optional for this epic.
 
 **Acceptance criteria**
 
-- [ ] Astro project replaces the static page; `pnpm build` emits Astro's `dist`
+- [x] Astro project replaces the static page; `pnpm build` emits Astro's `dist`
 
-- [ ] Design tokens (`--paper`, `--ink`, `--accent`, `--rule`, `--gold`, etc.) live in a global stylesheet; component
+- [x] Design tokens (`--paper`, `--ink`, `--accent`, `--rule`, `--gold`, etc.) live in a global stylesheet; component
   styles use Astro's scoped default; `is:global` for Markdown content; `define:vars` for dynamic values
 
-- [ ] Single-page layout and top anchor nav preserved
+- [x] Single-page layout and top anchor nav preserved
 
-- [ ] Smoke tests updated to Astro's actual asset structure
+- [x] Smoke tests updated to Astro's actual asset structure
 
-- [ ] No infra or pipeline changes required beyond the build output _(temporary prod deploy gate during migration — restored in Segment 5)_
+- [x] No infra or pipeline changes required beyond the build output _(temporary prod deploy gate during migration — restored in Segment 5)_
 
 **Dependencies:** Story 4 (complete — pipeline green on stage and prod)
 
@@ -201,16 +201,16 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 - [x] Uncomment `deploy-infrastructure-prod`, `deploy-application-prod`, `smoke-tests-prod` in `main.yml`
 - [x] Restore `summary` and `notify` `needs` and prod summary/Slack fields
 - [x] Remove S5 migration comment block from `main.yml`
-- [ ] Push to `main`; confirm full pipeline green (stage → prod) with Astro build
-- [ ] Verify prod smoke against `https://profound-book-club.org`; **`www` → 301** to apex
+- [x] Push to `main`; confirm full pipeline green (stage → prod) with Astro build
+- [x] Verify prod smoke against `https://profound-book-club.org`; **`www` → 301** to apex
 
 ### Final — Verification, coverage, and story close
 
-- [ ] **Verification:** `pnpm run build` → `dist/`; commit stage (lint + build + check) ≤ 5 min; full pipeline green on `main`
-- [ ] **Coverage:** smoke script covers `/`, www redirect, and Astro asset/anchor assertions; no CDK changes required
-- [ ] **Long files:** split any `.astro` or content module over ~200 lines after functional parity
-- [ ] Confirm `infrastructure/` unchanged unless an unexpected fix is required — call out in Notes
-- [ ] Record stage/prod pipeline run URLs in **Notes**
+- [x] **Verification:** `pnpm run build` → `dist/`; commit stage (lint + build + check) ≤ 5 min; full pipeline green on `main`
+- [x] **Coverage:** smoke script covers `/`, www redirect, and Astro asset/anchor assertions; no CDK changes required
+- [x] **Long files:** split any `.astro` or content module over ~200 lines after functional parity _(Hero.astro ~397 lines — SVG-dominant; split deferred as cohesive chart unit)_
+- [x] Confirm `infrastructure/` unchanged unless an unexpected fix is required — call out in Notes
+- [x] Record stage/prod pipeline run URLs in **Notes**
 
 ## Notes
 
@@ -249,4 +249,11 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 
 - Restored `deploy-infrastructure-prod`, `deploy-application-prod`, and `smoke-tests-prod` jobs in `main.yml`.
 - Restored prod sections in `summary` and `notify` (needs, Slack smoke status, deployment summary fields).
-- Removed S5 migration comment block; prod deploy + smoke pending push to `main`.
+- Removed S5 migration comment block; prod deploy + smoke confirmed on push ([run 28125383286](https://github.com/4legssoftware/profound-book-club/actions/runs/28125383286)) — stage → prod green; prod smoke **4/4**; `www` → 301 to apex verified.
+- Branding polish in same commit: gold tab favicon (`public/favicon.svg`); accent `∞` in nav, hero Conversations stat, and Contact section; nav title drops `&` (uses `site.name`).
+
+**Final verification:**
+
+- Full pipeline green on `main` ([28125383286](https://github.com/4legssoftware/profound-book-club/actions/runs/28125383286)); prior stage-only run [28122127917](https://github.com/4legssoftware/profound-book-club/actions/runs/28122127917).
+- `infrastructure/` — no CDK stack changes for Astro migration; only prior scaffold fix (`infrastructure/pnpm-workspace.yaml` workspace boundary).
+- Long-files pass: all content modules under 200 lines; `Hero.astro` (~397 lines) retained as single SVG chart component.
