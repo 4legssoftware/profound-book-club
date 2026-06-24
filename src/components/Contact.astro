@@ -5,7 +5,7 @@ const mailtoHref = `mailto:${encodeURIComponent(site.contactEmail)}?subject=${en
 ---
 
 <section id="contact">
-  <div class="contact-mark">❦</div>
+  <div class="contact-mark" aria-hidden="true">∞</div>
   <p class="contact-line">{site.contactLine}</p>
   <h2 class="contact-headline">Curious enough to <span class="italic">read with us?</span></h2>
   <a class="contact-cta" href={mailtoHref}>Get in Touch</a>

@@ -1,5 +1,12 @@
+---
+import { site } from '../content/site';
+---
+
 <nav>
-  <a href="#top" class="nav-mark">The Profound <span class="ampersand">&amp;</span> Book Club</a>
+  <a href="#top" class="nav-mark">
+    <span class="nav-mark-icon" aria-hidden="true">∞</span>
+    {site.name}
+  </a>
   <ul class="nav-links">
     <li><a href="#current">Current</a></li>
     <li><a href="#chronology">Chronology</a></li>
@@ -33,11 +40,16 @@
     letter-spacing: 0.02em;
     color: var(--ink);
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
   }
 
-  .nav-mark .ampersand {
+  .nav-mark-icon {
+    flex-shrink: 0;
     color: var(--accent);
-    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1;
   }
 
   .nav-links {

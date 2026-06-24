@@ -11,7 +11,7 @@ import { site } from '../content/site';
       {
         site.heroStats.map((stat) => (
           <div class="hero-meta-item">
-            <span class="num">{stat.num}</span>
+            <span class:list={['num', { accent: stat.num === '∞' }]}>{stat.num}</span>
             {stat.label}
           </div>
         ))
@@ -322,6 +322,10 @@ import { site } from '../content/site';
     line-height: 1;
     margin-bottom: 0.35rem;
     font-style: italic;
+  }
+
+  .hero-meta-item .num.accent {
+    color: var(--accent);
   }
 
   .hero-visual {

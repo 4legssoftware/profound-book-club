@@ -21,8 +21,7 @@ changes. Optional for this epic.
 
 - [ ] Smoke tests updated to Astro's actual asset structure
 
-- [ ] No infra or pipeline changes required beyond the build output _(temporary prod deploy gate during migration — see
-  **Deploy safety** below; restored in Segment 5)_
+- [ ] No infra or pipeline changes required beyond the build output _(temporary prod deploy gate during migration — restored in Segment 5)_
 
 **Dependencies:** Story 4 (complete — pipeline green on stage and prod)
 
@@ -194,14 +193,14 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 - [x] Extend `scripts/smoke-test.cjs` — assert `/_astro/` stylesheet link(s) and section anchor ids in `/` HTML
 - [x] Local: `pnpm run build && pnpm run lint && pnpm run format:check && pnpm run check`
 - [x] Deploy to **dev** (`scripts/deploy-content-dev.sh`); run `pnpm run smoke-test` with `ENVIRONMENT=dev`
-- [ ] Push to `main`; confirm stage deploy + stage smoke green (prod jobs still disabled)
-- [ ] **Stop for review:** stage site visual parity + stage smoke green before restoring prod
+- [x] Push to `main`; confirm stage deploy + stage smoke green (prod jobs still disabled)
+- [x] **Stop for review:** stage site visual parity + stage smoke green before restoring prod
 
 ### Segment 5 — Restore prod pipeline
 
-- [ ] Uncomment `deploy-infrastructure-prod`, `deploy-application-prod`, `smoke-tests-prod` in `main.yml`
-- [ ] Restore `summary` and `notify` `needs` and prod summary/Slack fields
-- [ ] Remove S5 migration comment block from `main.yml`
+- [x] Uncomment `deploy-infrastructure-prod`, `deploy-application-prod`, `smoke-tests-prod` in `main.yml`
+- [x] Restore `summary` and `notify` `needs` and prod summary/Slack fields
+- [x] Remove S5 migration comment block from `main.yml`
 - [ ] Push to `main`; confirm full pipeline green (stage → prod) with Astro build
 - [ ] Verify prod smoke against `https://profound-book-club.org`; **`www` → 301** to apex
 
@@ -244,4 +243,10 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 - `scripts/smoke-test.cjs` fetches `/` HTML and asserts an `/_astro/*.css` stylesheet link plus section anchor ids
   (`current`, `chronology`, `conversations`, `psa`, `contact`); existing `/` 200 and `www` → 301 checks unchanged.
 - Local verification green; dev deploy + extended smoke **4/4** passed on `https://dev.profound-book-club.org`.
-- Stage verification pending push to `main` (prod jobs still gated in Segment 1).
+- Stage verification green on push ([run 28122127917](https://github.com/4legssoftware/profound-book-club/actions/runs/28122127917)) — stage smoke passed with prod jobs still gated.
+
+**Segment 5 implementation notes:**
+
+- Restored `deploy-infrastructure-prod`, `deploy-application-prod`, and `smoke-tests-prod` jobs in `main.yml`.
+- Restored prod sections in `summary` and `notify` (needs, Slack smoke status, deployment summary fields).
+- Removed S5 migration comment block; prod deploy + smoke pending push to `main`.

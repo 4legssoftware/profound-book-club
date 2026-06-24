@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Profound Book Club">
+  <style>
+    .tile { fill: #F7F0E1; }
+    .inkstroke { stroke: #B5893C; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #1F1B16; }
+      .inkstroke { stroke: #B5893C; }
+    }
+  </style>
+  <rect x="1" y="1" width="62" height="62" rx="13" class="tile"/>
+  <path d="M 32.0 32.0 C 26.0 21.5 8.0 21.5 8.0 32.0 C 8.0 42.5 26.0 42.5 32.0 32.0 C 38.0 21.5 56.0 21.5 56.0 32.0 C 56.0 42.5 38.0 42.5 32.0 32.0 Z" fill="none" class="inkstroke" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
