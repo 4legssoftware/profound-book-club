@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found — The Profound Book Club"
+  description="The page you requested was not found."
+>
+  <main class="not-found">
+    <p class="not-found-code">404</p>
+    <h1 class="not-found-title">Page not found</h1>
+    <blockquote class="not-found-quote">&ldquo;I make no apologies for learning.&rdquo;</blockquote>
+    <p class="not-found-attribution">— W. Edwards Deming</p>
+    <a class="not-found-link" href="/">Return home</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  .not-found-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.5rem;
+  }
+
+  .not-found-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 500;
+    margin: 0 0 2.5rem;
+    color: var(--ink);
+  }
+
+  .not-found-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 28rem;
+    margin: 0 0 1rem;
+    border: none;
+    padding: 0;
+  }
+
+  .not-found-attribution {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 3rem;
+  }
+
+  .not-found-link {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition:
+      background 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  .not-found-link:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+</style>

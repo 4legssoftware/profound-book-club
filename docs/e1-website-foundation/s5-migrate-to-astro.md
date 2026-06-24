@@ -181,13 +181,13 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 - [x] `Conversations.astro` — card grid (from `conversations.ts`)
 - [x] `PsaGrid.astro` — dark `#psa` section + cards (from `psas.ts`)
 - [x] `Contact.astro` — CTA + mailto link (from `site.ts`)
-- [ ] Visual parity check against current static v1 (local `pnpm dev` + side-by-side or deploy to dev)
+- [x] Visual parity check against current static v1 (local `pnpm dev` + side-by-side or deploy to dev)
 
 ### Segment 3 — Legacy removal + 404
 
-- [ ] Add `src/pages/404.astro` — styled with global tokens, link home, Deming quote (*"I make no apologies for learning."*)
-- [ ] Remove `src/pages/index.html`, `src/pages/404.html`, and any unused static-only assets
-- [ ] Update `README.md` — Astro dev/build commands, drop “copies src/pages” wording
+- [x] Add `src/pages/404.astro` — styled with global tokens, link home, Deming quote (*"I make no apologies for learning."*)
+- [x] Remove `src/pages/index.html`, `src/pages/404.html`, and any unused static-only assets
+- [x] Update `README.md` — Astro dev/build commands, drop “copies src/pages” wording
 
 ### Segment 4 — Smoke tests + dev/stage verification
 
@@ -230,5 +230,11 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
   component `<style>` blocks (`:global()` for SVG chart animations and PSA section-header overrides).
 - Build emits `dist/_astro/index.*.css` (~17 KB bundled CSS) plus `dist/index.html` with all section anchor ids.
 - `Hero.astro` (~390 lines) is mostly control-chart SVG — defer split until Final long-files pass if still over 200.
-- `pnpm-workspace.yaml` updated to `onlyBuiltDependencies: [esbuild, sharp]` (the `allowBuilds` stub that was there was replaced with the correct pnpm 11 key).
-- `src/styles/global.css` created as a placeholder for design tokens — fully populated in Segment 2a.
+- Visual parity confirmed on **dev** (`https://dev.profound-book-club.org`) after Segment 2 deploy.
+
+**Segment 3 implementation notes:**
+
+- `src/pages/404.astro` — styled 404 using global design tokens, Deming quote, link home; builds to `dist/404.html` for
+  CloudFront 403/404 error responses.
+- Legacy `src/pages/index.html` and `src/pages/404.html` were already removed in Segment 1; no static-only assets remain.
+- README updated for `astro dev` (port 4321), `astro build`, and `pnpm run check`.

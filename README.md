@@ -1,6 +1,6 @@
 # profound-book-club
 
-Static site and infrastructure for [The Profound Book Club](https://profound-book-club.org) (v1 single-page site; Astro migration planned).
+Static site and infrastructure for [The Profound Book Club](https://profound-book-club.org) — Astro static site (single page + styled 404).
 
 Epic context: [`docs/e1-website-foundation/epic-website-foundation.md`](docs/e1-website-foundation/epic-website-foundation.md).
 
@@ -27,13 +27,13 @@ pnpm install
 
 ## Local development
 
-Preview the site source (no build required):
+Run the Astro dev server:
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:4321](http://localhost:4321) (Astro default port).
 
 ## Build
 
@@ -43,12 +43,13 @@ Production output is written to **`dist/`** (gitignored):
 pnpm run build
 ```
 
-The build copies `src/pages/` → `dist/`. Story 3+ deploy scripts sync `dist/` to S3.
+`astro build` emits prerendered HTML (`index.html`, `404.html`) and bundled assets under `dist/_astro/`. Deploy scripts sync `dist/` to S3.
 
 ## Quality checks
 
 ```bash
 pnpm run lint
+pnpm run check         # astro check (types + Astro diagnostics)
 pnpm run format        # write
 pnpm run format:check  # CI uses this
 ```
