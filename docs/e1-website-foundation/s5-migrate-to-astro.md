@@ -191,9 +191,9 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 
 ### Segment 4 — Smoke tests + dev/stage verification
 
-- [ ] Extend `scripts/smoke-test.cjs` — assert `/_astro/` stylesheet link(s) and section anchor ids in `/` HTML
-- [ ] Local: `pnpm run build && pnpm run lint && pnpm run format:check && pnpm run check`
-- [ ] Deploy to **dev** (`scripts/deploy-content-dev.sh`); run `pnpm run smoke-test` with `ENVIRONMENT=dev`
+- [x] Extend `scripts/smoke-test.cjs` — assert `/_astro/` stylesheet link(s) and section anchor ids in `/` HTML
+- [x] Local: `pnpm run build && pnpm run lint && pnpm run format:check && pnpm run check`
+- [x] Deploy to **dev** (`scripts/deploy-content-dev.sh`); run `pnpm run smoke-test` with `ENVIRONMENT=dev`
 - [ ] Push to `main`; confirm stage deploy + stage smoke green (prod jobs still disabled)
 - [ ] **Stop for review:** stage site visual parity + stage smoke green before restoring prod
 
@@ -238,3 +238,10 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
   CloudFront 403/404 error responses.
 - Legacy `src/pages/index.html` and `src/pages/404.html` were already removed in Segment 1; no static-only assets remain.
 - README updated for `astro dev` (port 4321), `astro build`, and `pnpm run check`.
+
+**Segment 4 implementation notes:**
+
+- `scripts/smoke-test.cjs` fetches `/` HTML and asserts an `/_astro/*.css` stylesheet link plus section anchor ids
+  (`current`, `chronology`, `conversations`, `psa`, `contact`); existing `/` 200 and `www` → 301 checks unchanged.
+- Local verification green; dev deploy + extended smoke **4/4** passed on `https://dev.profound-book-club.org`.
+- Stage verification pending push to `main` (prod jobs still gated in Segment 1).

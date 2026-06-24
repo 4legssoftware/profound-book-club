@@ -6,6 +6,11 @@ const { execSync } = require('child_process');
 
 const ENVIRONMENT = process.env.ENVIRONMENT || 'dev';
 
+const REQUIRED_SECTION_IDS = ['current', 'chronology', 'conversations', 'psa', 'contact'];
+
+const ASTRO_STYLESHEET_PATTERN =
+  /rel=["']stylesheet["'][^>]*href=["'][^"']*\/_astro\/[^"']+\.css["']|href=["'][^"']*\/_astro\/[^"']+\.css["'][^>]*rel=["']stylesheet["']/i;
+
 const envConfig = {
   dev: {
     fqdnRoot: 'dev.profound-book-club.org',
@@ -68,10 +73,22 @@ let passed = 0;
 let failed = 0;
 const errors = [];
 
-function checkPage(path) {
+function recordFailure(error) {
+  console.error(`❌ ${error}`);
+  errors.push(error);
+  failed++;
+}
+
+function recordPass(message) {
+  console.log(`✅ ${message}`);
+  passed++;
+}
+
+function fetchPage(path) {
   return new Promise((resolve) => {
     const fullUrl = `${url.origin}${path}`;
     const client = url.protocol === 'https:' ? https : http;
+    const chunks = [];
 
     const options = {
       hostname: url.hostname,
@@ -85,42 +102,80 @@ function checkPage(path) {
     };
 
     const req = client.request(options, (res) => {
-      res.on('data', () => {});
+      res.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
 
       res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 400) {
-          console.log(`✅ ${fullUrl} - ${res.statusCode}`);
-          passed++;
-          resolve(true);
-        } else {
-          const error = `${fullUrl} - ${res.statusCode}`;
-          console.error(`❌ ${error}`);
-          errors.push(error);
-          failed++;
-          resolve(false);
-        }
+        resolve({
+          fullUrl,
+          statusCode: res.statusCode,
+          body: Buffer.concat(chunks).toString('utf-8'),
+        });
       });
     });
 
     req.on('error', (err) => {
-      const error = `${fullUrl} - ${err.message}`;
-      console.error(`❌ ${error}`);
-      errors.push(error);
-      failed++;
-      resolve(false);
+      resolve({
+        fullUrl,
+        statusCode: 0,
+        body: '',
+        error: err.message,
+      });
     });
 
     req.on('timeout', () => {
       req.destroy();
-      const error = `${fullUrl} - Timeout`;
-      console.error(`❌ ${error}`);
-      errors.push(error);
-      failed++;
-      resolve(false);
+      resolve({
+        fullUrl,
+        statusCode: 0,
+        body: '',
+        error: 'Timeout',
+      });
     });
 
     req.end();
   });
+}
+
+function checkHomePageContent(fullUrl, html) {
+  if (!ASTRO_STYLESHEET_PATTERN.test(html)) {
+    recordFailure(`${fullUrl} - missing /_astro/ stylesheet link`);
+    return;
+  }
+
+  recordPass(`${fullUrl} - /_astro/ stylesheet link present`);
+
+  for (const sectionId of REQUIRED_SECTION_IDS) {
+    if (!html.includes(`id="${sectionId}"`)) {
+      recordFailure(`${fullUrl} - missing section anchor id="${sectionId}"`);
+      return;
+    }
+  }
+
+  recordPass(`${fullUrl} - section anchors present (${REQUIRED_SECTION_IDS.join(', ')})`);
+}
+
+async function checkPage(path) {
+  const { fullUrl, statusCode, body, error } = await fetchPage(path);
+
+  if (error) {
+    recordFailure(`${fullUrl} - ${error}`);
+    return false;
+  }
+
+  if (statusCode < 200 || statusCode >= 400) {
+    recordFailure(`${fullUrl} - ${statusCode}`);
+    return false;
+  }
+
+  recordPass(`${fullUrl} - ${statusCode}`);
+
+  if (path === '/') {
+    checkHomePageContent(fullUrl, body);
+  }
+
+  return true;
 }
 
 function checkWwwRedirect() {
@@ -156,33 +211,25 @@ function checkWwwRedirect() {
           res.statusCode <= 308 &&
           location.replace(/\/$/, '') === canonicalUrl.replace(/\/$/, '')
         ) {
-          console.log(`✅ ${fullUrl} - ${res.statusCode} → ${location}`);
-          passed++;
+          recordPass(`${fullUrl} - ${res.statusCode} → ${location}`);
           resolve(true);
         } else {
-          const error = `${fullUrl} - expected 301 to ${canonicalUrl}, got ${res.statusCode} ${location}`;
-          console.error(`❌ ${error}`);
-          errors.push(error);
-          failed++;
+          recordFailure(
+            `${fullUrl} - expected 301 to ${canonicalUrl}, got ${res.statusCode} ${location}`,
+          );
           resolve(false);
         }
       });
     });
 
     req.on('error', (err) => {
-      const error = `${fullUrl} - ${err.message}`;
-      console.error(`❌ ${error}`);
-      errors.push(error);
-      failed++;
+      recordFailure(`${fullUrl} - ${err.message}`);
       resolve(false);
     });
 
     req.on('timeout', () => {
       req.destroy();
-      const error = `${fullUrl} - Timeout`;
-      console.error(`❌ ${error}`);
-      errors.push(error);
-      failed++;
+      recordFailure(`${fullUrl} - Timeout`);
       resolve(false);
     });
 
