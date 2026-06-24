@@ -1,9 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import CurrentBook from '../components/CurrentBook.astro';
+import Chronology from '../components/Chronology.astro';
+import Conversations from '../components/Conversations.astro';
+import PsaGrid from '../components/PsaGrid.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout title="Profound Book Club">
+<BaseLayout>
+  <Nav />
   <main id="top">
-    <p>Profound Book Club — Astro migration in progress.</p>
+    <Hero />
+    <CurrentBook />
+    <Chronology />
+    <Conversations />
+    <PsaGrid />
+    <Contact />
   </main>
+  <Footer />
 </BaseLayout>

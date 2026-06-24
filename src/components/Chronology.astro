@@ -1,0 +1,112 @@
+---
+import { chronology, chronologyIntro, formatChronMeta } from '../content/chronology';
+---
+
+<section id="chronology">
+  <div class="section-header">
+    <span class="section-number">§ II. — A CHRONOLOGY</span>
+    <h2 class="section-title">Books We&rsquo;ve Read <span class="italic">— in sequence</span></h2>
+  </div>
+  <p class="chronology-intro">{chronologyIntro}</p>
+  <ol class="chronology-list">
+    {
+      chronology.map((book) => (
+        <li class="chronology-item">
+          <span class="chron-num">{book.date}</span>
+          <h3 class="chron-title">
+            {book.title}
+            {book.author && <span class="by"> — {book.author}</span>}
+          </h3>
+          <span class="chron-meta">{formatChronMeta(book)}</span>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  #chronology {
+    background: var(--paper-deep);
+    max-width: none;
+    margin: 0;
+    padding-left: max(2.5rem, calc((100vw - 1340px) / 2));
+    padding-right: max(2.5rem, calc((100vw - 1340px) / 2));
+  }
+
+  .chronology-list {
+    border-top: 1px solid var(--rule);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .chronology-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 2.5rem;
+    align-items: baseline;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition:
+      background 0.3s ease,
+      padding 0.3s ease;
+    position: relative;
+  }
+
+  .chronology-item:hover {
+    background: rgba(168, 50, 30, 0.04);
+    padding-left: 1rem;
+  }
+
+  .chron-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+  }
+
+  .chron-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .chron-title .by {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-mute);
+    font-size: 1.05rem;
+  }
+
+  .chronology-item:hover .chron-title {
+    color: var(--accent);
+  }
+
+  .chron-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 720px) {
+    .chronology-item {
+      grid-template-columns: 70px 1fr;
+      gap: 1.25rem;
+    }
+
+    .chron-meta {
+      grid-column: 2;
+      text-align: left;
+      margin-top: 0.3rem;
+      white-space: normal;
+    }
+  }
+</style>

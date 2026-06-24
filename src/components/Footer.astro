@@ -1,0 +1,48 @@
+---
+import { site } from '../content/site';
+
+const quoteLines = site.footerQuote.split('\n');
+---
+
+<footer>
+  <p class="footer-quote">
+    &ldquo;{quoteLines[0]}<br />{quoteLines[1]}&rdquo;
+  </p>
+  <p class="footer-attribution">— {site.footerAttribution}</p>
+  <p class="footer-mark">{site.footerMark}</p>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 3rem 2.5rem 4rem;
+    text-align: center;
+    background: var(--paper-deep);
+  }
+
+  .footer-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    max-width: 38rem;
+    margin: 0 auto 1.5rem;
+    line-height: 1.5;
+  }
+
+  .footer-attribution {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 2rem;
+  }
+
+  .footer-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ink-mute);
+  }
+</style>

@@ -1,13 +1,30 @@
 ---
 import '../styles/global.css';
+import { site } from '../content/site';
+import { currentBook } from '../content/currentBook';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'Profound Book Club', description = 'A book club for deep thinkers.' } =
-  Astro.props;
+const { title = site.name, description = site.metaDescription } = Astro.props;
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  description: site.tagline,
+  email: site.contactEmail,
+};
+
+const bookJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: currentBook.title,
+  author: { '@type': 'Person', name: currentBook.author },
+  description: currentBook.abstract,
+};
 ---
 
 <!doctype html>
@@ -17,8 +34,18 @@ const { title = 'Profound Book Club', description = 'A book club for deep thinke
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(bookJsonLd)} />
   </head>
   <body>
-    <slot />
+    <div class="pbc">
+      <slot />
+    </div>
   </body>
 </html>

@@ -161,26 +161,26 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 
 ### Segment 2a — Global tokens + layout shell
 
-- [ ] Extract design tokens to `src/styles/global.css` (`.pbc` root vars: `--paper`, `--ink`, `--accent`, `--rule`,
+- [x] Extract design tokens to `src/styles/global.css` (`.pbc` root vars: `--paper`, `--ink`, `--accent`, `--rule`,
   `--gold`, etc.)
-- [ ] `BaseLayout.astro` — `<html>`, meta, Google Fonts, JSON-LD blocks, global stylesheet import
-- [ ] `Nav.astro` — fixed top nav + anchor links (`#current`, `#chronology`, `#conversations`, `#psa`, `#contact`)
-- [ ] `Footer.astro` — quote, attribution, footer mark
-- [ ] Component styles: scoped by default; use `is:global` only where Markdown/global selectors require it
+- [x] `BaseLayout.astro` — `<html>`, meta, Google Fonts, JSON-LD blocks, global stylesheet import
+- [x] `Nav.astro` — fixed top nav + anchor links (`#current`, `#chronology`, `#conversations`, `#psa`, `#contact`)
+- [x] `Footer.astro` — quote, attribution, footer mark
+- [x] Component styles: scoped by default; use `is:global` only where Markdown/global selectors require it
 
 ### Segment 2b — Content modules + section components (Hero + Current)
 
-- [ ] Add typed `src/content/*.ts` modules (site, currentBook, chronology, conversations, psas) — values from deployed v1
-- [ ] `Hero.astro` — hero copy, meta stats, control-chart SVG (preserve animations / `define:vars` if needed for SVG colors)
-- [ ] `CurrentBook.astro` — book card, abstract, Deming link, schedule table (driven by `currentBook.ts`)
-- [ ] Wire sections into `index.astro` with `<main id="top">` wrapper
+- [x] Add typed `src/content/*.ts` modules (site, currentBook, chronology, conversations, psas) — values from deployed v1
+- [x] `Hero.astro` — hero copy, meta stats, control-chart SVG (preserve animations / `define:vars` if needed for SVG colors)
+- [x] `CurrentBook.astro` — book card, abstract, Deming link, schedule table (driven by `currentBook.ts`)
+- [x] Wire sections into `index.astro` with `<main id="top">` wrapper
 
 ### Segment 2c — Section components (Chronology through Contact)
 
-- [ ] `Chronology.astro` — intro + ordered list (from `chronology.ts`)
-- [ ] `Conversations.astro` — card grid (from `conversations.ts`)
-- [ ] `PsaGrid.astro` — dark `#psa` section + cards (from `psas.ts`)
-- [ ] `Contact.astro` — CTA + mailto link (from `site.ts`)
+- [x] `Chronology.astro` — intro + ordered list (from `chronology.ts`)
+- [x] `Conversations.astro` — card grid (from `conversations.ts`)
+- [x] `PsaGrid.astro` — dark `#psa` section + cards (from `psas.ts`)
+- [x] `Contact.astro` — CTA + mailto link (from `site.ts`)
 - [ ] Visual parity check against current static v1 (local `pnpm dev` + side-by-side or deploy to dev)
 
 ### Segment 3 — Legacy removal + 404
@@ -221,5 +221,14 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 - `eslint-plugin-astro@1.7.0` used (1.x branch) — the 2.x release requires ESLint ≥ 10, and our stack is on ESLint 9.x. Upgrading ESLint is out of scope for this segment.
 - Added `prettier-plugin-astro` so Prettier can parse and format `.astro` files; configured in `.prettierrc` with `overrides`.
 - `dist/_astro/` is **not emitted** by the placeholder build — Astro optimizes small CSS by inlining it. The directory will appear naturally in Segment 2a once Google Fonts and full token CSS are imported.
+
+**Segment 2 implementation notes:**
+
+- Full page migrated to Astro components with typed `src/content/*.ts` modules (deployed v1 values, including
+  `robert.park+profound@4legssoftware.com` contact email and chronology author metadata).
+- Design tokens + shared section/animation styles in `src/styles/global.css`; section-specific styles in scoped
+  component `<style>` blocks (`:global()` for SVG chart animations and PSA section-header overrides).
+- Build emits `dist/_astro/index.*.css` (~17 KB bundled CSS) plus `dist/index.html` with all section anchor ids.
+- `Hero.astro` (~390 lines) is mostly control-chart SVG — defer split until Final long-files pass if still over 200.
 - `pnpm-workspace.yaml` updated to `onlyBuiltDependencies: [esbuild, sharp]` (the `allowBuilds` stub that was there was replaced with the correct pnpm 11 key).
 - `src/styles/global.css` created as a placeholder for design tokens — fully populated in Segment 2a.

@@ -1,0 +1,90 @@
+<nav>
+  <a href="#top" class="nav-mark">The Profound <span class="ampersand">&amp;</span> Book Club</a>
+  <ul class="nav-links">
+    <li><a href="#current">Current</a></li>
+    <li><a href="#chronology">Chronology</a></li>
+    <li><a href="#conversations">Conversations</a></li>
+    <li><a href="#psa">Of Interest</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.25rem 2.5rem;
+    background: rgba(244, 237, 225, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-mark {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-mark .ampersand {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  @media (max-width: 720px) {
+    .nav-links {
+      display: none;
+    }
+
+    nav {
+      padding: 1rem 1.25rem;
+    }
+  }
+</style>

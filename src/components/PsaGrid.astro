@@ -1,0 +1,131 @@
+---
+import { psas, psaIntro, formatPsaLabel } from '../content/psas';
+---
+
+<section id="psa">
+  <div class="section-header">
+    <span class="section-number">§ IV. — OF INTEREST</span>
+    <h2 class="section-title">Worth Your Attention <span class="italic">— elsewhere</span></h2>
+  </div>
+  <p class="psa-intro">{psaIntro}</p>
+  <div class="psa-grid">
+    {
+      psas.map((psa) => (
+        <article class="psa-card">
+          <div class="psa-card-label">{formatPsaLabel(psa)}</div>
+          <h3 class="psa-card-title">{psa.title}</h3>
+          <p class="psa-card-desc">{psa.blurb}</p>
+          <a class="psa-card-link" href={psa.url} target="_blank" rel="noreferrer">
+            Visit
+          </a>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  #psa {
+    background: var(--ink);
+    color: var(--paper);
+    max-width: none;
+    margin: 0;
+    padding-left: max(2.5rem, calc((100vw - 1340px) / 2));
+    padding-right: max(2.5rem, calc((100vw - 1340px) / 2));
+  }
+
+  #psa :global(.section-header) {
+    border-color: rgba(244, 237, 225, 0.15);
+  }
+
+  #psa :global(.section-number) {
+    color: var(--gold);
+  }
+
+  #psa :global(.section-title) {
+    color: var(--paper);
+  }
+
+  #psa :global(.section-title .italic) {
+    color: rgba(244, 237, 225, 0.5);
+  }
+
+  .psa-intro {
+    max-width: 42rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: rgba(244, 237, 225, 0.7);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+
+  .psa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .psa-card {
+    border: 1px solid rgba(244, 237, 225, 0.15);
+    padding: 2rem;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease;
+    position: relative;
+  }
+
+  .psa-card:hover {
+    border-color: var(--gold);
+    background: rgba(184, 146, 58, 0.05);
+  }
+
+  .psa-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .psa-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    color: var(--paper);
+  }
+
+  .psa-card-desc {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(244, 237, 225, 0.7);
+    margin-bottom: 1.5rem;
+  }
+
+  .psa-card-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition:
+      gap 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .psa-card-link::after {
+    content: '→';
+  }
+
+  .psa-card-link:hover {
+    gap: 0.85rem;
+    color: var(--gold);
+  }
+</style>

@@ -1,0 +1,284 @@
+---
+import { currentBook } from '../content/currentBook';
+---
+
+<section id="current">
+  <div class="section-header">
+    <span class="section-number">§ I. — IN PROGRESS</span>
+    <h2 class="section-title">Now Reading <span class="italic">— together</span></h2>
+  </div>
+  <div class="current-grid">
+    <div class="book-cover-area">
+      <span class="book-tag">Current Selection</span>
+      <div class="book-card">
+        <div class="book-card-top">
+          <div class="book-card-mark">№ {currentBook.number}</div>
+          <div class="book-card-author-prefix">A Selection of</div>
+        </div>
+        <div>
+          <div class="book-card-title">{currentBook.title}</div>
+          <div class="book-card-ornament">❦</div>
+          <div class="book-card-author">{currentBook.author}</div>
+        </div>
+        <div class="book-card-bottom">The Profound Book Club</div>
+      </div>
+    </div>
+    <div class="current-details">
+      <h3>{currentBook.title}</h3>
+      <p class="current-author">— {currentBook.author}</p>
+      <p class="current-abstract">{currentBook.abstract}</p>
+      <div class="deming-link">
+        <span class="deming-link-label">Connection to Profound Knowledge</span>
+        <p class="deming-link-text">{currentBook.positioning}</p>
+      </div>
+      <div class="schedule">
+        <div class="schedule-header">
+          <span>Meeting Schedule</span>
+          <span>{currentBook.season}</span>
+        </div>
+        {
+          currentBook.schedule.map((row) => (
+            <div class:list={['schedule-row', row.break && 'schedule-row--break']}>
+              <span class="schedule-week">{row.week}</span>
+              <span class="schedule-date">{row.date}</span>
+              <span class="schedule-content">{row.chapters}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #current {
+    background: linear-gradient(180deg, transparent 0%, rgba(184, 146, 58, 0.04) 100%);
+  }
+
+  .current-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .book-cover-area {
+    position: relative;
+  }
+
+  .book-tag {
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    padding: 0.5rem 0.9rem;
+    text-transform: uppercase;
+    z-index: 2;
+    transform: rotate(-3deg);
+  }
+
+  .book-card {
+    aspect-ratio: 3 / 4.2;
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.5) inset,
+      0 20px 40px -20px var(--shadow),
+      0 4px 8px -4px var(--shadow);
+    position: relative;
+  }
+
+  .book-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--rule);
+    pointer-events: none;
+  }
+
+  .book-card-top {
+    text-align: center;
+  }
+
+  .book-card-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .book-card-author-prefix {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 0.5rem;
+  }
+
+  .book-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    line-height: 1.1;
+    font-weight: 500;
+    text-align: center;
+    padding: 1rem 0;
+    color: var(--ink);
+  }
+
+  .book-card-ornament {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .book-card-author {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .book-card-bottom {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .current-details h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    line-height: 1.05;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .current-author {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .current-abstract {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 2.5rem;
+  }
+
+  .deming-link {
+    background: var(--paper-deep);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .deming-link-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .deming-link-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .schedule {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+
+  .schedule-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.75rem 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .schedule-row {
+    display: grid;
+    grid-template-columns: 80px 110px 1fr;
+    gap: 1.5rem;
+    padding: 0.9rem 1.25rem;
+    border-top: 1px solid var(--rule);
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .schedule-row:first-of-type {
+    border-top: none;
+  }
+
+  .schedule-row--break {
+    background: rgba(184, 146, 58, 0.05);
+  }
+
+  .schedule-row--break .schedule-week,
+  .schedule-row--break .schedule-date,
+  .schedule-row--break .schedule-content {
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+
+  .schedule-week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.15em;
+  }
+
+  .schedule-date {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .schedule-content {
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .current-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .book-cover-area {
+      max-width: 380px;
+      margin: 0 auto;
+    }
+  }
+</style>

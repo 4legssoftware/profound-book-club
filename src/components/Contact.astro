@@ -1,0 +1,72 @@
+---
+import { site } from '../content/site';
+
+const mailtoHref = `mailto:${encodeURIComponent(site.contactEmail)}?subject=${encodeURIComponent('Joining the Profound Book Club')}`;
+---
+
+<section id="contact">
+  <div class="contact-mark">❦</div>
+  <p class="contact-line">{site.contactLine}</p>
+  <h2 class="contact-headline">Curious enough to <span class="italic">read with us?</span></h2>
+  <a class="contact-cta" href={mailtoHref}>Get in Touch</a>
+</section>
+
+<style>
+  #contact {
+    text-align: center;
+    padding: 8rem 2.5rem;
+  }
+
+  .contact-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 4rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .contact-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-headline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 500;
+    max-width: 36rem;
+    margin: 0 auto 2.5rem;
+    color: var(--ink);
+  }
+
+  .contact-headline .italic {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .contact-cta {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition:
+      background 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  .contact-cta:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+</style>

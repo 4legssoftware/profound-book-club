@@ -1,0 +1,97 @@
+---
+import { conversations, conversationsIntro } from '../content/conversations';
+---
+
+<section id="conversations">
+  <div class="section-header">
+    <span class="section-number">§ III. — IN THE OPEN</span>
+    <h2 class="section-title">Conversations <span class="italic">— continued elsewhere</span></h2>
+  </div>
+  <p class="chronology-intro intro">{conversationsIntro}</p>
+  <div class="conversations-grid">
+    {
+      conversations.map((conversation) => (
+        <article class="conv-card">
+          <p class="conv-card-quote">&ldquo;{conversation.quote}&rdquo;</p>
+          <div class="conv-card-meta">
+            <span>
+              {conversation.author} · {conversation.platform}
+            </span>
+            <a href={conversation.url} target="_blank" rel="noreferrer">
+              Read →
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .intro {
+    margin-bottom: 2.5rem;
+  }
+
+  .conversations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .conv-card {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    padding: 1.75rem;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conv-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -12px var(--shadow);
+  }
+
+  .conv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .conv-card-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0.5rem 0 1rem;
+    color: var(--ink-soft);
+  }
+
+  .conv-card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .conv-card-meta a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .conv-card-meta a:hover {
+    text-decoration: underline;
+  }
+</style>
