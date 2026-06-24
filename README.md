@@ -55,10 +55,10 @@ pnpm run format:check  # CI uses this
 
 ## CI/CD
 
-| Workflow | Trigger | What runs |
-| -------- | ------- | --------- |
+| Workflow       | Trigger                             | What runs                                                                    |
+| -------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
 | **`main.yml`** | Push to `main`, weekly cron, manual | Lint → Build → CDK Test → deploy **stage** → smoke → deploy **prod** → smoke |
-| **`pr.yml`** | Pull request to `main` | Lint → Build → CDK Test only (no deploy) |
+| **`pr.yml`**   | Pull request to `main`              | Lint → Build → CDK Test only (no deploy)                                     |
 
 **dev** is never deployed by the pipeline. Maintainer workflow is review → commit → push `main`. External contributions use fork + PR — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -74,9 +74,9 @@ Add **`[skip ci]`** anywhere in the commit message to skip **`main.yml`** on pus
 
 ## Deploy
 
-| Environment | How | Notes |
-| ----------- | --- | ----- |
-| **dev** | Manual from localhost | `.cursor/commands/deploy-dev-book-club.md` |
+| Environment      | How                         | Notes                                               |
+| ---------------- | --------------------------- | --------------------------------------------------- |
+| **dev**          | Manual from localhost       | `.cursor/commands/deploy-dev-book-club.md`          |
 | **stage / prod** | Push to `main` → `main.yml` | One-time cert/DNS bootstrap per env — see story doc |
 
 Domains: `dev.profound-book-club.org`, `stage.profound-book-club.org`, `profound-book-club.org` (apex canonical; `www` 301-redirects).

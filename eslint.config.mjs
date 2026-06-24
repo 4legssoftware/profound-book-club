@@ -1,15 +1,16 @@
 import js from '@eslint/js';
+import eslintPluginAstro from 'eslint-plugin-astro';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**', 'src/pages/**', 'infrastructure/**'],
+    ignores: ['dist/**', 'node_modules/**', 'infrastructure/**', '.astro/**'],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['scripts/**/*.{js,mjs,ts}', 'eslint.config.mjs'],
+    files: ['scripts/**/*.{js,mjs,ts}', 'eslint.config.mjs', 'astro.config.mjs'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
@@ -28,5 +29,6 @@ export default tseslint.config(
       ],
     },
   },
+  ...eslintPluginAstro.configs.recommended,
   eslintPluginPrettier,
 );

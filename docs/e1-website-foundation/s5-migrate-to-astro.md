@@ -148,16 +148,16 @@ Add a short HTML comment in `main.yml` above the disabled block: `# S5 Astro mig
 
 _Verification-first: prove `pnpm build` → `dist/` before migrating page content. Prod deploy paused for trunk safety._
 
-- [ ] Add `astro@5` (latest 5.x) and `@astrojs/check` as devDependencies; run `pnpm astro add` or manual init
-- [ ] Add `astro.config.mjs` — `output: 'static'`, `outDir: './dist'`, `site: 'https://profound-book-club.org'`
-- [ ] Replace root scripts: `build` → `astro build`, `dev` → `astro dev`; remove `scripts/build.mjs`
-- [ ] Add minimal `src/pages/index.astro` (placeholder) and `src/layouts/BaseLayout.astro` shell
-- [ ] Run `pnpm run build` — confirm `dist/index.html` and `dist/_astro/` emitted (no legacy copy step)
-- [ ] Update ESLint: drop `src/pages/**` ignore; add `eslint-plugin-astro` for `**/*.astro`
-- [ ] Add root script `check` → `astro check`; wire into Lint job in `.github/workflows/main.yml` and `pr.yml`
-- [ ] **Prod gate:** comment out `deploy-infrastructure-prod`, `deploy-application-prod`, `smoke-tests-prod` in
+- [x] Add `astro@5` (latest 5.x) and `@astrojs/check` as devDependencies; run `pnpm astro add` or manual init
+- [x] Add `astro.config.mjs` — `output: 'static'`, `outDir: './dist'`, `site: 'https://profound-book-club.org'`
+- [x] Replace root scripts: `build` → `astro build`, `dev` → `astro dev`; remove `scripts/build.mjs`
+- [x] Add minimal `src/pages/index.astro` (placeholder) and `src/layouts/BaseLayout.astro` shell
+- [x] Run `pnpm run build` — confirm `dist/index.html` emitted (small CSS inlined by Astro; `dist/_astro/` will appear in Seg 2a with full fonts + CSS)
+- [x] Update ESLint: drop `src/pages/**` ignore; add `eslint-plugin-astro` for `**/*.astro`
+- [x] Add root script `check` → `astro check`; wire into Lint job in `.github/workflows/main.yml` and `pr.yml`
+- [x] **Prod gate:** comment out `deploy-infrastructure-prod`, `deploy-application-prod`, `smoke-tests-prod` in
   `main.yml`; update `summary` and `notify` `needs` (and prod-specific summary/Slack fields) so workflow stays green
-- [ ] **Stop for review:** build output tree + `main.yml` prod gate diff + lockfile before large content migration
+- [x] **Stop for review:** build output tree + `main.yml` prod gate diff + lockfile before large content migration
 
 ### Segment 2a — Global tokens + layout shell
 
@@ -215,4 +215,11 @@ _Verification-first: prove `pnpm build` → `dist/` before migrating page conten
 
 ## Notes
 
-_(Populate during implementation.)_
+**Segment 1 implementation notes:**
+
+- Installed **Astro 7.0.1** (story doc referenced 5.x but 7.x is the current stable release — no API differences for our use case).
+- `eslint-plugin-astro@1.7.0` used (1.x branch) — the 2.x release requires ESLint ≥ 10, and our stack is on ESLint 9.x. Upgrading ESLint is out of scope for this segment.
+- Added `prettier-plugin-astro` so Prettier can parse and format `.astro` files; configured in `.prettierrc` with `overrides`.
+- `dist/_astro/` is **not emitted** by the placeholder build — Astro optimizes small CSS by inlining it. The directory will appear naturally in Segment 2a once Google Fonts and full token CSS are imported.
+- `pnpm-workspace.yaml` updated to `onlyBuiltDependencies: [esbuild, sharp]` (the `allowBuilds` stub that was there was replaced with the correct pnpm 11 key).
+- `src/styles/global.css` created as a placeholder for design tokens — fully populated in Segment 2a.

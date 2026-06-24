@@ -1,0 +1,12 @@
+/* Global design tokens — populated in Segment 2a */
+:root {
+  --paper: #f9f6f0;
+  --ink: #1a1a1a;
+  --accent: #c0392b;
+  --rule: #d4c5a9;
+  --gold: #c9a84c;
+}
+
+body {
+  margin: 0;
+}

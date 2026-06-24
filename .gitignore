@@ -12,6 +12,7 @@ run.*json
 node_modules/
 
 dist/
+.astro/
 
 # pnpm
 pnpm-debug.log*
