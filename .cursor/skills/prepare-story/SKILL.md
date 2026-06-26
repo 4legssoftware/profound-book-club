@@ -14,9 +14,9 @@ description: >-
 Use this when turning a **story markdown** (under `docs/e*-*/`, e.g. `docs/e1-website-foundation/`) into something ready
 to implement. Repository conventions in `.cursor/rules/rules.mdc` still apply.
 
-**Active epic:** `docs/e1-website-foundation/epic-website-foundation.md` — website foundation on AWS (dev manual, stage/prod
-via pipeline), modeled on **4ls-site**. Work may span **`profound-book-club`** (app + CDK) and **`4ls-org`** (OU/accounts,
-Route 53 DNS via Terraform).
+**E1 (complete):** `docs/e1-website-foundation/website-foundation-summary.md` — website foundation on AWS (dev manual,
+stage/prod via pipeline), modeled on **4ls-site**. Work may span **`profound-book-club`** (app + CDK) and **`4ls-org`**
+(OU/accounts, Route 53 DNS via Terraform). For new epics, add `docs/e*-*/epic-*.md` and link stories from there.
 
 ## Git and delivery (TBD)
 
@@ -28,7 +28,7 @@ Route 53 DNS via Terraform).
 ## Workflow
 
 1. **Read the epic** that owns this story — usually a sibling `epic-*.md` under the same `docs/e*-*/` folder (e.g.
-   `docs/e1-website-foundation/epic-website-foundation.md`), or linked from the story. Absorb **goal**, epic **in/out of
+   `docs/e*-*/epic-*.md` or the epic **summary** if the working epic doc was removed), or linked from the story. Absorb **goal**, epic **in/out of
    scope**, sequencing, and **dependencies**. Use it so Questions, checklist segments, and scope stay **aligned with the
    epic** — do not widen the story beyond what the epic commits to. If the epic path is unclear, **ask** before assuming.
 2. **Read** the story file the user gives: goal, acceptance criteria, scope boundaries, existing Notes/Questions.

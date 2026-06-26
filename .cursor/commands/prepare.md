@@ -4,9 +4,9 @@ This workflow was moved to a **Cursor skill** so it can be discovered and applie
 
 **Use the skill:** `prepare-story` — see `/.cursor/skills/prepare-story/SKILL.md` in the **profound-book-club** repo.
 
-**Short trigger:** “Prepare this story” + path to the story markdown (e.g. `docs/e1-website-foundation/s1-aws-organization.md`).
+**Short trigger:** “Prepare this story” + path to the story markdown (e.g. `docs/e2-*/story-*.md`).
 
-**Epic:** `docs/e1-website-foundation/epic-website-foundation.md`
+**Completed e1 summary:** `docs/e1-website-foundation/website-foundation-summary.md`
 
 The skill covers: **read the parent epic** then the story (aligned intent); **assess whether to split** into multiple
 Shortcut tickets vs one story with **segments**; clarifying questions; **commit refined story MD** with **`[sc-###]`** +

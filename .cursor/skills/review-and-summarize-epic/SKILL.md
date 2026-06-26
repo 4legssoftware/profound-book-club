@@ -14,7 +14,8 @@ description: >-
 ## Before you start
 
 1. **Epic identity** — If unclear, **ask** for the epic document path or title (e.g.
-   `docs/e1-website-foundation/epic-website-foundation.md`).
+   `docs/e1-website-foundation/website-foundation-summary.md` — post-wrap-up canonical entry; working epic path was
+   `epic-website-foundation.md` before deletion).
 2. **Story set** — Discover story files linked from the epic or co-located in the same `docs/e*-*/` folder (`s*.md`,
    `story-*.md`, or names listed in the epic). If ambiguous, **ask** which files belong to this epic.
 3. **Repos** — Note whether work spanned **`profound-book-club`** and **`4ls-org`** (and **4ls-site** as reference);

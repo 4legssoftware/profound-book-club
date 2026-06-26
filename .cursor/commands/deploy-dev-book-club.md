@@ -5,7 +5,7 @@ permissions: ["all"]
 # Deploy to Dev
 
 Deploy infrastructure and site content to **dev** manually from localhost. Dev is **not** deployed by the GitHub Actions
-pipeline (see `docs/e1-website-foundation/epic-website-foundation.md`).
+pipeline (see `docs/e1-website-foundation/website-foundation-summary.md`).
 
 **Custom domain:** `https://dev.profound-book-club.org`
 

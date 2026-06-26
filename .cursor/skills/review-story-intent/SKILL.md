@@ -15,7 +15,7 @@ description: >-
 2. **Epic** — Story docs often list an epic name or live beside one. If the epic document is not clear from context, **ask**
    which epic doc to use before reviewing epic fit.
 
-Typical locations in this repo: `docs/e*-*/` for stories and epics (e.g. `docs/e1-website-foundation/epic-website-foundation.md`,
+Typical locations in this repo: `docs/e*-*/` for stories and epics (e.g. `docs/e1-website-foundation/website-foundation-summary.md`
 `s1-aws-organization.md`). Work may span **`profound-book-club`** and **`4ls-org`**.
 
 ## What to read
