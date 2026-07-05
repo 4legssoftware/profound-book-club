@@ -4,9 +4,21 @@ const https = require('https');
 const http = require('http');
 const { execSync } = require('child_process');
 
+const fs = require('fs');
+const path = require('path');
+
 const ENVIRONMENT = process.env.ENVIRONMENT || 'dev';
 
 const REQUIRED_SECTION_IDS = ['current', 'chronology', 'conversations', 'psa', 'contact'];
+
+function getRequiredSectionIds() {
+  const upcomingBookSource = fs.readFileSync(
+    path.join(__dirname, '../src/content/upcomingBook.ts'),
+    'utf8',
+  );
+  const hasUpcomingBook = /export const upcomingBook[^=]*=\s*\{/.test(upcomingBookSource);
+  return hasUpcomingBook ? ['upcoming', ...REQUIRED_SECTION_IDS] : REQUIRED_SECTION_IDS;
+}
 
 const ASTRO_STYLESHEET_PATTERN =
   /rel=["']stylesheet["'][^>]*href=["'][^"']*\/_astro\/[^"']+\.css["']|href=["'][^"']*\/_astro\/[^"']+\.css["'][^>]*rel=["']stylesheet["']/i;
@@ -139,6 +151,8 @@ function fetchPage(path) {
 }
 
 function checkHomePageContent(fullUrl, html) {
+  const requiredSectionIds = getRequiredSectionIds();
+
   if (!ASTRO_STYLESHEET_PATTERN.test(html)) {
     recordFailure(`${fullUrl} - missing /_astro/ stylesheet link`);
     return;
@@ -146,14 +160,14 @@ function checkHomePageContent(fullUrl, html) {
 
   recordPass(`${fullUrl} - /_astro/ stylesheet link present`);
 
-  for (const sectionId of REQUIRED_SECTION_IDS) {
+  for (const sectionId of requiredSectionIds) {
     if (!html.includes(`id="${sectionId}"`)) {
       recordFailure(`${fullUrl} - missing section anchor id="${sectionId}"`);
       return;
     }
   }
 
-  recordPass(`${fullUrl} - section anchors present (${REQUIRED_SECTION_IDS.join(', ')})`);
+  recordPass(`${fullUrl} - section anchors present (${requiredSectionIds.join(', ')})`);
 }
 
 async function checkPage(path) {

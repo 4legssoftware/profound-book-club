@@ -3,7 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import CurrentBook from '../components/CurrentBook.astro';
+import UpcomingBook from '../components/UpcomingBook.astro';
 import Chronology from '../components/Chronology.astro';
+import { upcomingBook } from '../content/upcomingBook';
 import Conversations from '../components/Conversations.astro';
 import PsaGrid from '../components/PsaGrid.astro';
 import Contact from '../components/Contact.astro';
@@ -15,6 +17,7 @@ import Footer from '../components/Footer.astro';
   <main id="top">
     <Hero />
     <CurrentBook />
+    {upcomingBook && <UpcomingBook />}
     <Chronology />
     <Conversations />
     <PsaGrid />

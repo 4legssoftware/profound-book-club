@@ -1,5 +1,6 @@
 ---
 import { site } from '../content/site';
+import { upcomingBook } from '../content/upcomingBook';
 ---
 
 <nav>
@@ -9,6 +10,13 @@ import { site } from '../content/site';
   </a>
   <ul class="nav-links">
     <li><a href="#current">Current</a></li>
+    {
+      upcomingBook && (
+        <li>
+          <a href="#upcoming">Upcoming</a>
+        </li>
+      )
+    }
     <li><a href="#chronology">Chronology</a></li>
     <li><a href="#conversations">Conversations</a></li>
     <li><a href="#psa">Of Interest</a></li>

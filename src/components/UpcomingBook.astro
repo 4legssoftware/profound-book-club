@@ -1,0 +1,115 @@
+---
+import { upcomingBook } from '../content/upcomingBook';
+
+const book = upcomingBook!;
+---
+
+<section id="upcoming">
+  <div class="section-header">
+    <span class="section-number">§ NEXT — IN QUEUE</span>
+    <h2 class="section-title">Up Next <span class="italic">— starting soon</span></h2>
+  </div>
+  <div class="upcoming-grid">
+    <div class="upcoming-meta">
+      <div class="upcoming-mark">№ {book.number}</div>
+      <div class="upcoming-starts">
+        <span class="upcoming-starts-label">Starts</span>
+        <span class="upcoming-starts-date">{book.startDate}</span>
+      </div>
+    </div>
+    <div class="upcoming-body">
+      <h3 class="upcoming-title">{book.title}</h3>
+      <p class="upcoming-author">— {book.author}</p>
+      {book.blurb && <p class="upcoming-blurb">{book.blurb}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  #upcoming {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    align-items: start;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 2.5rem 0;
+  }
+
+  .upcoming-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .upcoming-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+
+  .upcoming-starts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .upcoming-starts-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .upcoming-starts-date {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--ink);
+  }
+
+  .upcoming-body {
+    max-width: 44rem;
+  }
+
+  .upcoming-title {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    line-height: 1.1;
+    font-weight: 500;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .upcoming-author {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 1.05rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .upcoming-blurb {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  @media (max-width: 720px) {
+    .upcoming-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+    }
+  }
+</style>
