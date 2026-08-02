@@ -16,18 +16,18 @@
     "smoke-test": "node scripts/smoke-test.cjs"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
+    "@astrojs/check": "^0.9.10",
     "@eslint/js": "^9.39.4",
-    "@types/node": "^26.1.0",
-    "astro": "^7.0.6",
+    "@types/node": "^26.1.2",
+    "astro": "^7.1.6",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-prettier": "^5.5.6",
     "globals": "^15.15.0",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.62.1"
+    "typescript-eslint": "^8.65.0"
   }
 }

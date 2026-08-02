@@ -86,14 +86,14 @@ commits reviewable without extra tickets.
 
 ### Segment 2 — Root + infrastructure minor/patch (incl. CDK)
 
-- [ ] Root: `pnpm outdated`; apply minor/patch via targeted `pnpm update <pkg>…`; list available majors for Segment 2b.
-- [ ] Root verify: `pnpm run lint`, `pnpm run build` (and `pnpm run check` if useful); lockfile committed with
+- [x] Root: `pnpm outdated`; apply minor/patch via targeted `pnpm update <pkg>…`; list available majors for Segment 2b.
+- [x] Root verify: `pnpm run lint`, `pnpm run build` (and `pnpm run check` if useful); lockfile committed with
       `package.json`.
-- [ ] `infrastructure/`: `pnpm outdated`; apply minor/patch for CDK CLI/lib (`aws-cdk`, `aws-cdk-lib`), `constructs`,
+- [x] `infrastructure/`: `pnpm outdated`; apply minor/patch for CDK CLI/lib (`aws-cdk`, `aws-cdk-lib`), `constructs`,
       and other infra deps; re-check `js-yaml` override in `pnpm-workspace.yaml` (keep, bump floor, or remove if
       unnecessary) and reinstall if changed.
-- [ ] Infra verify: `pnpm run build`, `pnpm run synth`, `pnpm test` (CDK snapshots / key assertions).
-- [ ] **Stop for review** if synth/diff shows material CDK resource churn before any deploy.
+- [x] Infra verify: `pnpm run build`, `pnpm run synth`, `pnpm test` (CDK snapshots / key assertions).
+- [x] **Stop for review** if synth/diff shows material CDK resource churn before any deploy.
 
 ### Segment 2b — Evaluate (and possibly take) major updates
 
@@ -128,4 +128,15 @@ commits reviewable without extra tickets.
 
 - **Tag:** `v1.0.0` → commit `6c89349` (`v1.0.0 — website foundation complete (Sidewinder completed)`); pushed to
   `origin`.
-- _(Deferred majors, override keep/drop, pipeline run URL — fill in later segments.)_
+- **Segment 2 applied (minor/patch):**
+  - Root: `@astrojs/check` 0.9.10, `@types/node` 26.1.2, `astro` 7.1.6, `prettier` 3.9.6,
+    `typescript-eslint` 8.65.0
+  - Infra: `@types/node` 26.1.2, `aws-cdk` 2.1134.0, `aws-cdk-lib` 2.263.0, `constructs` 10.8.0,
+    `ts-jest` 29.4.12
+  - `js-yaml` override **kept** (`4.2.0`) — still needed while Jest 29 pulls vulnerable transitive `js-yaml@3`
+  - Verify: root lint/build/check green; infra build/synth/tests green (3 tests); no material CDK resource churn
+- **Majors pending Segment 2b:**
+  - Root: `@eslint/js` 9→10, `eslint` 9→10, `eslint-plugin-astro` 1→3, `globals` 15→17, `typescript` 5→7
+  - Infra: `@types/jest` 29→30, `jest` 29→30, `typescript` 5→7
+  - Also noted: `packageManager` pnpm 11.8.0 → 11.18.0 available (not a package major; discuss with 2b or ship separately)
+- _(Pipeline run URL — fill after push.)_
