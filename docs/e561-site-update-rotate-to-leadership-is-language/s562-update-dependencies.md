@@ -78,11 +78,11 @@ commits reviewable without extra tickets.
 
 ### Segment 1 — Tag `v1.0.0` (before bumps)
 
-- [ ] Confirm working tree is clean for untagged tip of `main` (or tag the intended SHA explicitly); no tags named
+- [x] Confirm working tree is clean for untagged tip of `main` (or tag the intended SHA explicitly); no tags named
       `v1.0.0` exist locally or on `origin` today.
-- [ ] Create annotated tag `v1.0.0` on current `main` **before** dependency edits (message:
+- [x] Create annotated tag `v1.0.0` on current `main` **before** dependency edits (message:
       `v1.0.0 — website foundation complete (Sidewinder completed)`); push tag to `origin`.
-- [ ] **Verify:** `git show v1.0.0` points at the pre-update commit; `git ls-remote --tags origin 'v1.0.0'` succeeds.
+- [x] **Verify:** `git show v1.0.0` points at the pre-update commit; `git ls-remote --tags origin 'v1.0.0'` succeeds.
 
 ### Segment 2 — Root + infrastructure minor/patch (incl. CDK)
 
@@ -126,4 +126,6 @@ commits reviewable without extra tickets.
 
 ## Notes
 
-_(Fill during implementation: deferred majors, override keep/drop, tag SHA, pipeline run URL.)_
+- **Tag:** `v1.0.0` → commit `6c89349` (`v1.0.0 — website foundation complete (Sidewinder completed)`); pushed to
+  `origin`.
+- _(Deferred majors, override keep/drop, pipeline run URL — fill in later segments.)_
