@@ -22,8 +22,8 @@ known-good base. Scope is the update and verification only — no framework chan
 
 **In:** `profound-book-club` root and `infrastructure/` PNPM deps + lockfiles (including CDK `aws-cdk` /
 `aws-cdk-lib` / `constructs`); GitHub Actions SHA pins; annotated `v1.0.0` tag on current `main` **before** dependency
-bumps; evaluation of major bumps (Segment 2b); lint/build/synth verification; manual dev deploy + visual smoke; push to
-`main` for stage→prod pipeline.
+bumps; evaluation of major bumps (Segment 2b); Dependabot alert cleanup after majors (Segment 2c); lint/build/synth
+verification; manual dev deploy + visual smoke; push to `main` for stage→prod pipeline.
 
 **Out:** Site content / book rotation (Stories 2–4); Astro or other framework migration; `4ls-org` Terraform; new
 features or design changes.
@@ -102,6 +102,16 @@ commits reviewable without extra tickets.
 - [ ] For accepted majors: apply, then re-run lint/build (root) and/or build/synth/test (infra) as appropriate.
 - [ ] Log apply/defer decisions under **Notes** with a one-line reason each.
 - [ ] **Stop for review** before deploy if any major CDK bump changes synth output materially.
+- [ ] **Gate:** Segment 2b build/verify green before starting Segment 2c.
+
+### Segment 2c — Clear remaining Dependabot alerts
+
+- [ ] After Segment 2b is built and verified, list open Dependabot / GitHub security alerts for
+      `4legssoftware/profound-book-club` (Dependabot tab + `gh` if available).
+- [ ] For each open alert: resolve via dependency bump, override, or documented deferral (discuss non-trivial ones).
+- [ ] Re-run lint/build (root) and/or build/synth/test (infra) after any fix that changes lockfiles.
+- [ ] Confirm alerts are cleared (or remaining ones logged under **Notes** with reason).
+- [ ] **Verify:** no unresolved high/critical Dependabot alerts left unaddressed without an explicit defer note.
 
 ### Segment 3 — GitHub Actions pins + checker script
 
@@ -135,8 +145,9 @@ commits reviewable without extra tickets.
     `ts-jest` 29.4.12
   - `js-yaml` override **kept** (`4.2.0`) — still needed while Jest 29 pulls vulnerable transitive `js-yaml@3`
   - Verify: root lint/build/check green; infra build/synth/tests green (3 tests); no material CDK resource churn
-- **Majors pending Segment 2b:**
-  - Root: `@eslint/js` 9→10, `eslint` 9→10, `eslint-plugin-astro` 1→3, `globals` 15→17, `typescript` 5→7
-  - Infra: `@types/jest` 29→30, `jest` 29→30, `typescript` 5→7
-  - Also noted: `packageManager` pnpm 11.8.0 → 11.18.0 available (not a package major; discuss with 2b or ship separately)
+- **Segment 2b decisions:**
+  - **Applied:** `eslint` 10.8.0, `@eslint/js` 10.0.1, `eslint-plugin-astro` 3.x, `globals` 17.x — lint + build
+    green (already on flat config).
+  - **Pending discuss:** root+infra `typescript` 5→7; infra `jest`/`@types/jest` 29→30; `packageManager` pnpm
+    11.8→11.18
 - _(Pipeline run URL — fill after push.)_
