@@ -1,5 +1,11 @@
 packages:
   - '.'
 
+allowBuilds:
+  unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - constructs@10.8.1
+
 overrides:
   js-yaml: 4.2.0

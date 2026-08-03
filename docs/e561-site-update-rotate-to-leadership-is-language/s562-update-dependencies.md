@@ -148,6 +148,8 @@ commits reviewable without extra tickets.
 - **Segment 2b decisions:**
   - **Applied:** `eslint` 10.8.0, `@eslint/js` 10.0.1, `eslint-plugin-astro` 3.x, `globals` 17.x — lint + build
     green (already on flat config).
-  - **Pending discuss:** root+infra `typescript` 5→7; infra `jest`/`@types/jest` 29→30; `packageManager` pnpm
-    11.8→11.18
+  - **Applied:** infra `jest`/`@types/jest` 30.x — build/synth/tests green; `ts-jest` 29 stays (supports Jest 30).
+    `js-yaml` override **still required** (Jest 30 → istanbul still resolves `js-yaml@3.15.1` without pin).
+    Also bumped deprecated `constructs` 10.8.0 → 10.8.1; allowed `unrs-resolver` builds in infra workspace.
+  - **Pending discuss:** root+infra `typescript` 5→7; `packageManager` pnpm 11.8→11.18+
 - _(Pipeline run URL — fill after push.)_
