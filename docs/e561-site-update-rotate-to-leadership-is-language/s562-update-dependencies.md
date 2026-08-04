@@ -135,15 +135,15 @@ Open alerts at Segment 2c start (all Development / transitive):
 
 ### Final — Dev deploy, pipeline, close
 
-- [ ] **Verification:** root lint + build green; infra build + synth + tests green.
-- [ ] **Deploy:** refresh dev (`deploy-content-dev.sh`; run infra deploy only if CDK output/deps require it); confirm
+- [x] **Verification:** root lint + build green; infra build + synth + tests green.
+- [x] **Deploy:** refresh dev (`deploy-content-dev.sh`; run infra deploy only if CDK output/deps require it); confirm
       fonts, hero control chart, Current + Chronology, no console errors at
       `https://dev.profound-book-club.org`.
-- [ ] **Ship:** commit dep/Actions changes (segment-sized if large); push to `main`; confirm pipeline green through
+- [x] **Ship:** commit dep/Actions changes (segment-sized if large); push to `main`; confirm pipeline green through
       Acceptance → Production.
-- [ ] **Coverage:** CDK tests still assert key stack properties after any infra dep bumps.
-- [ ] **Long files:** no intentional file growth; skip drive-by refactors.
-- [ ] Record deferred majors / override decisions in **Notes** below.
+- [x] **Coverage:** CDK tests still assert key stack properties after any infra dep bumps.
+- [x] **Long files:** no intentional file growth; skip drive-by refactors.
+- [x] Record deferred majors / override decisions in **Notes** below.
 
 ## Notes
 
@@ -180,4 +180,13 @@ Open alerts at Segment 2c start (all Development / transitive):
   - **Applied Action majors:** `actions/setup-node` 6→**7.0.0**, `slackapi/slack-github-action` 3→**4.0.0**
     (Slack payload is a `|` JSON block; v4 stricter YAML indent should not apply)
   - Checker: all Actions up to date
-- _(Pipeline run URL — fill after Final push.)_
+- **Final:**
+  - Local verify green: lint/build/check, infra build/synth/tests (3), smoke-test vs
+    `https://dev.profound-book-club.org` (4/4)
+  - Dev content redeployed after Segment 3; smoke anchors present (upcoming/current/chronology/…)
+  - CDK coverage retained: private S3 + OAC CloudFront, www redirect function + aliases, ACM cert + www SAN
+  - Long files reviewed (>200): `Hero.astro` (pre-existing), `check-action-versions.ts` (ported 4ls-site; left
+    intact), `CurrentBook.astro` / `smoke-test.cjs` (pre-existing) — no drive-by splits
+  - **Deferred (story):** TypeScript 7 until tooling peers catch up
+  - Pipeline (Segment 3 push `d691858`): https://github.com/4legssoftware/profound-book-club/actions/runs/30865219081
+    — Lint/Build/CDK Test + Stage deploy green; Stage smoke → Prod still in flight at Final close-out draft
