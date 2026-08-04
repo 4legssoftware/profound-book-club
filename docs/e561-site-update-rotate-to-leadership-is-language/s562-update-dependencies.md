@@ -121,17 +121,17 @@ Open alerts at Segment 2c start (all Development / transitive):
       `4legssoftware/profound-book-club` (Dependabot tab + `gh` if available).
 - [x] For each open alert: resolve via dependency bump, override, or documented deferral (discuss non-trivial ones).
 - [x] Re-run lint/build (root) and/or build/synth/test (infra) after any fix that changes lockfiles.
-- [ ] Confirm alerts are cleared (or remaining ones logged under **Notes** with reason).
+- [x] Confirm alerts are cleared (or remaining ones logged under **Notes** with reason).
 - [x] **Verify:** no unresolved high/critical Dependabot alerts left unaddressed without an explicit defer note.
 
 ### Segment 3 — GitHub Actions pins + checker script
 
-- [ ] Port `check-action-versions` from 4ls-site (`scripts/check-action-versions.ts`, root `package.json` script, any
+- [x] Port `check-action-versions` from 4ls-site (`scripts/check-action-versions.ts`, root `package.json` script, any
       deps such as `tsx` if required).
-- [ ] Run `GITHUB_TOKEN=… pnpm run check-action-versions`; refresh action SHAs for current majors in `main.yml` /
+- [x] Run `GITHUB_TOKEN=… pnpm run check-action-versions`; refresh action SHAs for current majors in `main.yml` /
       `pr.yml`.
-- [ ] List major Action upgrades available; fold into Segment 2b evaluation (do not silent-bump majors).
-- [ ] **Verify:** checker exits clean (or only reports deferred majors); workflow YAML review.
+- [x] List major Action upgrades available; fold into Segment 2b evaluation (do not silent-bump majors).
+- [x] **Verify:** checker exits clean (or only reports deferred majors); workflow YAML review.
 
 ### Final — Dev deploy, pipeline, close
 
@@ -169,8 +169,15 @@ Open alerts at Segment 2c start (all Development / transitive):
   - **Applied:** `packageManager` pnpm 11.8.0 → 11.20.0 (corepack pin + `engines.pnpm` `>=11.20.0`); lint/build/check
     + infra tests green under pnpm 11.20.
   - **Segment 2b package majors:** complete (TS 7 deferred).
-- **Segment 2c Dependabot fixes (pending push for GitHub to re-scan):**
+- **Segment 2c Dependabot fixes:**
   - Root overrides: `svgo@4.0.2`, `fast-uri@3.1.5`, `postcss@8.5.25`, `sharp@0.35.3`
   - Infra override: `js-yaml` **4.2.0 → 4.3.1**
-  - Verify: root lint/build/check green; infra build + 3 tests green
-- _(Pipeline run URL / Dependabot clearance — fill after push.)_
+  - Verify: root lint/build/check green; infra build + 3 tests green; **0 open Dependabot alerts** after push
+- **Segment 3 Actions:**
+  - Ported `scripts/check-action-versions.ts` + `tsx` + `pnpm run check-action-versions`
+  - Same-major SHA bumps: `actions/checkout` 7.0.1, `pnpm/action-setup` 6.0.10,
+    `aws-actions/configure-aws-credentials` 6.2.3
+  - **Applied Action majors:** `actions/setup-node` 6→**7.0.0**, `slackapi/slack-github-action` 3→**4.0.0**
+    (Slack payload is a `|` JSON block; v4 stricter YAML indent should not apply)
+  - Checker: all Actions up to date
+- _(Pipeline run URL — fill after Final push.)_
