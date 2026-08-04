@@ -97,12 +97,12 @@ commits reviewable without extra tickets.
 
 ### Segment 2b — Evaluate (and possibly take) major updates
 
-- [ ] List major bumps from root + `infrastructure/` (and Actions majors if any) with brief changelog/risk notes.
-- [ ] **Discuss each major with the user** before applying or deferring; do not silent-bump.
-- [ ] For accepted majors: apply, then re-run lint/build (root) and/or build/synth/test (infra) as appropriate.
-- [ ] Log apply/defer decisions under **Notes** with a one-line reason each.
-- [ ] **Stop for review** before deploy if any major CDK bump changes synth output materially.
-- [ ] **Gate:** Segment 2b build/verify green before starting Segment 2c.
+- [x] List major bumps from root + `infrastructure/` (and Actions majors if any) with brief changelog/risk notes.
+- [x] **Discuss each major with the user** before applying or deferring; do not silent-bump.
+- [x] For accepted majors: apply, then re-run lint/build (root) and/or build/synth/test (infra) as appropriate.
+- [x] Log apply/defer decisions under **Notes** with a one-line reason each.
+- [x] **Stop for review** before deploy if any major CDK bump changes synth output materially.
+- [x] **Gate:** Segment 2b build/verify green before starting Segment 2c.
 
 ### Segment 2c — Clear remaining Dependabot alerts
 
@@ -151,5 +151,11 @@ commits reviewable without extra tickets.
   - **Applied:** infra `jest`/`@types/jest` 30.x — build/synth/tests green; `ts-jest` 29 stays (supports Jest 30).
     `js-yaml` override **still required** (Jest 30 → istanbul still resolves `js-yaml@3.15.1` without pin).
     Also bumped deprecated `constructs` 10.8.0 → 10.8.1; allowed `unrs-resolver` builds in infra workspace.
-  - **Pending discuss:** root+infra `typescript` 5→7; `packageManager` pnpm 11.8→11.18+
+  - **Deferred:** `typescript` 5→7 — blocked: `typescript-eslint` (peers `<6.1`, hard error on TS 7),
+    `@astrojs/check` (peers `^5 || ^6`), `ts-jest` (peers `<7`; tests fail without TS 6 API alias).
+  - **Applied:** root+infra `typescript` 6.0.3 — peers clean; lint/build/check + infra build/tests green (matches
+    4ls-site / current tooling peers).
+  - **Applied:** `packageManager` pnpm 11.8.0 → 11.20.0 (corepack pin + `engines.pnpm` `>=11.20.0`); lint/build/check
+    + infra tests green under pnpm 11.20.
+  - **Segment 2b package majors:** complete (TS 7 deferred).
 - _(Pipeline run URL — fill after push.)_
