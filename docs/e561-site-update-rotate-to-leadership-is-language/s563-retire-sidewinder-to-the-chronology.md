@@ -74,24 +74,24 @@ row while the Current section still shows *Sidewinder*. Acceptable for this epic
 
 ### Segment 1 — Finalize *Sidewinder* Chronology entry (+ *Win-Win* meta)
 
-- [ ] Questions resolved (Q1–4). No further blockers before editing.
-- [ ] In `src/content/chronology.ts`, update the *Sidewinder* row: keep `date: '2026.06'`, title, author; set
+- [x] Questions resolved (Q1–4). No further blockers before editing.
+- [x] In `src/content/chronology.ts`, update the *Sidewinder* row: keep `date: '2026.06'`, title, author; set
       `kind: 'Systems'`, keep `connection: 'adjacent'`; remove `current: true`.
-- [ ] Same file: update *Win-Win* to `kind: 'Education'`, `connection: 'direct'` (title/author/date unchanged).
-- [ ] Leave list order as chronological (still last completed entry until Story 3 adds nothing here).
-- [ ] Do **not** change `currentBook.ts`, Upcoming, or other sections.
-- [ ] **Verify:** `pnpm run lint` and `pnpm run build`; spot-check Chronology — *Sidewinder* shows `2026.06`, author,
+- [x] Same file: update *Win-Win* to `kind: 'Education'`, `connection: 'direct'` (title/author/date unchanged).
+- [x] Leave list order as chronological (still last completed entry until Story 3 adds nothing here).
+- [x] Do **not** change `currentBook.ts`, Upcoming, or other sections.
+- [x] **Verify:** `pnpm run lint` and `pnpm run build`; spot-check Chronology — *Sidewinder* shows `2026.06`, author,
       meta `Systems · Adjacent` (not “Current selection”); *Win-Win* shows `Education · Direct`.
 
 ### Final — Deploy and close
 
-- [ ] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
+- [x] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
       Chronology at `https://dev.profound-book-club.org` (entry + formatting; interim: no Chronology “Current
       selection”).
 - [ ] Commit content change (message includes `[sc-563]`); push to `main`; confirm pipeline green through Acceptance →
       Production; spot-check Chronology on prod.
-- [ ] **Coverage:** Content-only — no new CDK/app tests required; rely on lint/build + visual/smoke.
-- [ ] **Long files:** No split expected (`chronology.ts` stays a data list; skip unless a prior edit already pushed it
+- [x] **Coverage:** Content-only — no new CDK/app tests required; rely on lint/build + visual/smoke.
+- [x] **Long files:** No split expected (`chronology.ts` stays a data list; skip unless a prior edit already pushed it
       well past ~200 lines of non-data logic).
 - [ ] Story AC satisfied; ready for Story 3 ([sc-564](./s564-promote-leadership-is-language-to-current.md)).
 

@@ -34,7 +34,13 @@ export const chronology: PastBook[] = [
     connection: 'adjacent',
     kind: 'Systems',
   },
-  { date: '2024.04', title: 'Win-Win', author: 'John Dues', connection: 'adjacent' },
+  {
+    date: '2024.04',
+    title: 'Win-Win',
+    author: 'John Dues',
+    connection: 'direct',
+    kind: 'Education',
+  },
   {
     date: '2024.06',
     title: 'Learning to Lead, Leading to Learn',
@@ -115,7 +121,7 @@ export const chronology: PastBook[] = [
     title: 'Sidewinder',
     author: 'Dr. Ron Westrum',
     connection: 'adjacent',
-    current: true,
+    kind: 'Systems',
   },
 ];
 
