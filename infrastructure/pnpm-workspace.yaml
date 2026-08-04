@@ -8,4 +8,4 @@ minimumReleaseAgeExclude:
   - constructs@10.8.1
 
 overrides:
-  js-yaml: 4.2.0
+  js-yaml: 4.3.1

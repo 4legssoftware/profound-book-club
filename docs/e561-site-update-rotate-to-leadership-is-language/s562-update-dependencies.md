@@ -106,12 +106,23 @@ commits reviewable without extra tickets.
 
 ### Segment 2c — Clear remaining Dependabot alerts
 
-- [ ] After Segment 2b is built and verified, list open Dependabot / GitHub security alerts for
+Open alerts at Segment 2c start (all Development / transitive):
+
+| # | Severity | Package | Manifest | Fix |
+| - | -------- | ------- | -------- | --- |
+| 4 | High | `svgo` | root lockfile | override → **4.0.2** |
+| 5, 6, 16 | High | `fast-uri` | root lockfile | override → **3.1.5** |
+| 7 | High | `sharp` | root lockfile | override → **0.35.3** |
+| 9 | High | `js-yaml` | infra lockfile | override **4.2.0 → 4.3.1** |
+| 13 | High | `postcss` | root lockfile | override → **8.5.25** |
+| 15 | Moderate | `postcss` | root lockfile | same as #13 |
+
+- [x] After Segment 2b is built and verified, list open Dependabot / GitHub security alerts for
       `4legssoftware/profound-book-club` (Dependabot tab + `gh` if available).
-- [ ] For each open alert: resolve via dependency bump, override, or documented deferral (discuss non-trivial ones).
-- [ ] Re-run lint/build (root) and/or build/synth/test (infra) after any fix that changes lockfiles.
+- [x] For each open alert: resolve via dependency bump, override, or documented deferral (discuss non-trivial ones).
+- [x] Re-run lint/build (root) and/or build/synth/test (infra) after any fix that changes lockfiles.
 - [ ] Confirm alerts are cleared (or remaining ones logged under **Notes** with reason).
-- [ ] **Verify:** no unresolved high/critical Dependabot alerts left unaddressed without an explicit defer note.
+- [x] **Verify:** no unresolved high/critical Dependabot alerts left unaddressed without an explicit defer note.
 
 ### Segment 3 — GitHub Actions pins + checker script
 
@@ -143,14 +154,14 @@ commits reviewable without extra tickets.
     `typescript-eslint` 8.65.0
   - Infra: `@types/node` 26.1.2, `aws-cdk` 2.1134.0, `aws-cdk-lib` 2.263.0, `constructs` 10.8.0,
     `ts-jest` 29.4.12
-  - `js-yaml` override **kept** (`4.2.0`) — still needed while Jest 29 pulls vulnerable transitive `js-yaml@3`
+  - `js-yaml` override kept (later raised to 4.3.1 in Segment 2c)
   - Verify: root lint/build/check green; infra build/synth/tests green (3 tests); no material CDK resource churn
 - **Segment 2b decisions:**
   - **Applied:** `eslint` 10.8.0, `@eslint/js` 10.0.1, `eslint-plugin-astro` 3.x, `globals` 17.x — lint + build
     green (already on flat config).
   - **Applied:** infra `jest`/`@types/jest` 30.x — build/synth/tests green; `ts-jest` 29 stays (supports Jest 30).
-    `js-yaml` override **still required** (Jest 30 → istanbul still resolves `js-yaml@3.15.1` without pin).
-    Also bumped deprecated `constructs` 10.8.0 → 10.8.1; allowed `unrs-resolver` builds in infra workspace.
+    `js-yaml` override still required (Jest → istanbul). Also bumped deprecated `constructs` 10.8.0 → 10.8.1;
+    allowed `unrs-resolver` builds in infra workspace.
   - **Deferred:** `typescript` 5→7 — blocked: `typescript-eslint` (peers `<6.1`, hard error on TS 7),
     `@astrojs/check` (peers `^5 || ^6`), `ts-jest` (peers `<7`; tests fail without TS 6 API alias).
   - **Applied:** root+infra `typescript` 6.0.3 — peers clean; lint/build/check + infra build/tests green (matches
@@ -158,4 +169,8 @@ commits reviewable without extra tickets.
   - **Applied:** `packageManager` pnpm 11.8.0 → 11.20.0 (corepack pin + `engines.pnpm` `>=11.20.0`); lint/build/check
     + infra tests green under pnpm 11.20.
   - **Segment 2b package majors:** complete (TS 7 deferred).
-- _(Pipeline run URL — fill after push.)_
+- **Segment 2c Dependabot fixes (pending push for GitHub to re-scan):**
+  - Root overrides: `svgo@4.0.2`, `fast-uri@3.1.5`, `postcss@8.5.25`, `sharp@0.35.3`
+  - Infra override: `js-yaml` **4.2.0 → 4.3.1**
+  - Verify: root lint/build/check green; infra build + 3 tests green
+- _(Pipeline run URL / Dependabot clearance — fill after push.)_
