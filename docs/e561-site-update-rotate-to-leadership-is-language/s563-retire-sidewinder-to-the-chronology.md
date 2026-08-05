@@ -21,8 +21,8 @@ replaced in Story 3 (single slot, promotion overwrites), so this story is just t
 `kind: 'Education'`, `connection: 'direct'`; local build/lint; manual content deploy to **dev**; commit + push to
 `main` for stage→prod pipeline smoke.
 
-**Out:** `currentBook.ts` / Current section (Story 3); Upcoming / *Leadership Is Language* promotion and cover (Story
-3); reading schedule (Story 4); dependency updates (Story 1); CDK / `4ls-org`; design-system changes.
+**Out:** `currentBook.ts` / Current section and schedule (Story 3 — [sc-564](./s564-promote-leadership-is-language-to-current.md));
+Upcoming / cover work; dependency updates (Story 1); CDK / `4ls-org`; design-system changes.
 
 ## Related epic
 

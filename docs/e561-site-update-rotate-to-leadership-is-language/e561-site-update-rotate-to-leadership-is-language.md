@@ -21,17 +21,14 @@ Bring PNPM packages current before touching content, so the rotation ships from 
 
 Move the current-book entry into the completed Chronology list, with author Dr. Ron Westrum and completion date.
 
-### 3. Promote *Leadership Is Language* to current
+### 3. Promote *Leadership Is Language* to current (+ reading schedule)
 
-Set *Leadership Is Language* by L. David Marquet as the current book, with cover and metadata.
-
-### 4. Add the *Leadership Is Language* reading schedule
-
-Publish the reading schedule (session dates and chapter assignments) in the current-book section.
+Set *Leadership Is Language* by L. David Marquet as the current book, with cover, metadata, and reading schedule
+(session dates and chapter assignments). Schedule was originally Story 4 / sc-565 and was absorbed into Story 3.
 
 ## Dependencies / Open questions
 
-- **Schedule source data** — needed before Story 4 (you have it)
+- **Schedule source data** — included in Story 3 / [sc-564](./s564-promote-leadership-is-language-to-current.md) (former Story 4 absorbed)
 - **Cover + metadata** for *Leadership Is Language* (image asset, publication details)
 - ***Sidewinder* completion date** to stamp on the Chronology entry
 - While editing the Chronology list, confirm whether any adjacent missing-author entries want cleaning up in the same
