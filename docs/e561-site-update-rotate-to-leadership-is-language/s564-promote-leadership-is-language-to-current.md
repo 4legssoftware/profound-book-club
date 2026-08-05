@@ -18,6 +18,7 @@ which vacates *Sidewinder* from it. Also publish the reading schedule in the cur
 - Session dates and chapter/section assignments match the source schedule
 - Formatting and layout match how the *Sidewinder* schedule was presented
 - Source schedule finalized and confirmed before entry
+- Meeting cadence shown on the Current schedule (time + place) and on Contact, matching profound-conversations
 - Deployed and verified per standard flow: dev from localhost → push to `main` → pipeline green to Production
 
 ## Book Schedule
@@ -115,6 +116,14 @@ E1 website foundation is **complete** — see
   full schedule incl. holiday break), no *Sidewinder* in current slot; Upcoming section/nav absent; Chronology “Current
   selection” matches Q4.
 
+### Segment 2 — Meeting cadence (schedule header + Contact)
+
+- [x] Add `meetingTime` / `meetingPlace` to `src/content/site.ts` (same copy as profound-conversations).
+- [x] Current schedule: `schedule-when` row under header (`Meeting Schedule` / season) — mono strip styling from
+      prototype.
+- [x] Contact: `contact-when` above CTA — “We meet weekly, … — **Fridays · …**” (Fraunces in place of Source Serif 4).
+- [x] **Verify:** `pnpm run lint` / `pnpm run build`; spot-check Current + Contact.
+
 ### Final — Deploy and close
 
 - [x] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
@@ -124,12 +133,13 @@ E1 website foundation is **complete** — see
 - [x] **Coverage:** Content-only — no new CDK/app tests required; rely on lint/build + visual/smoke.
 - [x] **Long files:** Extracted Current section styles to `src/styles/current-book.css` (scoped under `#current`);
   `CurrentBook.astro` is markup-only (~50 lines). Book rotations stay in `currentBook.ts`.
-- [x] Story AC satisfied (promotion + schedule). Former Story 4 / sc-565 absorbed; Shortcut sc-565 can be closed as
-  superseded.
+- [x] Story AC satisfied (promotion + schedule + meeting cadence). Former Story 4 / sc-565 absorbed; Shortcut sc-565 can
+  be closed as superseded.
 
 ## Notes
 
 - Cover = CSS book-card (Q1); no jacket asset.
 - Schedule absorbed from sc-565 (Q2); s565 markdown deleted.
+- Meeting time/place from profound-conversations (`site.meetingTime` / `meetingPlace`) on schedule + Contact.
 - Story 2 left Chronology without a “Current selection” row on purpose until this promotion.
 - Prefer adapting sc-554 Upcoming copy over rewriting Deming adjacency from scratch.

@@ -5,6 +5,8 @@ export const site = {
   tagline:
     'We learn from reading books together, make a difference through our rich conversations, and have fun throughout the process.',
   contactEmail: 'robert.park+profound@4legssoftware.com',
+  meetingTime: 'Fridays · 8:00–9:00 AM Eastern (US)',
+  meetingPlace: 'remotely via Zoom',
   heroEyebrow: 'A Study in Profound Knowledge',
   heroStats: [
     { num: '16', label: 'Volumes Read' },

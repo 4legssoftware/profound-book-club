@@ -1,5 +1,6 @@
 ---
 import { currentBook } from '../content/currentBook';
+import { site } from '../content/site';
 import '../styles/current-book.css';
 ---
 
@@ -36,6 +37,9 @@ import '../styles/current-book.css';
         <div class="schedule-header">
           <span>Meeting Schedule</span>
           <span>{currentBook.season}</span>
+        </div>
+        <div class="schedule-when">
+          {site.meetingTime} · {site.meetingPlace}
         </div>
         {
           currentBook.schedule.map((row) => (

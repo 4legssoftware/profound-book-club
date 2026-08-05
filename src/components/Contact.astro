@@ -8,6 +8,9 @@ const mailtoHref = `mailto:${encodeURIComponent(site.contactEmail)}?subject=${en
   <div class="contact-mark" aria-hidden="true">∞</div>
   <p class="contact-line">{site.contactLine}</p>
   <h2 class="contact-headline">Curious enough to <span class="italic">read with us?</span></h2>
+  <p class="contact-when">
+    We meet weekly, {site.meetingPlace} — <strong>{site.meetingTime}</strong>
+  </p>
   <a class="contact-cta" href={mailtoHref}>Get in Touch</a>
 </section>
 
@@ -48,6 +51,20 @@ const mailtoHref = `mailto:${encodeURIComponent(site.contactEmail)}?subject=${en
   .contact-headline .italic {
     font-style: italic;
     color: var(--accent);
+  }
+
+  .contact-when {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--ink-soft);
+    max-width: 32rem;
+    margin: -1.25rem auto 2.25rem;
+  }
+
+  .contact-when strong {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
   }
 
   .contact-cta {

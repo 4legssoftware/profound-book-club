@@ -176,6 +176,17 @@
   align-items: center;
 }
 
+#current .schedule-when {
+  padding: 0.6rem 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  background: rgba(184, 146, 58, 0.06);
+  border-bottom: 1px solid var(--rule);
+}
+
 #current .schedule-row {
   display: grid;
   grid-template-columns: 80px 110px 1fr;
