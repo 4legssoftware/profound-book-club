@@ -88,12 +88,12 @@ row while the Current section still shows *Sidewinder*. Acceptable for this epic
 - [x] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
       Chronology at `https://dev.profound-book-club.org` (entry + formatting; interim: no Chronology “Current
       selection”).
-- [ ] Commit content change (message includes `[sc-563]`); push to `main`; confirm pipeline green through Acceptance →
+- [x] Commit content change (message includes `[sc-563]`); push to `main`; confirm pipeline green through Acceptance →
       Production; spot-check Chronology on prod.
 - [x] **Coverage:** Content-only — no new CDK/app tests required; rely on lint/build + visual/smoke.
 - [x] **Long files:** No split expected (`chronology.ts` stays a data list; skip unless a prior edit already pushed it
       well past ~200 lines of non-data logic).
-- [ ] Story AC satisfied; ready for Story 3 ([sc-564](./s564-promote-leadership-is-language-to-current.md)).
+- [x] Story AC satisfied; ready for Story 3 ([sc-564](./s564-promote-leadership-is-language-to-current.md)).
 
 ## Notes
 
