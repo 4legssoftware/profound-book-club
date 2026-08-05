@@ -123,6 +123,14 @@ export const chronology: PastBook[] = [
     connection: 'adjacent',
     kind: 'Systems',
   },
+  {
+    date: '2026.08',
+    title: 'Leadership Is Language',
+    author: 'L. David Marquet',
+    connection: 'adjacent',
+    kind: 'Leadership',
+    current: true,
+  },
 ];
 
 export function formatChronMeta(book: PastBook): string {

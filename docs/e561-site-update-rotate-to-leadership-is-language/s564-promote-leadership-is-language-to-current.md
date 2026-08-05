@@ -87,15 +87,15 @@ review clear without a second ticket.
 ### Segment 1 — Promote current book + clear Upcoming (+ Chronology current row)
 
 - [x] Questions resolved (Q1–5).
-- [ ] No jacket image to source (Q1). Publication details = title, author, №, season, copy from Upcoming seed + schedule.
-- [ ] Update `src/content/currentBook.ts`: № **XVII**, title *Leadership Is Language*, author **L. David Marquet**,
+- [x] No jacket image to source (Q1). Publication details = title, author, №, season, copy from Upcoming seed + schedule.
+- [x] Update `src/content/currentBook.ts`: № **XVII**, title *Leadership Is Language*, author **L. David Marquet**,
   `season: 'summer 2026'`, `status: 'Currently reading'`, abstract + positioning from upcoming blurb (tuned); **schedule**
   from Story 4 source (see Related implementation), *Sidewinder*-style `ScheduleItem` rows including Sep 4 break.
-- [ ] Keep CSS book-card only (Q1) — sync title/author/№ fields; no `CurrentBook.astro` cover-image work.
-- [ ] Set `upcomingBook` to `null` in `src/content/upcomingBook.ts` (Q3).
-- [ ] Append Chronology row for *Leadership Is Language*: `date: '2026.08'`, author `L. David Marquet`,
+- [x] Keep CSS book-card only (Q1) — sync title/author/№ fields; no `CurrentBook.astro` cover-image work.
+- [x] Set `upcomingBook` to `null` in `src/content/upcomingBook.ts` (Q3).
+- [x] Append Chronology row for *Leadership Is Language*: `date: '2026.08'`, author `L. David Marquet`,
   `kind: 'Leadership'`, `connection: 'adjacent'`, `current: true`; leave *Sidewinder* completed (no `current`).
-- [ ] **Verify:** `pnpm run lint` and `pnpm run build`; spot-check Current (title/author/abstract/positioning/CSS cover,
+- [x] **Verify:** `pnpm run lint` and `pnpm run build`; spot-check Current (title/author/abstract/positioning/CSS cover,
   full schedule incl. holiday break), no *Sidewinder* in current slot; Upcoming section/nav absent; Chronology “Current
   selection” matches Q4.
 
