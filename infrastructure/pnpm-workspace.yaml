@@ -3,9 +3,10 @@ packages:
 
 allowBuilds:
   unrs-resolver: true
+  '@parcel/watcher': true
 
 minimumReleaseAgeExclude:
   - constructs@10.8.1
 
 overrides:
-  js-yaml: 4.3.1
+  js-yaml: 4.3.2
