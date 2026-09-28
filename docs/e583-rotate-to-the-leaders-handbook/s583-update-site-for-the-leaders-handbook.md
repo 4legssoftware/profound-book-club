@@ -134,9 +134,10 @@ review/deploy clear without slicing tickets.
 
 - [x] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
       `https://dev.profound-book-club.org`.
-  - Deployed 2026-09-28: S3 sync + CloudFront invalidation `I5IVCC3YCQAVTFTAU4137IX5KY` (Completed).
-    Smoke: Current = *The Leader's Handbook* / Scholtes / № XVIII; schedule incl. Nov 27 break;
-    Chronology LIL completed + Handbook “Current selection”; Upcoming nav absent.
+  - Deployed 2026-09-28: S3 sync + CloudFront invalidation `I7X0QCY16EO4065HR4II1PHJZ3`
+    (E2FAUPP5RRTK3D). Smoke: Current = *The Leader's Handbook* / Scholtes / № XVIII;
+    schedule incl. Nov 27 holiday break; Chronology LIL completed + Handbook “Current selection”;
+    Upcoming nav absent.
 - [ ] Commit content (`[sc-583]`); land on `main` (PR if protection blocks); pipeline green; spot-check prod.
   - Content committed on `cursor/sc-583-leaders-handbook-d70c`; PR [#6](https://github.com/4legssoftware/profound-book-club/pull/6)
     CI green — awaiting human review/merge (do not merge from agent).
