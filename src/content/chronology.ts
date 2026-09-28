@@ -129,10 +129,16 @@ export const chronology: PastBook[] = [
     author: 'L. David Marquet',
     connection: 'adjacent',
     kind: 'Leadership',
+  },
+  {
+    date: '2026.10',
+    title: "The Leader's Handbook",
+    author: 'Peter Scholtes',
+    connection: 'direct',
+    kind: 'Leadership',
     current: true,
   },
 ];
-
 export function formatChronMeta(book: PastBook): string {
   if (book.current) return 'Current selection';
   if (book.kind) {
