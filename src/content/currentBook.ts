@@ -6,22 +6,31 @@ export type ScheduleItem = {
 };
 
 export const currentBook = {
-  number: 'XVII',
-  title: 'Leadership Is Language',
-  author: 'L. David Marquet',
+  number: 'XVIII',
+  title: "The Leader's Handbook",
+  author: 'Peter Scholtes',
   status: 'Currently reading',
-  season: 'summer 2026',
+  season: 'fall 2026',
   abstract:
-    "Marquet's follow-up to Turn the Ship Around: This is a study of how the words leaders choose either shut down thinking or invite it. A natural companion to the questions about culture, variation, and the psychology of people that run through Profound Knowledge.",
+    "Peter Scholtes' The Leader's Handbook is a practical guide to leadership as the work of improving systems—not " +
+    'managing people in isolation. It walks leaders through systems thinking, variation, learning, and the habits that ' +
+    'either create pride in work or get in its way. Among its clearest applications: why performance appraisals and ' +
+    'rankings undermine cooperation, and what to do instead.',
   positioning:
-    "In Leadership Is Language, Marquet explicitly draws on Dr. W. Edwards Deming's critique of command-and-control management and his call for leaders to redesign systems rather than blame people. Dr. Deming argued that most performance problems arise from the system, and that effective leadership means creating conditions where people can think, learn, and improve together. Marquet extends that philosophy into everyday conversations: he shows how leaders' words can either reinforce fear and compliance or invite curiosity, shared ownership, and continuous improvement. These are the very capabilities Dr. Deming saw as essential to quality and transformation.",
+    'Scholtes was a friend and colleague of Dr. W. Edwards Deming and shared the seminar platform with him for years, ' +
+    "helping organizations learn the new philosophy of quality. The Leader's Handbook speaks directly to Deming's " +
+    'System of Profound Knowledge: understanding systems and variation, building knowledge through learning rather than ' +
+    'guesswork, and leading people with respect instead of fear, blame, and ranking. Where Deming named annual appraisal ' +
+    'among the diseases of management, Scholtes shows in plain language why those practices fail—and how leaders can ' +
+    'redesign the conditions of work so improvement becomes possible.',
   schedule: [
-    { week: 'Week 1', date: 'Aug 14', chapters: 'Chapters 1–2' },
-    { week: 'Week 2', date: 'Aug 21', chapters: 'Chapters 3–4' },
-    { week: 'Week 3', date: 'Aug 28', chapters: 'Chapters 5–6' },
-    { week: '—', date: 'Sep 4', chapters: 'No meeting · U.S. holiday weekend', break: true },
-    { week: 'Week 4', date: 'Sep 11', chapters: 'Chapters 7–8' },
-    { week: 'Week 5', date: 'Sep 18', chapters: 'Chapters 9–10' },
-    { week: 'Week 6', date: 'Sep 25', chapters: 'Chapter 11' },
+    { week: 'Week 1', date: 'Oct 16', chapters: 'Chapters 1–2' },
+    { week: 'Week 2', date: 'Oct 23', chapters: 'Chapter 3' },
+    { week: 'Week 3', date: 'Oct 30', chapters: 'Chapter 4' },
+    { week: 'Week 4', date: 'Nov 6', chapters: 'Chapters 5–6' },
+    { week: 'Week 5', date: 'Nov 13', chapters: 'Chapters 7–8' },
+    { week: 'Week 6', date: 'Nov 20', chapters: 'Chapter 9' },
+    { week: '—', date: 'Nov 27', chapters: 'No meeting · U.S. holiday weekend', break: true },
+    { week: 'Week 7', date: 'Dec 4', chapters: 'Chapter 10' },
   ] satisfies ScheduleItem[],
 };
