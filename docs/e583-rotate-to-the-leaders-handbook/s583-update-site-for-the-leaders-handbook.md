@@ -132,15 +132,17 @@ review/deploy clear without slicing tickets.
 
 ### Final — Deploy and close
 
-- [ ] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
+- [x] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
       `https://dev.profound-book-club.org`.
-  - **Blocked in this Cloud Agent:** `aws` CLI not installed / no SSO session. Pipeline will publish to stage/prod after
-    merge; optional localhost deploy-dev separately.
+  - Deployed 2026-09-28: S3 sync + CloudFront invalidation `I5IVCC3YCQAVTFTAU4137IX5KY` (Completed).
+    Smoke: Current = *The Leader's Handbook* / Scholtes / № XVIII; schedule incl. Nov 27 break;
+    Chronology LIL completed + Handbook “Current selection”; Upcoming nav absent.
 - [ ] Commit content (`[sc-583]`); land on `main` (PR if protection blocks); pipeline green; spot-check prod.
-  - Content committed on `cursor/sc-583-leaders-handbook-d70c`; draft PR opened (see GitHub).
-- [ ] **Coverage:** Content-only — lint/build + visual/smoke.
-- [ ] **Long files:** Spot-check; no forced split unless non-data logic exceeds ~200 lines.
-- [ ] Mark Shortcut tasks **584–586** complete when AC satisfied.
+  - Content committed on `cursor/sc-583-leaders-handbook-d70c`; PR [#6](https://github.com/4legssoftware/profound-book-club/pull/6)
+    CI green — awaiting human review/merge (do not merge from agent).
+- [x] **Coverage:** Content-only — lint/build + visual/smoke (dev).
+- [x] **Long files:** Spot-check; no forced split (content data files only).
+- [ ] Mark Shortcut tasks **584–586** complete when AC satisfied (after merge / prod smoke).
 
 ## Notes
 
