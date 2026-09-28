@@ -134,7 +134,10 @@ review/deploy clear without slicing tickets.
 
 - [ ] Manual **dev** content deploy (`source scripts/pro-dev.sh` → `./scripts/deploy-content-dev.sh`); confirm
       `https://dev.profound-book-club.org`.
+  - **Blocked in this Cloud Agent:** `aws` CLI not installed / no SSO session. Pipeline will publish to stage/prod after
+    merge; optional localhost deploy-dev separately.
 - [ ] Commit content (`[sc-583]`); land on `main` (PR if protection blocks); pipeline green; spot-check prod.
+  - Content committed on `cursor/sc-583-leaders-handbook-d70c`; draft PR opened (see GitHub).
 - [ ] **Coverage:** Content-only — lint/build + visual/smoke.
 - [ ] **Long files:** Spot-check; no forced split unless non-data logic exceeds ~200 lines.
 - [ ] Mark Shortcut tasks **584–586** complete when AC satisfied.
