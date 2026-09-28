@@ -13,16 +13,18 @@ export const currentBook = {
   season: 'fall 2026',
   abstract:
     "Peter Scholtes' The Leader's Handbook is a practical guide to leadership as the work of improving systems—not " +
-    'managing people in isolation. It walks leaders through systems thinking, variation, learning, and the habits that ' +
-    'either create pride in work or get in its way. Among its clearest applications: why performance appraisals and ' +
-    'rankings undermine cooperation, and what to do instead.',
+    'managing people in isolation. It helps leaders understand systems, variation, learning, and human behavior, and ' +
+    'examine the management practices that either create pride in work or get in its way. Among its clearest ' +
+    'applications is its critique of performance appraisals and forced rankings: why they undermine trust and ' +
+    'cooperation, and how leaders can replace them with better feedback, development, and improvement practices.',
   positioning:
-    'Scholtes was a friend and colleague of Dr. W. Edwards Deming and shared the seminar platform with him for years, ' +
-    "helping organizations learn the new philosophy of quality. The Leader's Handbook speaks directly to Deming's " +
-    'System of Profound Knowledge: understanding systems and variation, building knowledge through learning rather than ' +
-    'guesswork, and leading people with respect instead of fear, blame, and ranking. Where Deming named annual appraisal ' +
-    'among the diseases of management, Scholtes shows in plain language why those practices fail—and how leaders can ' +
-    'redesign the conditions of work so improvement becomes possible.',
+    'Scholtes was a close colleague of Dr. W. Edwards Deming and shared the seminar platform with him from 1987 to 1993, ' +
+    "helping organizations learn Deming's management philosophy. The Leader's Handbook makes Deming's System of " +
+    'Profound Knowledge concrete: understanding systems and variation; building knowledge through prediction, data, ' +
+    'and learning rather than guesswork; and applying psychology by leading with respect rather than fear, blame, or ' +
+    'ranking. Where Deming identified the annual performance appraisal as one of the diseases of management, Scholtes ' +
+    'explains in plain language why appraisal-based management fails—and how leaders can redesign the conditions of ' +
+    'work so that cooperation, learning, and improvement become possible.',
   schedule: [
     { week: 'Week 1', date: 'Oct 16', chapters: 'Chapters 1–2' },
     { week: 'Week 2', date: 'Oct 23', chapters: 'Chapter 3' },
