@@ -105,14 +105,14 @@ review/deploy clear without slicing tickets.
 
 ### Segment 0 — Story doc kickoff commit
 
-- [ ] Commit refined story markdown with `[sc-583]` + `[skip ci]` (moves Shortcut to In Progress).
+- [x] Commit refined story markdown with `[sc-583]` + `[skip ci]` (moves Shortcut to In Progress).
 
 ### Segment 1 — Content rotation (Chronology + Current + Upcoming + schedule)
 
-- [ ] `chronology.ts`: remove `current: true` from *Leadership Is Language* (keep `2026.08`, Leadership, adjacent).
-- [ ] `chronology.ts`: append *The Leader's Handbook* — `2026.10`, Peter Scholtes, `kind: 'Leadership'`,
+- [x] `chronology.ts`: remove `current: true` from *Leadership Is Language* (keep `2026.08`, Leadership, adjacent).
+- [x] `chronology.ts`: append *The Leader's Handbook* — `2026.10`, Peter Scholtes, `kind: 'Leadership'`,
       `connection: 'direct'`, `current: true`.
-- [ ] `currentBook.ts`: № **XVIII**, title *The Leader's Handbook*, author Peter Scholtes, `season: 'fall 2026'`,
+- [x] `currentBook.ts`: № **XVIII**, title *The Leader's Handbook*, author Peter Scholtes, `season: 'fall 2026'`,
       `status: 'Currently reading'`, approved abstract/positioning; schedule:
 
   | week | date | chapters |
@@ -126,8 +126,8 @@ review/deploy clear without slicing tickets.
   | — | Nov 27 | No meeting · U.S. holiday weekend (`break: true`) |
   | Week 7 | Dec 4 | Chapter 10 |
 
-- [ ] `upcomingBook.ts`: export `null`.
-- [ ] **Verify:** `pnpm run lint` + `pnpm run build`; spot-check Current (card + schedule + holiday), Chronology
+- [x] `upcomingBook.ts`: export `null`.
+- [x] **Verify:** `pnpm run lint` + `pnpm run build`; spot-check Current (card + schedule + holiday), Chronology
       (LIL completed; Handbook “Current selection”), Upcoming/nav absent.
 
 ### Final — Deploy and close
