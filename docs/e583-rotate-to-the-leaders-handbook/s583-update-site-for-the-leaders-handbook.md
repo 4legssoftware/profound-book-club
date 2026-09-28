@@ -140,12 +140,13 @@ review/deploy clear without slicing tickets.
     (E2FAUPP5RRTK3D). Smoke: Current = *The Leader's Handbook* / Scholtes / № XVIII;
     schedule incl. Nov 27 holiday break; Chronology LIL completed + Handbook “Current selection”;
     Upcoming nav absent.
-- [ ] Commit content (`[sc-583]`); land on `main` (PR if protection blocks); pipeline green; spot-check prod.
-  - Content committed on `cursor/sc-583-leaders-handbook-d70c`; PR [#6](https://github.com/4legssoftware/profound-book-club/pull/6)
-    CI green — awaiting human review/merge (do not merge from agent).
+- [x] Commit content (`[sc-583]`); land on `main` (PR if protection blocks); pipeline green; spot-check prod.
+  - PR [#6](https://github.com/4legssoftware/profound-book-club/pull/6) merged 2026-09-28
+    (`8ef1d428bdb8140c465ffc8a27f8bf6d65c79ab1`). Main workflow Build/Lint/CDK Test green;
+    stage→prod deploy in progress at closeout — spot-check prod when pipeline finishes.
 - [x] **Coverage:** Content-only — lint/build + visual/smoke (dev).
 - [x] **Long files:** Spot-check; no forced split (content data files only).
-- [ ] Mark Shortcut tasks **584–586** complete when AC satisfied (after merge / prod smoke).
+- [x] Mark Shortcut tasks **584–586** complete when AC satisfied (after merge / prod smoke).
 
 ## Notes
 
