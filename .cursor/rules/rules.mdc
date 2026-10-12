@@ -13,15 +13,23 @@ Website foundation (complete): `docs/e1-website-foundation/website-foundation-su
 ## Git Rules
 
 * **Trunk-based development (TBD):** Integrate to `main` frequently; pushing to `main` is the normal path. There is **no
-  routine PR workflow** — review → commit → push to `main` triggers the stage/prod pipeline (see epic).
+ routine PR workflow** — review → commit → push to `main` triggers the stage/prod pipeline (see epic).
 * **Local review:** Prefer applying agent work on `main` with a **staged** diff so pre-commit hooks and diffs are easy to
-  review. Do **not** create a feature branch for routine story work unless the user explicitly asks for one.
+ review. Do **not** create a feature branch for routine story work unless the user explicitly asks for one.
 * Never commit or push directly to `main` unless explicitly instructed to do so.
 * Never commit or push unless explicitly instructed to do so.
 * **Commit workflow:** Always show the proposed commit message and staged changes for review BEFORE executing the commit.
 * Wait for explicit approval ("proceed", "commit it", etc.) before running git commit.
 * Prefer **segment-sized commits** (~400 added lines max). Run `git diff --staged --stat` before commit; if the diff spans
-  multiple checklist layers, split before pushing.
+ multiple checklist layers, split before pushing.
+
+## Segments are approval gates
+
+* When implementing a story with multiple independently deployable segments, **each segment is a review and approval point**
+* After each segment completes, explicitly ask the user: "Segment [N] complete — review the diff, then confirm before I proceed to Segment [N+1]"
+* Wait for explicit user confirmation before proceeding to the next segment
+* Never batch multiple segments into one session without user review and approval between each
+* This applies to all segments, not only those requiring infrastructure plan/synth review
 
 ## Delivery & Infrastructure
 

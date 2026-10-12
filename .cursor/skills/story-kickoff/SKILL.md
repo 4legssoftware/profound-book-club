@@ -57,11 +57,15 @@ For **pre-implementation doc prep** (epic alignment, split recommendation, segme
 - Shortcut integration moves the ticket to **In Progress** automatically — do **not** ask the user to move the ticket to
   Started manually.
 
-### 6. Implement
+### 6. Implement segments incrementally with approval gates
 
-- Work through the checklist in order
-- When a segment calls for **plan/synth review**, **stop** after that step for review — do not continue into apply/deploy
-  in the same session unless the user explicitly asks to
+- Work through **one segment at a time** — segments are independently deployable **and** independently reviewable
+- **After each segment completes:**
+  1. Show the user the `git diff --staged` or `git diff HEAD~1..HEAD` for that segment
+  2. Ask explicitly: **"Segment [N] is complete. Review the changes, then confirm before I proceed to Segment [N+1]"**
+  3. **Wait for explicit user approval** ("proceed", "looks good", "continue", etc.) before starting the next segment
+- Infrastructure changes (CDK/Terraform): Stop for plan/synth review per step 2 above
+- All other segments: Same review gate — wait for user confirmation before proceeding
 - Follow all conventions in `rules.mdc`
 - Commit logical units of work — do not bundle unrelated changes
 - **Before each commit:** run `git diff --staged --stat`. If **> ~25 files** or **> ~400 insertions**, stop and split the
@@ -98,5 +102,7 @@ For **pre-implementation doc prep** (epic alignment, split recommendation, segme
 - Never skip the Q&A phase even if the story seems clear — at least confirm with the user
 - Never implement before the checklist is confirmed
 - **Story kickoff commit:** refined story markdown with **`[sc-###]`** + **`[skip ci]`** — not a manual Shortcut Started move
+- **Segment approval gates:** Every segment (not just infrastructure) requires user confirmation before proceeding. Never batch multiple segments without explicit approval between each
+- **Final verification commit:** If the last checklist item is verification (lint/build/smoke), do NOT mark it `[skip ci]` — CI must run on the actual code changes
 - Never close the story until verification and file-size checks pass
 - **dev** deploy is manual from localhost; **stage/prod** go through the pipeline once Story 4 is in place
