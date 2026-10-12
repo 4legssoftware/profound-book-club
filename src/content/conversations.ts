@@ -15,7 +15,8 @@ export const conversationsIntro =
 
 export const conversations: Conversation[] = [
   {
-    title: 'Quality Comes First — a review of Deming\'s Road to Continual Improvement by William W. Scherkenbach',
+    title:
+      "Quality Comes First — a review of Deming's Road to Continual Improvement by William W. Scherkenbach",
     author: 'Mike Harris',
     date: '2025.09.16',
     platform: 'Blog',
