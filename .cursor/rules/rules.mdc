@@ -23,12 +23,17 @@ Website foundation (complete): `docs/e1-website-foundation/website-foundation-su
 * Prefer **segment-sized commits** (~400 added lines max). Run `git diff --staged --stat` before commit; if the diff spans
  multiple checklist layers, split before pushing.
 
-## Segments are approval gates
+## Segments are approval gates and independently shippable units
 
 * When implementing a story with multiple independently deployable segments, **each segment is a review and approval point**
 * After each segment completes, explicitly ask the user: "Segment [N] complete — review the diff, then confirm before I proceed to Segment [N+1]"
 * Wait for explicit user confirmation before proceeding to the next segment
-* Never batch multiple segments into one session without user review and approval between each
+* **Each segment must be independently shippable to `main` without breaking the build:**
+  * Segment must pass lint and build locally before pushing
+  * Never use `[skip ci]` on production code commits (only docs-only changes)
+  * Push each segment to `main` independently and wait for CI to pass before implementing the next segment
+  * This ensures `main` is always in a working state and can be deployed at any segment boundary
+* Never batch multiple segments into one session without user review, approval, and CI verification between each
 * This applies to all segments, not only those requiring infrastructure plan/synth review
 
 ## Delivery & Infrastructure

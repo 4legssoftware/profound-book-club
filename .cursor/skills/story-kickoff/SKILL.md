@@ -59,18 +59,22 @@ For **pre-implementation doc prep** (epic alignment, split recommendation, segme
 
 ### 6. Implement segments incrementally with approval gates
 
-- Work through **one segment at a time** — segments are independently deployable **and** independently reviewable
+- Work through **one segment at a time** — segments are independently deployable, independently reviewable, **and independently shippable**
 - **After each segment completes:**
-  1. Show the user the `git diff --staged` or `git diff HEAD~1..HEAD` for that segment
-  2. Ask explicitly: **"Segment [N] is complete. Review the changes, then confirm before I proceed to Segment [N+1]"**
-  3. **Wait for explicit user approval** ("proceed", "looks good", "continue", etc.) before starting the next segment
-- Infrastructure changes (CDK/Terraform): Stop for plan/synth review per step 2 above
-- All other segments: Same review gate — wait for user confirmation before proceeding
+  1. Run lint and build locally to verify the segment doesn't break the build
+  2. Show the user the `git diff --staged` or `git diff HEAD~1..HEAD` for that segment
+  3. Ask explicitly: **"Segment [N] is complete and builds cleanly. Review the changes, then confirm before I proceed to Segment [N+1]"**
+  4. **Wait for explicit user approval** ("proceed", "looks good", "continue", etc.) before proceeding
+  5. **Push the segment to `main` immediately** and let CI verify it passes
+  6. **Do not start the next segment** until CI confirms green on the current segment
+- Infrastructure changes (CDK/Terraform): Stop for plan/synth review per step 2 above, then push and wait for CI
+- All other segments: Same review gate, push, and CI wait — maintain a working `main` at all segment boundaries
 - Follow all conventions in `rules.mdc`
 - Commit logical units of work — do not bundle unrelated changes
 - **Before each commit:** run `git diff --staged --stat`. If **> ~25 files** or **> ~400 insertions**, stop and split the
   increment (see **prepare-story** → Commit size & segment granularity). Each commit should map to one checklist sub-segment
   or one sentence of scope.
+- **Never use `[skip ci]` on production code changes** — only on docs-only commits
 
 ### 7. Evaluate verification & coverage
 
@@ -103,6 +107,7 @@ For **pre-implementation doc prep** (epic alignment, split recommendation, segme
 - Never implement before the checklist is confirmed
 - **Story kickoff commit:** refined story markdown with **`[sc-###]`** + **`[skip ci]`** — not a manual Shortcut Started move
 - **Segment approval gates:** Every segment (not just infrastructure) requires user confirmation before proceeding. Never batch multiple segments without explicit approval between each
-- **Final verification commit:** If the last checklist item is verification (lint/build/smoke), do NOT mark it `[skip ci]` — CI must run on the actual code changes
+- **Independently shippable segments:** Each segment must build cleanly locally, be reviewed, pushed to `main`, and verified by CI **before the next segment starts**. This keeps `main` working at all segment boundaries
+- **Never use `[skip ci]` on production code changes** — only on docs-only commits (story doc updates, rules, etc.)
 - Never close the story until verification and file-size checks pass
 - **dev** deploy is manual from localhost; **stage/prod** go through the pipeline once Story 4 is in place
