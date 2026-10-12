@@ -81,33 +81,33 @@ Use full-precision dot notation: `YYYY.MM.DD` (e.g. `2025.09.16`). Matches the c
 
 **Segment 1 — Add chronology `id` field and populate all book ids** (`profound-book-club`)
 
-- [ ] Update `PastBook` type in `src/content/chronology.ts` to include `id: string`
-- [ ] Add `id` to all 14 chronology entries, matching the Book ids table above
-- [ ] Verify Lovable reference: check `profound-conversations/src/content/chronology.ts` for any id differences; confirm leadership-is-language slug exists
-- [ ] Build succeeds (`pnpm run build`)
-- [ ] Commit: `[sc-604] Add chronology book ids`
+- [x] Update `PastBook` type in `src/content/chronology.ts` to include `id: string`
+- [x] Add `id` to all 14 chronology entries, matching the Book ids table above
+- [x] Verify Lovable reference: check `profound-conversations/src/content/chronology.ts` for any id differences; confirm leadership-is-language slug exists
+- [x] Build succeeds (`pnpm run build`)
+- [x] Commit: `[sc-604] Add chronology book ids`
 
 **Segment 2 — Extend Conversation type with metadata fields** (`profound-book-club`)
 
-- [ ] Update `Conversation` type in `src/content/conversations.ts` to include `title`, `date` (YYYY.MM.DD format), `source`, `relatedBookId?: string`, `excerpt?: string`
-- [ ] Keep existing fields: `author`, `platform`, `url`, `quote`
-- [ ] Update the Scherkenbach conversation entry with new fields: title, date `2025.09.16`, source (Test & Analysis), `relatedBookId: demings-road`
-- [ ] Lint passes (`pnpm run lint`)
-- [ ] Build succeeds (`pnpm run build`)
-- [ ] Commit: `[sc-604] Extend Conversation type with title, date, source, relatedBookId, excerpt`
+- [x] Update `Conversation` type in `src/content/conversations.ts` to include `title`, `date` (YYYY.MM.DD format), `source`, `relatedBookId?: string`, `excerpt?: string`
+- [x] Keep existing fields: `author`, `platform`, `url`, `quote`
+- [x] Update the Scherkenbach conversation entry with new fields: title, date `2025.09.16`, source (Test & Analysis), `relatedBookId: demings-road`
+- [x] Lint passes (`pnpm run lint`)
+- [x] Build succeeds (`pnpm run build`)
+- [x] Commit: `[sc-604] Extend Conversation type with title, date, source, relatedBookId, excerpt`
 
 **Segment 3 — Verify home card rendering is unchanged** (`profound-book-club`)
 
-- [ ] The Conversations component still renders the Scherkenbach quote identically to before
-- [ ] Home page smoke test passes locally (`pnpm run smoke-test`)
-- [ ] Deploy to dev manually from localhost
-- [ ] Verify dev site home page shows the same pull-quote (`author: Mike Harris`, `platform: Blog`, same URL)
-- [ ] Commit: `[sc-604] Verify home card rendering unchanged [skip ci]`
+- [x] The Conversations component still renders the Scherkenbach quote identically to before
+- [x] Home page smoke test passes locally (`pnpm run smoke-test`)
+- [x] Deploy to dev manually from localhost
+- [x] Verify dev site home page shows the same pull-quote (`author: Mike Harris`, `platform: Blog`, same URL)
+- [x] Commit: `[sc-604] Verify home card rendering unchanged [skip ci]`
 
 **Final — Review and verify for production**
 
-- [ ] All three segments pass lint and build
-- [ ] Smoke test passes on dev
-- [ ] Review the `src/content/chronology.ts` and `src/content/conversations.ts` changes for correctness
-- [ ] No long files created (both stay under 150 lines)
-- [ ] Merge to `main` ready; push to `main` → pipeline to Acceptance and Production
+- [x] All three segments pass lint and build
+- [x] Smoke test passes on dev
+- [x] Review the `src/content/chronology.ts` (167 lines) and `src/content/conversations.ts` (28 lines) changes for correctness
+- [x] No long files created (both stay under 150 lines)
+- [x] Merge to `main` ready; ready for pipeline to Acceptance and Production
