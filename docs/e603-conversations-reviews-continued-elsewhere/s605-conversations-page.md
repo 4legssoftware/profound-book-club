@@ -1,4 +1,4 @@
-# Story 2: Add a Conversations page for the full review list [sc-605]
+# [sc-605] Story 2: Add a Conversations page for the full review list
 
 **Epic:** Conversations — reviews continued elsewhere
 

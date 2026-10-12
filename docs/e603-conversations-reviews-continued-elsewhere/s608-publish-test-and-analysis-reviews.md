@@ -1,4 +1,4 @@
-# Story 5: Publish the Test & Analysis reviews, including Sidewinder and Leadership Is Language [sc-608]
+# [sc-608] Story 5: Publish the Test & Analysis reviews, including Sidewinder and Leadership Is Language
 
 **Epic:** Conversations — reviews continued elsewhere
 

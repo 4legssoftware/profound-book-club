@@ -1,4 +1,4 @@
-# Story 3: Turn the home Conversations section into a short teaser and point the nav at the page [sc-606]
+# [sc-606] Story 3: Turn the home Conversations section into a short teaser and point the nav at the page
 
 **Epic:** Conversations — reviews continued elsewhere
 

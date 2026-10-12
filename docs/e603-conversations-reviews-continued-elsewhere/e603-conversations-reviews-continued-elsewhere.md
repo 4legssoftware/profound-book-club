@@ -27,14 +27,14 @@ push to `main` → Commit → Acceptance → Production. Dev is refreshed manual
 
 ### 1. Give chronology books stable ids and expand the conversation record [sc-604]
 
-[s1-stable-book-ids-and-conversation-record.md](./s1-stable-book-ids-and-conversation-record.md)
+[s604-stable-book-ids-and-conversation-record.md](./s604-stable-book-ids-and-conversation-record.md)
 
 Add a stable id on each chronology book. Extend the conversation type with title, date, source, related book, and an
 optional excerpt. Keep the existing Scherkenbach review rendering on the home page.
 
 ### 2. Add a Conversations page for the full review list [sc-605]
 
-[s2-conversations-page.md](./s2-conversations-page.md)
+[s605-conversations-page.md](./s605-conversations-page.md)
 
 New `/conversations` route: intro, reviews newest first, page title and description, and a link back to the home page.
 Extend smoke coverage for the new path. Leave the home section id `conversations` in place so the current smoke checks
@@ -42,20 +42,20 @@ still pass.
 
 ### 3. Turn the home Conversations section into a short teaser and point the nav at the page [sc-606]
 
-[s3-home-teaser-and-nav.md](./s3-home-teaser-and-nav.md)
+[s606-home-teaser-and-nav.md](./s606-home-teaser-and-nav.md)
 
 Home section shows the latest three reviews and a view-all link. The Conversations nav item goes to `/conversations`.
 
 ### 4. Link chronology entries to Conversations, and each review back to its book [sc-607]
 
-[s4-link-chronology-and-conversations.md](./s4-link-chronology-and-conversations.md)
+[s607-link-chronology-and-conversations.md](./s607-link-chronology-and-conversations.md)
 
 Chronology rows with related reviews show `See conversation` or `See N conversations`, linking to the Conversations
 page. Each review card's `Re:` line links to that book's home-page anchor.
 
 ### 5. Publish the Test & Analysis reviews, including Sidewinder and Leadership Is Language [sc-608]
 
-[s5-publish-test-and-analysis-reviews.md](./s5-publish-test-and-analysis-reviews.md)
+[s608-publish-test-and-analysis-reviews.md](./s608-publish-test-and-analysis-reviews.md)
 
 Seed the archive from the Lovable list, plus Sidewinder (15 Sep 2026), Leadership Is Language (6 Oct 2026), and The
 Phoenix Project (2 Jun 2026). Every Test & Analysis post is attributed to Mike Harris. The Scherkenbach review already
@@ -63,7 +63,7 @@ on the site is the first of the Lovable seven.
 
 ### 6. Collect external links and devise a check that they stay active (chore) [sc-609]
 
-[s6-external-link-check.md](./s6-external-link-check.md)
+[s609-external-link-check.md](./s609-external-link-check.md)
 
 After the review archive is in place, list every external link the site offers visitors and recommend an automated
 check that each one is still active and still the intended page. Implement the check in this story only if it stays a
@@ -73,10 +73,10 @@ small script.
 
 Tracked on the stories. Resolve before the story that needs them:
 
-- **Scherkenbach pull-quote** — [Story 2](./s2-conversations-page.md). Keep it as an excerpt, or leave it off so the
+- **Scherkenbach pull-quote** — [Story 2](./s605-conversations-page.md). Keep it as an excerpt, or leave it off so the
   card matches the prototype (title, related book, meta).
 
-Resolved on [Story 5](./s5-publish-test-and-analysis-reviews.md): author is Mike Harris (source Test & Analysis);
+Resolved on [Story 5](./s608-publish-test-and-analysis-reviews.md): author is Mike Harris (source Test & Analysis);
 “Think Slowly…” stays on *Wiring the Winning Organization*; the *Understanding Variation* review stays on *Twenty
 Things You Need to Know*; the Phoenix Project review is included. Manually check every title and link before that
 story is done.

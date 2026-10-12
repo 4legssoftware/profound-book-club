@@ -1,4 +1,4 @@
-# Story 1: Give chronology books stable ids and expand the conversation record [sc-604]
+# [sc-604] Story 1: Give chronology books stable ids and expand the conversation record
 
 **Epic:** Conversations — reviews continued elsewhere
 
@@ -61,8 +61,46 @@ Epic delivery: trunk-based commits to `main` (Commit → Acceptance → Producti
 
 | Piece | Path / note |
 | ----- | ----------- |
-| Chronology type + rows | `src/content/chronology.ts` — `PastBook` has no `id` today |
-| Reference slugs | `profound-conversations/src/content/chronology.ts` |
-| Conversation type | `src/content/conversations.ts` — today: `author`, `platform`, `url`, `quote` |
-| Home card | `src/components/Conversations.astro` — keep the pull-quote rendering |
-| Reference record | `profound-conversations/src/content/conversations.ts` |
+| Chronology type + rows | `src/content/chronology.ts` — `PastBook` has no `id` today; 14 entries total |
+| Conversation type | `src/content/conversations.ts` — today: `author`, `platform`, `url`, `quote`; one entry (Scherkenbach) |
+| Home card | `src/components/Conversations.astro` — renders `conversation.quote`, `author`, `platform`, `url` |
+| Reference (Lovable) | `profound-conversations/src/content/chronology.ts` — slugs to match where they exist |
+
+## Questions
+
+None at this stage — acceptance criteria are clear and scope is tight. Resolve as implementation surfaces them.
+
+## Implementation Checklist
+
+**Segment 1 — Add chronology `id` field and populate all book ids** (`profound-book-club`)
+
+- [ ] Update `PastBook` type in `src/content/chronology.ts` to include `id: string`
+- [ ] Add `id` to all 14 chronology entries, matching the Book ids table above
+- [ ] Verify Lovable reference: check `profound-conversations/src/content/chronology.ts` for any id differences; confirm leadership-is-language slug exists
+- [ ] Build succeeds (`pnpm run build`)
+- [ ] Commit: `[sc-604] Add chronology book ids`
+
+**Segment 2 — Extend Conversation type with metadata fields** (`profound-book-club`)
+
+- [ ] Update `Conversation` type in `src/content/conversations.ts` to include `title`, `date` (ISO 8601), `source`, `relatedBookId` (optional), `excerpt` (optional)
+- [ ] Keep existing fields: `author`, `platform`, `url`, `quote`
+- [ ] Update the Scherkenbach conversation entry with new fields: title, date `2025-09-16`, source (Test & Analysis), `relatedBookId: demings-road`
+- [ ] Lint passes (`pnpm run lint`)
+- [ ] Build succeeds (`pnpm run build`)
+- [ ] Commit: `[sc-604] Extend Conversation type with title, date, source, relatedBookId, excerpt`
+
+**Segment 3 — Verify home card rendering is unchanged** (`profound-book-club`)
+
+- [ ] The Conversations component still renders the Scherkenbach quote identically to before
+- [ ] Home page smoke test passes locally (`pnpm run smoke-test`)
+- [ ] Deploy to dev manually from localhost
+- [ ] Verify dev site home page shows the same pull-quote (`author: Mike Harris`, `platform: Blog`, same URL)
+- [ ] Commit: `[sc-604] Verify home card rendering unchanged [skip ci]`
+
+**Final — Review and verify for production**
+
+- [ ] All three segments pass lint and build
+- [ ] Smoke test passes on dev
+- [ ] Review the `src/content/chronology.ts` and `src/content/conversations.ts` changes for correctness
+- [ ] No long files created (both stay under 150 lines)
+- [ ] Merge to `main` ready; push to `main` → pipeline to Acceptance and Production

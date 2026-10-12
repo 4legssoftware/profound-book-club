@@ -1,4 +1,4 @@
-# Story 4: Link chronology entries to Conversations, and each review back to its book [sc-607]
+# [sc-607] Story 4: Link chronology entries to Conversations, and each review back to its book
 
 **Epic:** Conversations — reviews continued elsewhere
 

@@ -1,4 +1,4 @@
-# Story 6 (chore): Collect external links and devise a check that they stay active [sc-609]
+# [sc-609] Story 6 (chore): Collect external links and devise a check that they stay active
 
 **Epic:** Conversations — reviews continued elsewhere
 
