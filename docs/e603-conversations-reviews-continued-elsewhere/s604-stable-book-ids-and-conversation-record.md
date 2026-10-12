@@ -68,7 +68,14 @@ Epic delivery: trunk-based commits to `main` (Commit → Acceptance → Producti
 
 ## Questions
 
-None at this stage — acceptance criteria are clear and scope is tight. Resolve as implementation surfaces them.
+**Q1: Lovable chronology reference** ✅  
+Trust the Book ids table in the story — assume all 14 ids match `profound-conversations/src/content/chronology.ts`.
+
+**Q2: Optional vs required fields** ✅  
+Use optional types: `relatedBookId?: string` and `excerpt?: string`. Cleaner for Story 5 (only add when present).
+
+**Q3: Date format** ✅  
+Use full-precision dot notation: `YYYY.MM.DD` (e.g. `2025.09.16`). Matches the chronology precision while keeping dot separators consistent with the project style.
 
 ## Implementation Checklist
 
@@ -82,9 +89,9 @@ None at this stage — acceptance criteria are clear and scope is tight. Resolve
 
 **Segment 2 — Extend Conversation type with metadata fields** (`profound-book-club`)
 
-- [ ] Update `Conversation` type in `src/content/conversations.ts` to include `title`, `date` (ISO 8601), `source`, `relatedBookId` (optional), `excerpt` (optional)
+- [ ] Update `Conversation` type in `src/content/conversations.ts` to include `title`, `date` (YYYY.MM.DD format), `source`, `relatedBookId?: string`, `excerpt?: string`
 - [ ] Keep existing fields: `author`, `platform`, `url`, `quote`
-- [ ] Update the Scherkenbach conversation entry with new fields: title, date `2025-09-16`, source (Test & Analysis), `relatedBookId: demings-road`
+- [ ] Update the Scherkenbach conversation entry with new fields: title, date `2025.09.16`, source (Test & Analysis), `relatedBookId: demings-road`
 - [ ] Lint passes (`pnpm run lint`)
 - [ ] Build succeeds (`pnpm run build`)
 - [ ] Commit: `[sc-604] Extend Conversation type with title, date, source, relatedBookId, excerpt`
