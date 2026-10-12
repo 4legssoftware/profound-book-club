@@ -5,22 +5,32 @@ import { upcomingBook } from '../content/upcomingBook';
 
 <nav>
   <a href="#top" class="nav-mark">
-    <span class="nav-mark-icon" aria-hidden="true">∞</span>
+    <span class="nav-mark-icon" aria-hidden="true">
+      ∞
+    </span>
     {site.name}
   </a>
   <ul class="nav-links">
-    <li><a href="#current">Current</a></li>
-    {
-      upcomingBook && (
-        <li>
-          <a href="#upcoming">Upcoming</a>
-        </li>
-      )
-    }
-    <li><a href="#chronology">Chronology</a></li>
-    <li><a href="#conversations">Conversations</a></li>
-    <li><a href="#psa">Of Interest</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li>
+      <a href="#current">Current</a>
+    </li>
+    {upcomingBook && (
+      <li>
+        <a href="#upcoming">Upcoming</a>
+      </li>
+    )}
+    <li>
+      <a href="#chronology">Chronology</a>
+    </li>
+    <li>
+      <a href="#conversations">Conversations</a>
+    </li>
+    <li>
+      <a href="#psa">Of Interest</a>
+    </li>
+    <li>
+      <a href="#contact">Contact</a>
+    </li>
   </ul>
 </nav>
 

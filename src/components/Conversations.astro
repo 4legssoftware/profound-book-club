@@ -5,25 +5,25 @@ import { conversations, conversationsIntro } from '../content/conversations';
 <section id="conversations">
   <div class="section-header">
     <span class="section-number">§ II. — IN THE OPEN</span>
-    <h2 class="section-title">Conversations <span class="italic">— continued elsewhere</span></h2>
+    <h2 class="section-title">
+      Conversations <span class="italic">— continued elsewhere</span>
+    </h2>
   </div>
   <p class="chronology-intro intro">{conversationsIntro}</p>
   <div class="conversations-grid">
-    {
-      conversations.map((conversation) => (
-        <article class="conv-card">
-          <p class="conv-card-quote">&ldquo;{conversation.quote}&rdquo;</p>
-          <div class="conv-card-meta">
-            <span>
-              {conversation.author} · {conversation.platform}
-            </span>
-            <a href={conversation.url} target="_blank" rel="noreferrer">
-              Read →
-            </a>
-          </div>
-        </article>
-      ))
-    }
+    {conversations.map((conversation) => (
+      <article class="conv-card">
+        <p class="conv-card-quote">&ldquo;{conversation.quote}&rdquo;</p>
+        <div class="conv-card-meta">
+          <span>
+            {conversation.author} · {conversation.platform}
+          </span>
+          <a href={conversation.url} target="_blank" rel="noreferrer">
+            Read →
+          </a>
+        </div>
+      </article>
+    ))}
   </div>
 </section>
 

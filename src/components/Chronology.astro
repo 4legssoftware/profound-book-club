@@ -5,22 +5,22 @@ import { chronology, chronologyIntro, formatChronMeta } from '../content/chronol
 <section id="chronology">
   <div class="section-header">
     <span class="section-number">§ I. — A CHRONOLOGY</span>
-    <h2 class="section-title">Books We&rsquo;ve Read <span class="italic">— in sequence</span></h2>
+    <h2 class="section-title">
+      Books We&rsquo;ve Read <span class="italic">— in sequence</span>
+    </h2>
   </div>
   <p class="chronology-intro">{chronologyIntro}</p>
   <ol class="chronology-list">
-    {
-      chronology.map((book) => (
-        <li class="chronology-item">
-          <span class="chron-num">{book.date}</span>
-          <h3 class="chron-title">
-            {book.title}
-            {book.author && <span class="by"> — {book.author}</span>}
-          </h3>
-          <span class="chron-meta">{formatChronMeta(book)}</span>
-        </li>
-      ))
-    }
+    {chronology.map((book) => (
+      <li class="chronology-item">
+        <span class="chron-num">{book.date}</span>
+        <h3 class="chron-title">
+          {book.title}
+          {book.author && <span class="by"> — {book.author}</span>}
+        </h3>
+        <span class="chron-meta">{formatChronMeta(book)}</span>
+      </li>
+    ))}
   </ol>
 </section>
 

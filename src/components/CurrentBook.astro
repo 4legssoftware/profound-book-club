@@ -7,7 +7,9 @@ import '../styles/current-book.css';
 <section id="current">
   <div class="section-header">
     <span class="section-number">§ NOW — IN PROGRESS</span>
-    <h2 class="section-title">Now Reading <span class="italic">— together</span></h2>
+    <h2 class="section-title">
+      Now Reading <span class="italic">— together</span>
+    </h2>
   </div>
   <div class="current-grid">
     <div class="book-cover-area">
@@ -41,15 +43,13 @@ import '../styles/current-book.css';
         <div class="schedule-when">
           {site.meetingTime} · {site.meetingPlace}
         </div>
-        {
-          currentBook.schedule.map((row) => (
-            <div class:list={['schedule-row', row.break && 'schedule-row--break']}>
-              <span class="schedule-week">{row.week}</span>
-              <span class="schedule-date">{row.date}</span>
-              <span class="schedule-content">{row.chapters}</span>
-            </div>
-          ))
-        }
+        {currentBook.schedule.map((row) => (
+          <div class:list={['schedule-row', row.break && 'schedule-row--break']}>
+            <span class="schedule-week">{row.week}</span>
+            <span class="schedule-date">{row.date}</span>
+            <span class="schedule-content">{row.chapters}</span>
+          </div>
+        ))}
       </div>
     </div>
   </div>

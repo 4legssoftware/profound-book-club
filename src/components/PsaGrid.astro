@@ -5,22 +5,22 @@ import { psas, psaIntro, formatPsaLabel } from '../content/psas';
 <section id="psa">
   <div class="section-header">
     <span class="section-number">§ III. — OF INTEREST</span>
-    <h2 class="section-title">Worth Your Attention <span class="italic">— elsewhere</span></h2>
+    <h2 class="section-title">
+      Worth Your Attention <span class="italic">— elsewhere</span>
+    </h2>
   </div>
   <p class="psa-intro">{psaIntro}</p>
   <div class="psa-grid">
-    {
-      psas.map((psa) => (
-        <article class="psa-card">
-          <div class="psa-card-label">{formatPsaLabel(psa)}</div>
-          <h3 class="psa-card-title">{psa.title}</h3>
-          <p class="psa-card-desc">{psa.blurb}</p>
-          <a class="psa-card-link" href={psa.url} target="_blank" rel="noreferrer">
-            Visit
-          </a>
-        </article>
-      ))
-    }
+    {psas.map((psa) => (
+      <article class="psa-card">
+        <div class="psa-card-label">{formatPsaLabel(psa)}</div>
+        <h3 class="psa-card-title">{psa.title}</h3>
+        <p class="psa-card-desc">{psa.blurb}</p>
+        <a class="psa-card-link" href={psa.url} target="_blank" rel="noreferrer">
+          Visit
+        </a>
+      </article>
+    ))}
   </div>
 </section>
 
