@@ -32,17 +32,84 @@ archive, only *Deming's Road to Continual Improvement* shows a pill.
 **Out:** Seeding reviews (Story 5); filtering `/conversations` to a single book; current-book or upcoming-book edits;
 CDK / `4ls-org`.
 
+## Split recommendation
+
+One story is enough. The epic already separated this cross-link from the page (Story 2), the home teaser (Story 3),
+and the review archive (Story 5). Both directions live in `profound-book-club` and stay well under 400 lines. Two
+checklist segments keep each direction deployable on its own: the chronology can point at Conversations before the
+cards point back.
+
 ## Related epic
 
 [`e603-conversations-reviews-continued-elsewhere.md`](./e603-conversations-reviews-continued-elsewhere.md) — Story 4,
-after [Story 1](./s1-stable-book-ids-and-conversation-record.md),
-[Story 2](./s2-conversations-page.md), and [Story 3](./s3-home-teaser-and-nav.md).
+after [Story 1](./s604-stable-book-ids-and-conversation-record.md),
+[Story 2](./s605-conversations-page.md), and [Story 3](./s606-home-teaser-and-nav.md). Stories 1–3 are on `main`:
+chronology ids exist, `/conversations` and the home teaser share `ConversationList`, and the nav Conversations item
+goes to `/conversations`. Epic delivery: trunk-based commits to `main` (Commit → Acceptance → Production); **dev** is
+manual from localhost.
 
 ## Related implementation
 
 | Piece | Path / note |
 | ----- | ----------- |
-| Chronology pill | `profound-conversations/src/routes/index.tsx` → `ChronologySection()` |
-| Card **Re:** link | `profound-conversations/src/components/ConversationList.tsx` |
-| Pill styles | `profound-conversations/src/styles/pbc.css` (`.chron-conversations`, `.conv-card-related`) |
-| Chronology UI | `src/components/Chronology.astro` — rows have no anchor id today |
+| Reference pill | `profound-conversations/src/routes/index.tsx` → `ChronologySection()` — `id={`book-${b.id}`}` on each `<li>`, title and pill wrapped in `.chron-body`, pill only when `related.length > 0`, `to="/conversations"` |
+| Reference **Re:** | `profound-conversations/src/components/ConversationList.tsx` — lookup `chronology` by `relatedBookId`; link `/#book-{id}` after the excerpt and before the meta row. Omit the row when the id is missing or does not match a chronology entry |
+| Reference styles | `profound-conversations/src/styles/pbc.css` — `.chron-body`, `.chron-conversations`, `.chron-conversations-label`, `.conv-card-related`, `.conv-card-related-label`, `.conv-card-related-title`. Scope them in the Astro component that owns the markup |
+| Chronology UI | `src/components/Chronology.astro` — 18 rows, no anchor id. Grid is `80px 1fr auto` (date, title, meta). Nest the title and pill in `.chron-body` so the pill stays under the title and the meta column stays put. At `max-width: 720px` the meta already wraps to column 2; the pill stays inside `.chron-body` |
+| Shared card | `src/components/ConversationList.astro` — title, excerpt, meta. No **Re:** line. Home teaser passes `limit={3}`; `/conversations` passes no limit. One change covers both |
+| Record | `src/content/conversations.ts` — one review, `relatedBookId: 'demings-road'`. Do not add reviews |
+| Current row | `current: true` is on `leaders-handbook` (*The Leader's Handbook*), not *Leadership Is Language*. Pill logic does not read `current`. Until Story 5, only `demings-road` shows **See conversation**. `leaders-handbook` and `leadership-is-language` show no pill |
+| Dev deploy | `.cursor/commands/deploy-dev-book-club.md` → `./scripts/deploy-content-dev.sh` (content only) |
+
+## Questions
+
+**Q1: Clearance under the fixed nav.**  
+The book anchor will sit on the chronology `<li>`. The nav is `position: fixed`, and the Lovable reference does not
+set `scroll-margin` on that row, so `/#book-demings-road` can leave the title under the nav. Section anchors such as
+`#chronology` clear it because each section has `6rem` of padding; a row in the middle does not.
+
+- **A.** Match the reference: no `scroll-margin`. The row may sit under the nav.
+- **B.** Set `scroll-margin-top` on `.chronology-item` so the title clears the nav.
+
+## Implementation Checklist
+
+**Segment 1 — Chronology anchors and pills** (`profound-book-club`)
+
+- [ ] In `Chronology.astro`, give every row `id={`book-${book.id}`}`. Count related reviews with
+      `conversations.filter((c) => c.relatedBookId === book.id)`
+- [ ] Wrap the title and the pill in `.chron-body` (column, `gap: 0.5rem`). Keep date and `formatChronMeta` as the
+      other two grid cells. Do not change `current`, chronology membership, or meta copy
+- [ ] When the count is 1, the pill reads **See conversation**. When it is greater than 1, it reads
+      **See N conversations**. The link goes to `/conversations`. When the count is 0, render no pill
+- [ ] Add the Lovable `.chron-conversations` and `.chron-conversations-label` styles in this component
+- [ ] `pnpm run lint` and `pnpm run build`
+- [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
+      browser before the push
+- [ ] Commit and push to `main`: `[sc-607] Link chronology rows to Conversations`
+- [ ] That push’s pipeline is green before Segment 2
+
+**Segment 2 — Re: line on the shared card** (`profound-book-club`)
+
+- [ ] In `ConversationList.astro`, resolve `relatedBookId` against `chronology`. When it matches, after the excerpt
+      and before the meta row, add a link to `/#book-{id}` with **Re:**, the book title, and ` — {author}` when the
+      chronology entry has an author
+- [ ] When `relatedBookId` is absent, or it does not match a chronology id, render no **Re:** line
+- [ ] Add the Lovable `.conv-card-related` styles in this component. Do not change sort, `limit`, title link, excerpt,
+      or meta
+- [ ] `pnpm run lint` and `pnpm run build`
+- [ ] Deploy content to dev, then verify in the browser before the push
+- [ ] Commit and push to `main`: `[sc-607] Link review cards back to their chronology row`
+- [ ] That push’s pipeline is green before Final
+
+**Final — Review and verify**
+
+- [ ] The Segment 2 pipeline run is green
+- [ ] In the browser, on desktop and at a width under 720px: every chronology row has a `book-{id}` anchor. Only
+      *Deming's Road to Continual Improvement* shows **See conversation**, and that pill opens `/conversations`.
+      *The Leader's Handbook* stays **Current selection** and has no pill. The Scherkenbach card on the home teaser
+      and on `/conversations` shows **Re:** *Deming's Road to Continual Improvement — William W. Scherkenbach*, and
+      that link lands on `#book-demings-road`. Q1’s nav clearance behaves as decided
+- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`. No new smoke
+      assertion
+- [ ] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
+- [ ] `Chronology.astro` and `ConversationList.astro` stay under 200 lines
