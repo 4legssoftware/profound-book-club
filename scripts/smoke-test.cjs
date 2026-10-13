@@ -79,7 +79,7 @@ if (!BASE_URL) {
 
 const url = new URL(BASE_URL.startsWith('http') ? BASE_URL : `https://${BASE_URL}`);
 
-const pages = ['/'];
+const pages = ['/', '/conversations'];
 
 let passed = 0;
 let failed = 0;

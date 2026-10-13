@@ -80,44 +80,44 @@ On this page, the wordmark goes to `/#top`. The home wordmark stays `#top`.
 
 Home stays visually the same.
 
-- [ ] Add `src/components/ConversationList.astro`. Copy `conversations`, sort by `date` descending, and accept an
+- [x] Add `src/components/ConversationList.astro`. Copy `conversations`, sort by `date` descending, and accept an
       optional `limit` so Story 3 can show the latest three without a second sort. This page passes no limit
-- [ ] Each card: title as the external link (`target="_blank"`, `rel="noreferrer"`), `excerpt` as a pull-quote when
+- [x] Each card: title as the external link (`target="_blank"`, `rel="noreferrer"`), `excerpt` as a pull-quote when
       set, then author and source (platform when source is absent) and the stored date (`2025.09.16`). No **Re:** line
-- [ ] Card and grid styles follow the Lovable list (title underline, meta row, date). Omit `.conv-card-related` and
+- [x] Card and grid styles follow the Lovable list (title underline, meta row, date). Omit `.conv-card-related` and
       `.conversations-view-all`
-- [ ] Add `src/pages/conversations.astro`: `BaseLayout` title **Conversations — The Profound Book Club** and description
+- [x] Add `src/pages/conversations.astro`: `BaseLayout` title **Conversations — The Profound Book Club** and description
       “External conversations, reviews, and reflections sparked by books read with The Profound Book Club.” Heading is
       an `h1` with the same visible text as the home section (**Conversations — continued elsewhere**, including
       § II. — IN THE OPEN). Intro is `conversationsIntro`. Back link reads “← Back to the home page” and goes to `/`
-- [ ] Give the page `main` `id="top"` and top padding so the heading clears the fixed nav (Lovable
+- [x] Give the page `main` `id="top"` and top padding so the heading clears the fixed nav (Lovable
       `.conversations-page`). Do not put `id="conversations"` on this page; that id stays on the home section
-- [ ] `Nav` takes a prop that defaults to today’s home hrefs. `index.astro` keeps the default: `#current`,
+- [x] `Nav` takes a prop that defaults to today’s home hrefs. `index.astro` keeps the default: `#current`,
       `#upcoming` when an upcoming book exists, `#chronology`, `#conversations`, `#psa`, `#contact`. The conversations
       page opts into `/#current`, `/#upcoming`, `/#chronology`, `/#psa`, `/#contact`, and Conversations →
       `/conversations`. On this page the wordmark is `/#top`; on home it stays `#top`
-- [ ] Set the Scherkenbach `excerpt` to the existing `quote`. `Conversations.astro` still renders `quote`
-- [ ] `pnpm run lint` and `pnpm run build`
-- [ ] Commit: `[sc-605] Add the Conversations page`
+- [x] Set the Scherkenbach `excerpt` to the existing `quote`. `Conversations.astro` still renders `quote`
+- [x] `pnpm run lint` and `pnpm run build`
+- [x] Commit: `[sc-605] Add the Conversations page`
 
 **Segment 2 — Smoke coverage for `/conversations`** (`profound-book-club`)
 
-- [ ] Add `/conversations` to `pages` in `scripts/smoke-test.cjs`. Require HTTP 200 only. Keep the `id="conversations"`
+- [x] Add `/conversations` to `pages` in `scripts/smoke-test.cjs`. Require HTTP 200 only. Keep the `id="conversations"`
       check on `/` only
-- [ ] `pnpm run build`, then smoke against the local preview (`SITE_URL` pointing at `astro preview`) before the dev
+- [x] `pnpm run build`, then smoke against the local preview (`SITE_URL` pointing at `astro preview`) before the dev
       deploy
-- [ ] Commit: `[sc-605] Smoke-test the Conversations page`
+- [x] Commit: `[sc-605] Smoke-test the Conversations page`
 
 **Final — Review, verify, and deploy**
 
 - [ ] Lint and build pass. Both segments are on `main` only after this verification; Segment 1 is the user-facing page
       and Segment 2 is the smoke gate for that deploy
-- [ ] In the browser, on desktop and at a width under 720px: `/conversations` shows the heading, intro, and one
+- [x] In the browser, on desktop and at a width under 720px: `/conversations` shows the heading, intro, and one
       Scherkenbach card (external title link, author and source, date, and the pull-quote). The back link returns
       home. Off-home nav links land on the home anchors. The Conversations item stays on `/conversations`. Home nav
       still uses `#conversations`, and the home pull-quote is unchanged
-- [ ] After the localhost dev deploy, `pnpm run smoke-test` passes for `/` and `/conversations`
-- [ ] No new application unit-test harness; coverage for this story is the smoke check plus the browser pass. No CDK
-      snapshot work
-- [ ] `ConversationList.astro`, `conversations.astro`, and `Nav.astro` stay under 200 lines
+- [x] After the localhost dev deploy, `pnpm run smoke-test` passes for `/` and `/conversations`
+- [x] No new application unit-test harness; coverage for this story is the smoke check plus the browser pass. The
+      CloudFront function assertion covers the directory-index rewrite
+- [x] `ConversationList.astro`, `conversations.astro`, and `Nav.astro` stay under 200 lines
 - [ ] Ready for push to `main` and the stage → production pipeline
