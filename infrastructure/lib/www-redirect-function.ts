@@ -22,6 +22,15 @@ function handler(event) {
       }
     };
   }
+  // Astro writes each route to a directory index. S3 has no directory index
+  // except the distribution's default root object.
+  var uri = request.uri;
+  if (uri.indexOf('.') === -1) {
+    if (uri.charAt(uri.length - 1) !== '/') {
+      uri += '/';
+    }
+    request.uri = uri + 'index.html';
+  }
   return request;
 }
       `.trim()),

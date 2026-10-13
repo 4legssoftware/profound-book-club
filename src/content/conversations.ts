@@ -24,6 +24,8 @@ export const conversations: Conversation[] = [
     url: 'https://testandanalysis.home.blog/2025/09/16/quality-comes-first-a-review-of-demings-road-to-continual-improvement-by-william-w-scherkenbach/',
     quote:
       'We can learn a great deal from William Scherkenbach about how to operationalize the Deming philosophy — in business, government, and academia.',
+    excerpt:
+      'We can learn a great deal from William Scherkenbach about how to operationalize the Deming philosophy — in business, government, and academia.',
     relatedBookId: 'demings-road',
   },
 ];

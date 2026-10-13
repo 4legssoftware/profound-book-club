@@ -63,6 +63,9 @@ describe('ProfoundBookClubStack', () => {
     const template = Template.fromStack(stack);
 
     template.resourceCountIs('AWS::CloudFront::Function', 1);
+    template.hasResourceProperties('AWS::CloudFront::Function', {
+      FunctionCode: Match.stringLikeRegexp("request\\.uri = uri \\+ 'index\\.html'"),
+    });
     template.hasResourceProperties('AWS::CloudFront::Distribution', {
       DistributionConfig: Match.objectLike({
         Aliases: Match.arrayEquals([

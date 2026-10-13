@@ -1,10 +1,18 @@
 ---
 import { site } from '../content/site';
 import { upcomingBook } from '../content/upcomingBook';
+
+interface Props {
+  homeAnchors?: boolean;
+}
+
+const { homeAnchors = true } = Astro.props;
+const section = (id: string) => (homeAnchors ? `#${id}` : `/#${id}`);
+const conversationsHref = homeAnchors ? '#conversations' : '/conversations';
 ---
 
 <nav>
-  <a href="#top" class="nav-mark">
+  <a href={section('top')} class="nav-mark">
     <span class="nav-mark-icon" aria-hidden="true">
       ∞
     </span>
@@ -12,24 +20,24 @@ import { upcomingBook } from '../content/upcomingBook';
   </a>
   <ul class="nav-links">
     <li>
-      <a href="#current">Current</a>
+      <a href={section('current')}>Current</a>
     </li>
     {upcomingBook && (
       <li>
-        <a href="#upcoming">Upcoming</a>
+        <a href={section('upcoming')}>Upcoming</a>
       </li>
     )}
     <li>
-      <a href="#chronology">Chronology</a>
+      <a href={section('chronology')}>Chronology</a>
     </li>
     <li>
-      <a href="#conversations">Conversations</a>
+      <a href={conversationsHref}>Conversations</a>
     </li>
     <li>
-      <a href="#psa">Of Interest</a>
+      <a href={section('psa')}>Of Interest</a>
     </li>
     <li>
-      <a href="#contact">Contact</a>
+      <a href={section('contact')}>Contact</a>
     </li>
   </ul>
 </nav>

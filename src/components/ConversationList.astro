@@ -1,0 +1,136 @@
+---
+import { conversations } from '../content/conversations';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+const sorted = [...conversations].sort((a, b) => b.date.localeCompare(a.date));
+const items = limit ? sorted.slice(0, limit) : sorted;
+---
+
+<div class="conversations-grid">
+  {items.map((conversation) => (
+    <article class="conv-card">
+      <h3 class="conv-card-title">
+        <a href={conversation.url} target="_blank" rel="noreferrer">
+          {conversation.title}
+        </a>
+      </h3>
+      {conversation.excerpt && <p class="conv-card-quote">&ldquo;{conversation.excerpt}&rdquo;</p>}
+      <div class="conv-card-meta">
+        <span>
+          {conversation.author} · {conversation.source || conversation.platform}
+        </span>
+        <span class="conv-card-date">{conversation.date}</span>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .conversations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .conv-card {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    padding: 1.75rem;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conv-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -12px var(--shadow);
+  }
+
+  .conv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .conv-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    line-height: 1.35;
+    font-weight: 500;
+    margin: 0.25rem 0 1rem;
+    letter-spacing: -0.005em;
+  }
+
+  .conv-card-title a {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition:
+      background-size 0.3s ease,
+      color 0.2s ease;
+  }
+
+  .conv-card-title a:hover {
+    color: var(--accent);
+    background-size: 100% 1px;
+  }
+
+  .conv-card-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0.5rem 0 1rem;
+    color: var(--ink-soft);
+  }
+
+  .conv-card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .conv-card-meta > span:first-child {
+    min-width: 0;
+  }
+
+  .conv-card-date {
+    font-style: normal;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .conv-card-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .conv-card-date {
+      align-self: flex-start;
+    }
+  }
+</style>
