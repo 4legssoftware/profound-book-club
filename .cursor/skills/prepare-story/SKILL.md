@@ -68,11 +68,26 @@ micro-split grunt work — a thin story stays one story even with two checklist 
 Structure the checklist as **segments** (e.g. **Segment 1 — …**, **Segment 2 — …**), not one flat numbered list whenever
 the story spans more than a single vertical slice.
 
-- Each segment should be **deployable or merge-ready on its own**: e.g. `4ls-org` OU + accounts before DNS records; CDK
-  stack before pipeline wiring; static site build before CloudFront alias.
+- Each segment should be **deployable on its own**: e.g. `4ls-org` OU + accounts before DNS records; CDK stack before
+  pipeline wiring; static site build before CloudFront alias.
 - Order segments so the product stays coherent at each integration point (don’t strand dependencies across segments without
   calling it out).
 - Call out **which repo** each segment targets (`profound-book-club`, `4ls-org`, or both).
+
+### Push after every segment
+
+**Push to `main` is the last step of every segment**, not a single step at the end of the story. Do not write a **Final**
+item such as “Ready for push to `main` and the stage → production pipeline.”
+
+Each segment’s checklist ends with these items, in order:
+
+1. Lint and build (or that segment’s synth/plan check) pass.
+2. Commit and push to `main`, with the suggested message on the checklist (`` `[sc-###] …` ``).
+3. That push’s pipeline is green before the next segment starts.
+
+Use `[skip ci]` only when the segment commit is docs-only. A segment that changes the site or infrastructure does not.
+When a segment changes what a reviewer looks at on **dev**, deploy dev from localhost **before** that segment’s push. The
+push still belongs to the segment.
 
 ### Verification-first ordering
 
@@ -102,14 +117,17 @@ During implementation, run `git diff --staged --stat` before each commit; pause 
 
 ### Final segment (closing the story)
 
+**Final** runs after every segment has already been pushed. It does not introduce the push.
+
 The **last** checklist block (or last items under **Final**) should include:
 
-1. **Verification** — CDK synth/snapshot tests pass where applicable; Terraform plan clean for org changes; site build
-   succeeds; stage/prod pipeline smoke checks when Story 4+ scope applies.
+1. **Verification** — The last segment’s pipeline run is green. CDK synth/snapshot tests passed where that segment touched
+   them; Terraform plan was clean for org changes; the site build succeeded.
 2. **Coverage** — CDK stacks: snapshot tests plus assertions on key resource properties. Application code: follow project norms
    as the TypeScript scaffold grows (no arbitrary bar until tests exist).
 3. **Long files** — Review large non-test files; prefer tightening files over **200 lines** **after** functional work is
-   wrapped, unless the story explicitly includes that split.
+   wrapped, unless the story explicitly includes that split. A file-split fix is its own segment: commit, push, and wait for
+   that pipeline run.
 4. **`story-kickoff` alignment** — If implementation has not started yet, see the **story-kickoff** skill for the full
    lifecycle (evaluation, refactor, constraints).
 
@@ -121,7 +139,8 @@ Produce or update the **story markdown** with:
 - **`## Split recommendation`** — only when warranted (otherwise a short note that one story suffices, or omit).
 - Filled `## Questions` (and update as decisions land).
 - **`## Implementation Checklist`** using **segments** (≥2 when the story warrants it), **verification-first** ordering,
-   repo callouts, and a **Final** block as above.
+  repo callouts, a **commit and push to `main` at the end of every segment**, and a **Final** block that assumes those
+  pushes already happened.
 - Remind the user to **commit** the refined story markdown with **`[sc-###]`** and **`[skip ci]`** in the message (Shortcut
   → **In Progress**); do not instruct a manual Started move.
 

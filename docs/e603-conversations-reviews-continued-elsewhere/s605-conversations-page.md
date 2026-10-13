@@ -98,7 +98,7 @@ Home stays visually the same.
       `/conversations`. On this page the wordmark is `/#top`; on home it stays `#top`
 - [x] Set the Scherkenbach `excerpt` to the existing `quote`. `Conversations.astro` still renders `quote`
 - [x] `pnpm run lint` and `pnpm run build`
-- [x] Commit: `[sc-605] Add the Conversations page`
+- [x] Commit and push to `main`: `[sc-605] Add the Conversations page`
 
 **Segment 2 — Smoke coverage for `/conversations`** (`profound-book-club`)
 
@@ -106,12 +106,11 @@ Home stays visually the same.
       check on `/` only
 - [x] `pnpm run build`, then smoke against the local preview (`SITE_URL` pointing at `astro preview`) before the dev
       deploy
-- [x] Commit: `[sc-605] Smoke-test the Conversations page`
+- [x] Commit and push to `main`: `[sc-605] Smoke-test the Conversations page`
 
-**Final — Review, verify, and deploy**
+**Final — Review and verify**
 
-- [ ] Lint and build pass. Both segments are on `main` only after this verification; Segment 1 is the user-facing page
-      and Segment 2 is the smoke gate for that deploy
+- [x] The smoke-test pipeline run is green
 - [x] In the browser, on desktop and at a width under 720px: `/conversations` shows the heading, intro, and one
       Scherkenbach card (external title link, author and source, date, and the pull-quote). The back link returns
       home. Off-home nav links land on the home anchors. The Conversations item stays on `/conversations`. Home nav
@@ -120,4 +119,3 @@ Home stays visually the same.
 - [x] No new application unit-test harness; coverage for this story is the smoke check plus the browser pass. The
       CloudFront function assertion covers the directory-index rewrite
 - [x] `ConversationList.astro`, `conversations.astro`, and `Nav.astro` stay under 200 lines
-- [ ] Ready for push to `main` and the stage → production pipeline
