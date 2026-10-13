@@ -55,7 +55,7 @@ manual from localhost.
 | Reference pill | `profound-conversations/src/routes/index.tsx` → `ChronologySection()` — `id={`book-${b.id}`}` on each `<li>`, title and pill wrapped in `.chron-body`, pill only when `related.length > 0`, `to="/conversations"` |
 | Reference **Re:** | `profound-conversations/src/components/ConversationList.tsx` — lookup `chronology` by `relatedBookId`; link `/#book-{id}` after the excerpt and before the meta row. Omit the row when the id is missing or does not match a chronology entry |
 | Reference styles | `profound-conversations/src/styles/pbc.css` — `.chron-body`, `.chron-conversations`, `.chron-conversations-label`, `.conv-card-related`, `.conv-card-related-label`, `.conv-card-related-title`. Scope them in the Astro component that owns the markup |
-| Chronology UI | `src/components/Chronology.astro` — 18 rows, no anchor id. Grid is `80px 1fr auto` (date, title, meta). Nest the title and pill in `.chron-body` so the pill stays under the title and the meta column stays put. At `max-width: 720px` the meta already wraps to column 2; the pill stays inside `.chron-body` |
+| Chronology UI | `src/components/Chronology.astro` — 18 rows, no anchor id. Grid is `80px 1fr auto` (date, title, meta). Nest the title and pill in `.chron-body` so the pill stays under the title and the meta column stays put. At `max-width: 720px` the meta already wraps to column 2; the pill stays inside `.chron-body`. `scroll-margin-top: 5rem` on `.chronology-item` clears the fixed nav (Q1) |
 | Shared card | `src/components/ConversationList.astro` — title, excerpt, meta. No **Re:** line. Home teaser passes `limit={3}`; `/conversations` passes no limit. One change covers both |
 | Record | `src/content/conversations.ts` — one review, `relatedBookId: 'demings-road'`. Do not add reviews |
 | Current row | `current: true` is on `leaders-handbook` (*The Leader's Handbook*), not *Leadership Is Language*. Pill logic does not read `current`. Until Story 5, only `demings-road` shows **See conversation**. `leaders-handbook` and `leadership-is-language` show no pill |
@@ -63,13 +63,9 @@ manual from localhost.
 
 ## Questions
 
-**Q1: Clearance under the fixed nav.**  
-The book anchor will sit on the chronology `<li>`. The nav is `position: fixed`, and the Lovable reference does not
-set `scroll-margin` on that row, so `/#book-demings-road` can leave the title under the nav. Section anchors such as
-`#chronology` clear it because each section has `6rem` of padding; a row in the middle does not.
-
-- **A.** Match the reference: no `scroll-margin`. The row may sit under the nav.
-- **B.** Set `scroll-margin-top` on `.chronology-item` so the title clears the nav.
+**Q1: Clearance under the fixed nav.** ✅  
+Set `scroll-margin-top: 5rem` on `.chronology-item`. The nav is about 4rem tall, so the book title clears it with a
+small gap. The Lovable reference does not do this.
 
 ## Implementation Checklist
 
@@ -81,7 +77,8 @@ set `scroll-margin` on that row, so `/#book-demings-road` can leave the title un
       other two grid cells. Do not change `current`, chronology membership, or meta copy
 - [ ] When the count is 1, the pill reads **See conversation**. When it is greater than 1, it reads
       **See N conversations**. The link goes to `/conversations`. When the count is 0, render no pill
-- [ ] Add the Lovable `.chron-conversations` and `.chron-conversations-label` styles in this component
+- [ ] Add the Lovable `.chron-conversations` and `.chron-conversations-label` styles in this component. Set
+      `scroll-margin-top: 5rem` on `.chronology-item` so a jump to `#book-{id}` clears the fixed nav (Q1)
 - [ ] `pnpm run lint` and `pnpm run build`
 - [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
       browser before the push
@@ -108,7 +105,7 @@ set `scroll-margin` on that row, so `/#book-demings-road` can leave the title un
       *Deming's Road to Continual Improvement* shows **See conversation**, and that pill opens `/conversations`.
       *The Leader's Handbook* stays **Current selection** and has no pill. The Scherkenbach card on the home teaser
       and on `/conversations` shows **Re:** *Deming's Road to Continual Improvement — William W. Scherkenbach*, and
-      that link lands on `#book-demings-road`. Q1’s nav clearance behaves as decided
+      that link lands on `#book-demings-road` with the title clear of the fixed nav
 - [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`. No new smoke
       assertion
 - [ ] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
