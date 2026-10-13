@@ -1,5 +1,9 @@
 ---
 import { chronology, chronologyIntro, formatChronMeta } from '../content/chronology';
+import { conversations } from '../content/conversations';
+
+const relatedCount = (id: string) =>
+  conversations.filter((conversation) => conversation.relatedBookId === id).length;
 ---
 
 <section id="chronology">
@@ -11,16 +15,28 @@ import { chronology, chronologyIntro, formatChronMeta } from '../content/chronol
   </div>
   <p class="chronology-intro">{chronologyIntro}</p>
   <ol class="chronology-list">
-    {chronology.map((book) => (
-      <li class="chronology-item">
-        <span class="chron-num">{book.date}</span>
-        <h3 class="chron-title">
-          {book.title}
-          {book.author && <span class="by"> — {book.author}</span>}
-        </h3>
-        <span class="chron-meta">{formatChronMeta(book)}</span>
-      </li>
-    ))}
+    {chronology.map((book) => {
+      const count = relatedCount(book.id);
+      return (
+        <li class="chronology-item" id={`book-${book.id}`}>
+          <span class="chron-num">{book.date}</span>
+          <div class="chron-body">
+            <h3 class="chron-title">
+              {book.title}
+              {book.author && <span class="by"> — {book.author}</span>}
+            </h3>
+            {count > 0 && (
+              <a class="chron-conversations" href="/conversations">
+                <span class="chron-conversations-label">
+                  {count === 1 ? 'See conversation' : `See ${count} conversations`}
+                </span>
+              </a>
+            )}
+          </div>
+          <span class="chron-meta">{formatChronMeta(book)}</span>
+        </li>
+      );
+    })}
   </ol>
 </section>
 
@@ -47,10 +63,43 @@ import { chronology, chronologyIntro, formatChronMeta } from '../content/chronol
     align-items: baseline;
     padding: 1.75rem 0;
     border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 5rem;
     transition:
       background 0.3s ease,
       padding 0.3s ease;
     position: relative;
+  }
+
+  .chron-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .chron-conversations {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .chron-conversations-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(168, 50, 30, 0.06);
+    padding: 0.35rem 0.55rem;
+    border: 1px solid rgba(168, 50, 30, 0.18);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .chron-conversations:hover .chron-conversations-label {
+    background: rgba(168, 50, 30, 0.1);
+    border-color: var(--accent);
   }
 
   .chronology-item:hover {
