@@ -1,5 +1,6 @@
 ---
-import { conversations, conversationsIntro } from '../content/conversations';
+import ConversationList from './ConversationList.astro';
+import { conversationsIntro } from '../content/conversations';
 ---
 
 <section id="conversations">
@@ -10,20 +11,11 @@ import { conversations, conversationsIntro } from '../content/conversations';
     </h2>
   </div>
   <p class="chronology-intro intro">{conversationsIntro}</p>
-  <div class="conversations-grid">
-    {conversations.map((conversation) => (
-      <article class="conv-card">
-        <p class="conv-card-quote">&ldquo;{conversation.quote}&rdquo;</p>
-        <div class="conv-card-meta">
-          <span>
-            {conversation.author} · {conversation.platform}
-          </span>
-          <a href={conversation.url} target="_blank" rel="noreferrer">
-            Read →
-          </a>
-        </div>
-      </article>
-    ))}
+  <ConversationList limit={3} />
+  <div class="conversations-view-all">
+    <a class="conversations-view-all-link" href="/conversations">
+      View all conversations &rarr;
+    </a>
   </div>
 </section>
 
@@ -32,66 +24,29 @@ import { conversations, conversationsIntro } from '../content/conversations';
     margin-bottom: 2.5rem;
   }
 
-  .conversations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+  .conversations-view-all {
+    margin-top: 2.5rem;
+    text-align: center;
   }
 
-  .conv-card {
-    background: var(--paper-deep);
-    border: 1px solid var(--rule);
-    padding: 1.75rem;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .conv-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 24px -12px var(--shadow);
-  }
-
-  .conv-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3rem;
-    height: 3px;
-    background: var(--accent);
-  }
-
-  .conv-card-quote {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    margin: 0.5rem 0 1rem;
-    color: var(--ink-soft);
-  }
-
-  .conv-card-meta {
+  .conversations-view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink-mute);
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .conv-card-meta a {
     color: var(--accent);
     text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 0.3s ease,
+      gap 0.3s ease;
   }
 
-  .conv-card-meta a:hover {
-    text-decoration: underline;
+  .conversations-view-all-link:hover {
+    border-color: var(--accent);
+    gap: 0.85rem;
   }
 </style>

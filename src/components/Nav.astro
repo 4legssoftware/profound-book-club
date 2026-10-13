@@ -8,7 +8,6 @@ interface Props {
 
 const { homeAnchors = true } = Astro.props;
 const section = (id: string) => (homeAnchors ? `#${id}` : `/#${id}`);
-const conversationsHref = homeAnchors ? '#conversations' : '/conversations';
 ---
 
 <nav>
@@ -31,7 +30,7 @@ const conversationsHref = homeAnchors ? '#conversations' : '/conversations';
       <a href={section('chronology')}>Chronology</a>
     </li>
     <li>
-      <a href={conversationsHref}>Conversations</a>
+      <a href="/conversations">Conversations</a>
     </li>
     <li>
       <a href={section('psa')}>Of Interest</a>

@@ -69,20 +69,20 @@ None open. The acceptance criteria already decide the seams that could have gone
 
 **Segment 1 — Home teaser and nav** (`profound-book-club`)
 
-- [ ] In `Conversations.astro`, replace the inline card map with `<ConversationList limit={3} />`. Keep
+- [x] In `Conversations.astro`, replace the inline card map with `<ConversationList limit={3} />`. Keep
       `id="conversations"`, the § II heading as an `h2` (**Conversations — continued elsewhere**), and
       `conversationsIntro`
-- [ ] Under the list, add a link reading “View all conversations →” to `/conversations`, with Lovable
+- [x] Under the list, add a link reading “View all conversations →” to `/conversations`, with Lovable
       `.conversations-view-all` / `.conversations-view-all-link` styles scoped in this component. Show it even when
       the archive has one review
-- [ ] Remove the home-only card markup and styles (grid, quote, “Read →”). Card appearance comes from
+- [x] Remove the home-only card markup and styles (grid, quote, “Read →”). Card appearance comes from
       `ConversationList`
-- [ ] In `Nav.astro`, the Conversations href is `/conversations` on the home page as well. Leave `homeAnchors` in
+- [x] In `Nav.astro`, the Conversations href is `/conversations` on the home page as well. Leave `homeAnchors` in
       place for the other items and the wordmark (`#current`, `#upcoming` when an upcoming book exists, `#chronology`,
       `#psa`, `#contact`, `#top`)
-- [ ] Do not change `ConversationList.astro`, `conversations.ts`, `conversations.astro`, or `scripts/smoke-test.cjs`
-- [ ] `pnpm run lint` and `pnpm run build`
-- [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
+- [x] Do not change `ConversationList.astro`, `conversations.ts`, `conversations.astro`, or `scripts/smoke-test.cjs`
+- [x] `pnpm run lint` and `pnpm run build`
+- [x] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
       browser before the push
 - [ ] Commit and push to `main`: `[sc-606] Point the home Conversations section at the page`
 - [ ] That push’s pipeline is green before Final
@@ -90,12 +90,12 @@ None open. The acceptance criteria already decide the seams that could have gone
 **Final — Review and verify**
 
 - [ ] The segment’s pipeline run is green
-- [ ] In the browser, on desktop and at a width under 720px: the home section still has the § II heading and intro,
+- [x] In the browser, on desktop and at a width under 720px: the home section still has the § II heading and intro,
       shows the one Scherkenbach card (title link, excerpt, author and source, date), and the view-all link opens
       `/conversations`. Above 720px, home nav Conversations goes to `/conversations` and the other items still jump
       to their home anchors. Under 720px the nav link row stays hidden, so the view-all link is the way to the page.
       `/conversations` is unchanged, including its own Conversations nav item
-- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`, and `/` still
+- [x] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`, and `/` still
       contains `id="conversations"`
-- [ ] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
-- [ ] `Conversations.astro` and `Nav.astro` stay under 200 lines
+- [x] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
+- [x] `Conversations.astro` and `Nav.astro` stay under 200 lines
