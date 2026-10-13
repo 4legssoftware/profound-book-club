@@ -71,42 +71,42 @@ small gap. The Lovable reference does not do this.
 
 **Segment 1 — Chronology anchors and pills** (`profound-book-club`)
 
-- [ ] In `Chronology.astro`, give every row `id={`book-${book.id}`}`. Count related reviews with
+- [x] In `Chronology.astro`, give every row `id={`book-${book.id}`}`. Count related reviews with
       `conversations.filter((c) => c.relatedBookId === book.id)`
-- [ ] Wrap the title and the pill in `.chron-body` (column, `gap: 0.5rem`). Keep date and `formatChronMeta` as the
+- [x] Wrap the title and the pill in `.chron-body` (column, `gap: 0.5rem`). Keep date and `formatChronMeta` as the
       other two grid cells. Do not change `current`, chronology membership, or meta copy
-- [ ] When the count is 1, the pill reads **See conversation**. When it is greater than 1, it reads
+- [x] When the count is 1, the pill reads **See conversation**. When it is greater than 1, it reads
       **See N conversations**. The link goes to `/conversations`. When the count is 0, render no pill
-- [ ] Add the Lovable `.chron-conversations` and `.chron-conversations-label` styles in this component. Set
+- [x] Add the Lovable `.chron-conversations` and `.chron-conversations-label` styles in this component. Set
       `scroll-margin-top: 5rem` on `.chronology-item` so a jump to `#book-{id}` clears the fixed nav (Q1)
-- [ ] `pnpm run lint` and `pnpm run build`
-- [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
+- [x] `pnpm run lint` and `pnpm run build`
+- [x] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
       browser before the push
-- [ ] Commit and push to `main`: `[sc-607] Link chronology rows to Conversations`
-- [ ] That push’s pipeline is green before Segment 2
+- [x] Commit and push to `main`: `[sc-607] Link chronology rows to Conversations`
+- [x] That push’s pipeline is green before Segment 2
 
 **Segment 2 — Re: line on the shared card** (`profound-book-club`)
 
-- [ ] In `ConversationList.astro`, resolve `relatedBookId` against `chronology`. When it matches, after the excerpt
+- [x] In `ConversationList.astro`, resolve `relatedBookId` against `chronology`. When it matches, after the excerpt
       and before the meta row, add a link to `/#book-{id}` with **Re:**, the book title, and ` — {author}` when the
       chronology entry has an author
-- [ ] When `relatedBookId` is absent, or it does not match a chronology id, render no **Re:** line
-- [ ] Add the Lovable `.conv-card-related` styles in this component. Do not change sort, `limit`, title link, excerpt,
+- [x] When `relatedBookId` is absent, or it does not match a chronology id, render no **Re:** line
+- [x] Add the Lovable `.conv-card-related` styles in this component. Do not change sort, `limit`, title link, excerpt,
       or meta
-- [ ] `pnpm run lint` and `pnpm run build`
-- [ ] Deploy content to dev, then verify in the browser before the push
-- [ ] Commit and push to `main`: `[sc-607] Link review cards back to their chronology row`
-- [ ] That push’s pipeline is green before Final
+- [x] `pnpm run lint` and `pnpm run build`
+- [x] Deploy content to dev, then verify in the browser before the push
+- [x] Commit and push to `main`: `[sc-607] Link review cards back to their chronology row`
+- [x] That push’s pipeline is green before Final
 
 **Final — Review and verify**
 
-- [ ] The Segment 2 pipeline run is green
-- [ ] In the browser, on desktop and at a width under 720px: every chronology row has a `book-{id}` anchor. Only
+- [x] The Segment 2 pipeline run is green
+- [x] In the browser, on desktop and at a width under 720px: every chronology row has a `book-{id}` anchor. Only
       *Deming's Road to Continual Improvement* shows **See conversation**, and that pill opens `/conversations`.
       *The Leader's Handbook* stays **Current selection** and has no pill. The Scherkenbach card on the home teaser
       and on `/conversations` shows **Re:** *Deming's Road to Continual Improvement — William W. Scherkenbach*, and
       that link lands on `#book-demings-road` with the title clear of the fixed nav
-- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`. No new smoke
+- [x] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`. No new smoke
       assertion
-- [ ] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
-- [ ] `Chronology.astro` and `ConversationList.astro` stay under 200 lines
+- [x] No new application unit-test harness; coverage for this story is the existing smoke check plus the browser pass
+- [x] `Chronology.astro` and `ConversationList.astro` stay under 200 lines
