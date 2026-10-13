@@ -1,4 +1,5 @@
 ---
+import { chronology } from '../content/chronology';
 import { conversations } from '../content/conversations';
 
 interface Props {
@@ -8,25 +9,41 @@ interface Props {
 const { limit } = Astro.props;
 const sorted = [...conversations].sort((a, b) => b.date.localeCompare(a.date));
 const items = limit ? sorted.slice(0, limit) : sorted;
+
+const relatedBook = (id?: string) => (id ? chronology.find((book) => book.id === id) : undefined);
 ---
 
 <div class="conversations-grid">
-  {items.map((conversation) => (
-    <article class="conv-card">
-      <h3 class="conv-card-title">
-        <a href={conversation.url} target="_blank" rel="noreferrer">
-          {conversation.title}
-        </a>
-      </h3>
-      {conversation.excerpt && <p class="conv-card-quote">&ldquo;{conversation.excerpt}&rdquo;</p>}
-      <div class="conv-card-meta">
-        <span>
-          {conversation.author} · {conversation.source || conversation.platform}
-        </span>
-        <span class="conv-card-date">{conversation.date}</span>
-      </div>
-    </article>
-  ))}
+  {items.map((conversation) => {
+    const related = relatedBook(conversation.relatedBookId);
+    return (
+      <article class="conv-card">
+        <h3 class="conv-card-title">
+          <a href={conversation.url} target="_blank" rel="noreferrer">
+            {conversation.title}
+          </a>
+        </h3>
+        {conversation.excerpt && (
+          <p class="conv-card-quote">&ldquo;{conversation.excerpt}&rdquo;</p>
+        )}
+        {related && (
+          <a class="conv-card-related" href={`/#book-${related.id}`}>
+            <span class="conv-card-related-label">Re:</span>
+            <span class="conv-card-related-title">
+              {related.title}
+              {related.author && ` — ${related.author}`}
+            </span>
+          </a>
+        )}
+        <div class="conv-card-meta">
+          <span>
+            {conversation.author} · {conversation.source || conversation.platform}
+          </span>
+          <span class="conv-card-date">{conversation.date}</span>
+        </div>
+      </article>
+    );
+  })}
 </div>
 
 <style>
@@ -95,6 +112,38 @@ const items = limit ? sorted.slice(0, limit) : sorted;
     line-height: 1.5;
     margin: 0.5rem 0 1rem;
     color: var(--ink-soft);
+  }
+
+  .conv-card-related {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    margin: 0 0 1rem;
+    padding: 0.6rem 0.75rem;
+    background: rgba(168, 50, 30, 0.05);
+    border-left: 2px solid var(--accent);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .conv-card-related:hover {
+    background: rgba(168, 50, 30, 0.1);
+  }
+
+  .conv-card-related-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .conv-card-related-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.35;
   }
 
   .conv-card-meta {
