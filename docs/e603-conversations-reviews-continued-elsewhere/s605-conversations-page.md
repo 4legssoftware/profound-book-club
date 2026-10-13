@@ -57,34 +57,28 @@ localhost.
 | Reference page | `profound-conversations/src/routes/conversations.tsx` — `h1`, intro, list, “← Back to the home page” |
 | Reference list | `profound-conversations/src/components/ConversationList.tsx` — sort, title link, excerpt, meta, date. Skip the `Re:` row; that is Story 4 |
 | Reference styles | `profound-conversations/src/styles/pbc.css` — `.conversations-page`, `.conv-card-title`, `.conv-card-date`, `.conversations-back`. Skip `.conv-card-related` and `.conversations-view-all` |
-| Record | `src/content/conversations.ts` — one review (Scherkenbach). `quote` is set; `excerpt` is not. Intro copy is `conversationsIntro` (“LinkedIn posts…”, not the Lovable “blog posts…” sentence) |
+| Record | `src/content/conversations.ts` — one review (Scherkenbach). Copy `quote` into `excerpt` (Q1). Intro copy is `conversationsIntro` (“LinkedIn posts…”, not the Lovable “blog posts…” sentence) |
 | Home card | `src/components/Conversations.astro` — still renders `quote` / author / platform / “Read →”. Leave it until Story 3 |
 | Layout | `src/layouts/BaseLayout.astro` — pass `title` and `description`. Organization and current-book JSON-LD stay as they are |
-| Nav | `src/components/Nav.astro` — hash links are home-only (`#current`, `#conversations`, …). Wordmark is `#top`. Upcoming link renders only when `upcomingBook` is set |
+| Nav | `src/components/Nav.astro` — hash links are home-only (`#current`, `#conversations`, …). Upcoming link renders only when `upcomingBook` is set. On `/conversations`, the wordmark goes to `/#top` (Q2); on home it stays `#top` |
 | Page pattern | `src/pages/index.astro` composes `Nav` + `main` + `Footer`. `src/pages/404.astro` shows how a second page passes a title into `BaseLayout` |
 | Smoke | `scripts/smoke-test.cjs` — `pages` is `['/']`. Section-id checks run only for `/` |
 | Sort | `YYYY.MM.DD` is zero-padded, so `localeCompare` descending matches chronological order. Copy the array before sorting |
 
 ## Questions
 
-**Q1: Scherkenbach excerpt.** The new card shows a pull-quote only when `excerpt` is set. The live quote still lives on
-`quote`, which the home section renders until Story 3. The prototype card for this review has no excerpt.
+**Q1: Scherkenbach excerpt.** ✅  
+Copy the live quote into `excerpt`, so this page’s card shows the pull-quote. The home section still renders `quote`
+until Story 3.
 
-- **A.** Copy the live quote into `excerpt`, so this page’s card shows the pull-quote.
-- **B.** Leave `excerpt` unset. The card is the title link, “Mike Harris · Test & Analysis”, and `2025.09.16`.
-
-**Q2: Wordmark from `/conversations`.** Section links are specified. The wordmark is `href="#top"` today, so on this
-page it stays on `/conversations`. The Lovable header sends the wordmark home. On a narrow viewport the section links
-are hidden, so the wordmark and the back link are the only ways off the page.
-
-- **A.** On this page, the wordmark goes to `/#top`. The home wordmark stays `#top`.
-- **B.** Leave the wordmark as `#top` on both pages.
+**Q2: Wordmark from `/conversations`.** ✅  
+On this page, the wordmark goes to `/#top`. The home wordmark stays `#top`.
 
 ## Implementation Checklist
 
 **Segment 1 — `/conversations` page, shared list, and off-home nav** (`profound-book-club`)
 
-Ship the page only after Q1 and Q2 are answered. Home stays visually the same.
+Home stays visually the same.
 
 - [ ] Add `src/components/ConversationList.astro`. Copy `conversations`, sort by `date` descending, and accept an
       optional `limit` so Story 3 can show the latest three without a second sort. This page passes no limit
@@ -101,9 +95,8 @@ Ship the page only after Q1 and Q2 are answered. Home stays visually the same.
 - [ ] `Nav` takes a prop that defaults to today’s home hrefs. `index.astro` keeps the default: `#current`,
       `#upcoming` when an upcoming book exists, `#chronology`, `#conversations`, `#psa`, `#contact`. The conversations
       page opts into `/#current`, `/#upcoming`, `/#chronology`, `/#psa`, `/#contact`, and Conversations →
-      `/conversations`. Wordmark follows Q2
-- [ ] If Q1 is A, set the Scherkenbach `excerpt` to the existing `quote`. If Q1 is B, leave the record unchanged.
-      `Conversations.astro` still renders `quote`
+      `/conversations`. On this page the wordmark is `/#top`; on home it stays `#top`
+- [ ] Set the Scherkenbach `excerpt` to the existing `quote`. `Conversations.astro` still renders `quote`
 - [ ] `pnpm run lint` and `pnpm run build`
 - [ ] Commit: `[sc-605] Add the Conversations page`
 
@@ -120,7 +113,7 @@ Ship the page only after Q1 and Q2 are answered. Home stays visually the same.
 - [ ] Lint and build pass. Both segments are on `main` only after this verification; Segment 1 is the user-facing page
       and Segment 2 is the smoke gate for that deploy
 - [ ] In the browser, on desktop and at a width under 720px: `/conversations` shows the heading, intro, and one
-      Scherkenbach card (external title link, author and source, date, excerpt only if Q1 is A). The back link returns
+      Scherkenbach card (external title link, author and source, date, and the pull-quote). The back link returns
       home. Off-home nav links land on the home anchors. The Conversations item stays on `/conversations`. Home nav
       still uses `#conversations`, and the home pull-quote is unchanged
 - [ ] After the localhost dev deploy, `pnpm run smoke-test` passes for `/` and `/conversations`
