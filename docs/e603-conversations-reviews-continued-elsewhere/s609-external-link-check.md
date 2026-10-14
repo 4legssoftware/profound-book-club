@@ -182,7 +182,7 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
       absent from the site. Leave `docs/external-links.md` unchanged for this push
 - [x] No dev deploy — the site output is unchanged
 - [x] Commit and push to `main`: `[sc-609] Check that external links stay active`
-- [ ] That push's pipeline is green, including the new link-check job, before Segment 2b
+- [x] That push's pipeline is green, including the new link-check job, before Segment 2b
 
 **Segment 2b — Expected list drift fails the workflow** (`profound-book-club`, docs)
 
