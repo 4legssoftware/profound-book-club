@@ -149,6 +149,9 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 ## Implementation Checklist
 
+**Review gate.** Finish the segment's checks, stage the diff, and show the commit message. Then stop. Commit and push
+only after an explicit go-ahead. "Proceed with segment N" starts the work. It does not approve the commit.
+
 **Segment 1 — Inventory and recommendation** (`profound-book-club`, docs)
 
 - [x] Resolve Questions 1 and 2 and record the answers here. The proposed answers are the default if they still hold
@@ -190,6 +193,7 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 - [ ] `pnpm run build` and `pnpm run check-external-links`. The script fails and names that URL as expected and absent
       from the site
 - [ ] No dev deploy. Do not use `[skip ci]` — the pipeline has to run
+- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Confirm inventory drift fails the pipeline`
 - [ ] Deploy jobs stay green. The link-check job is red, and Slack reports that failure. Confirm the red job and the
       drift message in the log before Segment 2c
@@ -198,6 +202,7 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 - [ ] Remove `https://example.com/not-on-the-site` from `docs/external-links.md`
 - [ ] `pnpm run check-external-links` passes
+- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Restore the external-link inventory`
 - [ ] That push's pipeline is green, including the link-check job, before Segment 2d
 
@@ -209,6 +214,7 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 - [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails because the URL is not
       active
 - [ ] No dev deploy
+- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Confirm a bad external link fails the pipeline`
 - [ ] Stage and prod deploy first. The hidden href is on the live site until Segment 2e. Expect the deploy jobs green
       and the link-check job red, with Slack reporting that failure. Confirm the red job before Segment 2e
@@ -218,6 +224,7 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 - [ ] Remove the hidden anchor and its URL from `docs/external-links.md`
 - [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script passes
 - [ ] No dev deploy
+- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Remove the external-link failure fixture`
 - [ ] That push's pipeline is green, including the link-check job, before Final
 
@@ -231,5 +238,5 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
       titles current, Of Interest links active. The hidden anchor and the extra expected URL are gone
 - [ ] No new application unit-test harness. Coverage is the green script run, the local drift and fixture failures,
       and the two red pipeline jobs. `smoke-test` still covers our own pages in the pipeline
-- [ ] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment: commit, push, and
-      wait for that pipeline run before closing
+- [ ] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment. Stop for review
+      before that commit and push, then wait for that pipeline run before closing
