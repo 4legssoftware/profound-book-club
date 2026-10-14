@@ -238,5 +238,5 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
       titles current, Of Interest links active. The hidden anchor and the extra expected URL are gone
 - [x] No new application unit-test harness. Coverage is the green script run, the local drift and fixture failures,
       and the two red pipeline jobs. `smoke-test` still covers our own pages in the pipeline
-- [ ] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment. Stop for review
+- [x] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment. Stop for review
       before that commit and push, then wait for that pipeline run before closing
