@@ -59,6 +59,7 @@ forum. Inventory the seminar URL. Epic delivery: trunk-based commits to `main` (
 | Own host | `astro.config.mjs` `site` is `https://profound-book-club.org`. Exclude our hosts |
 | SVG namespace | `Hero.astro`, `public/favicon.svg`. Exclude |
 | Existing HTTP check | `scripts/smoke-test.cjs` — our pages only. Leave it |
+| Pipeline | `main.yml` — new job beside `smoke-tests-prod`, after prod deploy |
 | Script style | `scripts/check-action-versions.ts` via `tsx`. Lint covers `scripts/**/*.ts` |
 | Lasting list | `docs/external-links.md` — story docs under `docs/e603-*/` are removed at wrap-up |
 
@@ -70,8 +71,9 @@ Home renders the latest three reviews; `/conversations` renders all ten. Of Inte
 Probe on 14 Oct 2026, one GET/HEAD with a named user agent, no browser: the seminar returned 200 with no redirect; the
 YouTube channel URL returned 200 with no redirect; the Leadership Is Language post's `og:title` is the stored title
 (`&#8211;` decodes to the same en dash we store), and `<title>` is that string plus ` – TestAndAnalysis`. A plain
-Node fetch is enough for the twelve links below. Do not add this check to the pipeline: a later block or rate limit
-on WordPress, Deming, or YouTube would stop Acceptance and Production for a site we did not change.
+Node fetch is enough for the twelve links below. The check runs once per pipeline, after production is already
+deployed, so a block or rate limit fails the workflow and Slack without holding the release. The Thursday cron on
+`main.yml` re-runs that same workflow, so the check is repeated then too.
 
 ### Expected visitor links
 
@@ -121,9 +123,12 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 ## Questions
 
-1. **Where the check runs.** A local command we run on demand, or a pipeline step? Outbound checks can fail when a
-   host rate-limits or blocks the runner. **Proposed:** a local `pnpm` script, run once in this story and again when
-   we want. Leave `.github/workflows/main.yml` unchanged. `smoke-test` stays the pipeline check of our own pages.
+1. **Where the check runs.** ~~A local command, or a pipeline step?~~ **Resolved:** A job in `main.yml`, parallel to
+   `smoke-tests-prod`. Same `needs` as that job (`deploy-application-prod` and `deploy-infrastructure-prod`), so it
+   starts only after production is deployed and does not sit on the path into prod. It downloads the `dist` artifact
+   from `build` and does not use AWS credentials. `summary` and `notify` include it, so a failure fails the workflow
+   and the Slack message. `smoke-test` stays the check of our own pages. One run per pipeline (not again on stage):
+   the links are the same in both environments. The existing Thursday cron re-runs `main`, so this check rides along.
 2. **Current vs active.** Is HTTP success enough for Of Interest links, with title matching reserved for review posts?
    **Proposed:** yes. **Active** for every inventoried link: GET, follow redirects, final status 2xx. **Current** for
    reviews only: after HTML-entity decode and whitespace normalize, `og:title` equals the stored title (or `<title>`
@@ -150,7 +155,10 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 - [ ] Add `scripts/check-external-links.ts` and `pnpm run check-external-links` (`tsx`, same pattern as
       `check-action-versions`). It reads `dist/` (tell the user to build if `dist/` is missing). It prints the
       inventory, checks active/current as the note defines, and exits non-zero on a miss. No new dependencies. Do
-      not call it from `main.yml`. Do not change `smoke-test.cjs`
+      not change `smoke-test.cjs`
+- [ ] Add a `main.yml` job parallel to `smoke-tests-prod` (same `needs`), downloading the `dist` artifact and running
+      `pnpm run check-external-links`. No AWS credentials. Add the job to `summary` and `notify` so a failure fails
+      the workflow and Slack. Do not add it to the stage path or run it twice
 - [ ] `pnpm run lint` and `pnpm run build`, then `pnpm run check-external-links` once. It passes for the twelve links
 - [ ] No dev deploy — the site output is unchanged
 - [ ] Commit and push to `main`: `[sc-609] Check that external links stay active`
