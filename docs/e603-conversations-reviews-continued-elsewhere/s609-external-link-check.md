@@ -202,18 +202,18 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
 
 - [x] Remove `https://example.com/not-on-the-site` from `docs/external-links.md`
 - [x] `pnpm run check-external-links` passes
-- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
-- [ ] Commit and push to `main`: `[sc-609] Restore the external-link inventory`
-- [ ] That push's pipeline is green, including the link-check job, before Segment 2d
+- [x] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
+- [x] Commit and push to `main`: `[sc-609] Restore the external-link inventory`
+- [x] That push's pipeline is green, including the link-check job, before Segment 2d
 
 **Segment 2d — A hidden bad link fails the workflow** (`profound-book-club`)
 
-- [ ] Add one hidden anchor, not a visible review or Of Interest card. Use `hidden` so it is absent from the layout
+- [x] Add one hidden anchor, not a visible review or Of Interest card. Use `hidden` so it is absent from the layout
       and present in the built HTML. Point it at a non-2xx URL (the same example host path as the fixture). Add that
       URL to `docs/external-links.md` in the same commit so the failure is the status check, not inventory drift
-- [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails because the URL is not
+- [x] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails because the URL is not
       active
-- [ ] No dev deploy
+- [x] No dev deploy
 - [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Confirm a bad external link fails the pipeline`
 - [ ] Stage and prod deploy first. The hidden href is on the live site until Segment 2e. Expect the deploy jobs green
