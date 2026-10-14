@@ -13,12 +13,12 @@ export const psaIntro =
 
 export const psas: Psa[] = [
   {
-    title: 'In2:InThinking Network Forum 2026',
-    url: 'https://www.in2in.org/events',
+    title: 'Deming Strategies for Sustainable Success: Innovate, Streamline, Lead',
+    url: 'https://deming.org/events/deming-strategies-for-sustainable-success-innovate-streamline-lead/',
     kind: 'event',
-    meta: '18th Annual Forum',
+    meta: '2-Day Seminar',
     blurb:
-      'This year\'s theme: "Curiosity / What If…?" — a gathering of practitioners working in the tradition of systems thinking and Profound Knowledge.',
+      "Nov 6–7, 2026 at Fordham's Lincoln Center — two days with Deming experts, working a real challenge through the system behind it.",
   },
   {
     title: "Deming's 14 Points — video series",

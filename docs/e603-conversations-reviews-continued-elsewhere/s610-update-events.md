@@ -80,10 +80,10 @@ to `main` (Commit → Acceptance → Production); **dev** is manual from localho
 **Segment 1 — Replace the forum card** (`profound-book-club`)
 
 - [x] Resolve Questions 1 and 2, and record the answers on this doc
-- [ ] In `src/content/psas.ts`, replace the In2:InThinking forum object with the confirmed seminar. Leave the video
+- [x] In `src/content/psas.ts`, replace the In2:InThinking forum object with the confirmed seminar. Leave the video
       series and `psaIntro`
-- [ ] `pnpm run lint` and `pnpm run build`
-- [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
+- [x] `pnpm run lint` and `pnpm run build`
+- [x] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
       browser before the push
 - [ ] Commit and push to `main`: `[sc-610] Replace the forum card with the Deming seminar`
 - [ ] That push's pipeline is green before Final
