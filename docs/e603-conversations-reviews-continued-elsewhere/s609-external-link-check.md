@@ -43,11 +43,14 @@ after [Story 5](./s5-publish-test-and-analysis-reviews.md).
 | Piece | Path / note |
 | ----- | ----------- |
 | Review URLs | `src/content/conversations.ts` — one today; the Story 5 archive after that story |
-| Of Interest URLs | `src/content/psas.ts` — In2:InThinking forum, Deming Institute YouTube |
+| Of Interest URLs | `src/content/psas.ts` — the cards in that file when this chore runs |
 | Rendered links | `src/components/Conversations.astro`, `src/components/PsaGrid.astro` |
 | Contact | `src/components/Contact.astro` — `mailto:` only; exclude from the http list |
 | Fonts | `src/layouts/BaseLayout.astro` — Google Fonts; exclude |
 | Existing HTTP check | `scripts/smoke-test.cjs` — our pages only, not outbound links |
+
+[sc-610](./s610-update-events.md) replaces the In2:InThinking forum URL with the Deming seminar. Inventory whichever
+URL is in `psas.ts` at the time.
 
 ## Questions
 

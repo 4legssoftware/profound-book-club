@@ -69,6 +69,13 @@ After the review archive is in place, list every external link the site offers v
 check that each one is still active and still the intended page. Implement the check in this story only if it stays a
 small script.
 
+### 7. Update events [sc-610]
+
+[s610-update-events.md](./s610-update-events.md)
+
+Replace the In2:InThinking Network Forum card in Of Interest with the Deming Institute two-day seminar (6–7 Nov 2026).
+The video series stays. Independent of stories 1–6.
+
 ## Dependencies / Open questions
 
 Tracked on the stories. Resolve before the story that needs them:
