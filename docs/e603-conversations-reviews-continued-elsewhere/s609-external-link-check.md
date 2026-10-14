@@ -224,19 +224,19 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
 - [x] Remove the hidden anchor and its URL from `docs/external-links.md`
 - [x] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script passes
 - [x] No dev deploy
-- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
-- [ ] Commit and push to `main`: `[sc-609] Remove the external-link failure fixture`
-- [ ] That push's pipeline is green, including the link-check job, before Final
+- [x] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
+- [x] Commit and push to `main`: `[sc-609] Remove the external-link failure fixture`
+- [x] That push's pipeline is green, including the link-check job, before Final
 
 **Final — Review and verify**
 
-- [ ] Segment 2e's pipeline run is green (or, if Segment 2 was skipped, Segment 1 is on `main` and
+- [x] Segment 2e's pipeline run is green (or, if Segment 2 was skipped, Segment 1 is on `main` and
       `docs/external-links.md` states what to build next)
-- [ ] Segment 2a showed both drift directions and a bad fixture link exiting non-zero. Segment 2b's link-check job
+- [x] Segment 2a showed both drift directions and a bad fixture link exiting non-zero. Segment 2b's link-check job
       failed on inventory drift. Segment 2d's link-check job failed because the hidden URL was not active
-- [ ] The committed script run matches `docs/external-links.md`: twelve visitor links, exclusions present, review
+- [x] The committed script run matches `docs/external-links.md`: twelve visitor links, exclusions present, review
       titles current, Of Interest links active. The hidden anchor and the extra expected URL are gone
-- [ ] No new application unit-test harness. Coverage is the green script run, the local drift and fixture failures,
+- [x] No new application unit-test harness. Coverage is the green script run, the local drift and fixture failures,
       and the two red pipeline jobs. `smoke-test` still covers our own pages in the pipeline
 - [ ] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment. Stop for review
       before that commit and push, then wait for that pipeline run before closing
