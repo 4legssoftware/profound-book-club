@@ -29,14 +29,14 @@ to Mike Harris.
 
 ## Scope
 
-**In:** `src/content/conversations.ts` only, plus any excerpt on the Scherkenbach row if that question is resolved as
-keep.
+**In:** `src/content/conversations.ts` only. The Scherkenbach `excerpt` stays (Story 2). New rows have no excerpt.
 
 **Out:** New chronology rows; current-book or upcoming-book edits; page or nav design; CDK / `4ls-org`.
 
 ## Reviews
 
-Newest first. `relatedBookId` is the chronology slug from Story 1.
+Newest first. `relatedBookId` is the chronology slug from Story 1. Store each date as `YYYY.MM.DD` (Q5); the ISO dates
+below are the calendar days.
 
 - **2026-10-06** — `leadership-is-language`  
   Help to move from test execution to decision-making – A Review of Leadership is Language by L. David Marquet  
@@ -72,23 +72,39 @@ Newest first. `relatedBookId` is the chronology slug from Story 1.
   A Review of Deming's Journey to Profound Knowledge by John Willis with Derek Lewis  
   https://testandanalysis.home.blog/2023/10/03/a-review-of-demings-journey-to-profound-knowledge-by-john-botchagalupe-willis-with-derek-lewis/
 
+## Split recommendation
+
+One story is enough. The epic already separated the archive from ids (Story 1), the page (Story 2), the teaser
+(Story 3), and the cross-links (Story 4). This story is one file in `profound-book-club`. One segment is enough: the
+ten rows are one content slice, well under 400 lines, and a partial archive would leave the teaser and the manual
+link check unfinished.
+
 ## Related epic
 
 [`e603-conversations-reviews-continued-elsewhere.md`](./e603-conversations-reviews-continued-elsewhere.md) — Story 5,
-after [Story 4](./s4-link-chronology-and-conversations.md).
+after [Story 4](./s607-link-chronology-and-conversations.md). Stories 1–4 are on `main`: chronology ids exist,
+`/conversations` and the home teaser share `ConversationList`, and chronology pills and **Re:** links are live. With
+one review in the data, only `demings-road` shows **See conversation**. Epic delivery: trunk-based commits to `main`
+(Commit → Acceptance → Production); **dev** is manual from localhost.
 
 ## Related implementation
 
 | Piece | Path / note |
 | ----- | ----------- |
-| Live seed | `src/content/conversations.ts` — Scherkenbach pull-quote only |
-| Reference list | `profound-conversations/src/content/conversations.ts` |
+| Live record | `src/content/conversations.ts` — `Conversation` requires `quote`. One row (Scherkenbach): author Mike Harris, date `2025.09.16`, source Test & Analysis, platform Blog, `relatedBookId: 'demings-road'`, and the same sentence on `quote` and `excerpt`. Update that row in place; do not add a second Scherkenbach entry |
+| Sort and cards | `src/components/ConversationList.astro` — copies the array and sorts `date` with `localeCompare` descending. Renders `excerpt` when set, then **Re:** when `relatedBookId` matches a chronology id, then `author · source` and the stored date. Nothing reads `quote`. Do not change this component |
+| Dates | Story 1 stores `YYYY.MM.DD`. Hyphens and dots do not sort together: `localeCompare` stops at the separator. Store `2026.10.06`, not `2026-10-06` |
+| Reference list | `profound-conversations/src/content/conversations.ts` — the seven older posts (author there is “Test & Analysis”; source is the hostname). Copy titles, URLs, and `relatedBookId`s. Do not copy that author or source. Sidewinder, Leadership Is Language, and Phoenix Project are not in that file |
 | Sidewinder finder | https://testandanalysis.home.blog/tag/sidewinder/ — use the article URL in the table |
+| Chronology | `src/content/chronology.ts` — all ten ids exist. `current: true` is on `leaders-handbook`, not `leadership-is-language`. Attach the 6 Oct 2026 review to `leadership-is-language`. Each of the ten books has one review, so each pill reads **See conversation**. The other eight rows, including the current book, stay without a pill |
+| Teaser | Home passes `limit={3}`. After the seed the top three are Leadership Is Language (`2026.10.06`), Sidewinder (`2026.09.15`), and Phoenix Project (`2026.06.02`) |
+| Smoke | `scripts/smoke-test.cjs` — HTTP 200 for `/` and `/conversations`, and `id="conversations"` on `/`. No new assertion |
+| Dev deploy | `.cursor/commands/deploy-dev-book-club.md` → `source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh` (content only) |
 
 ## Testing note
 
-Manually open every URL in the review list and confirm the live post title matches the title recorded here. Do this
-before calling the story done. The check is titles and links; book relations stay as listed.
+Open every URL in the manual link check under **Final** and confirm the live post title matches. Do this before
+calling the story done. The check is titles and links; book relations stay as listed.
 
 ## Questions
 
@@ -101,3 +117,61 @@ before calling the story done. The check is titles and links; book relations sta
    post title as stated and relate it to `twenty-things`.
 4. **Phoenix Project review.** ~~Include the 2 Jun 2026 post?~~ **Resolved:** Include it. Keep the post title as
    stated and relate it to `phoenix-project`.
+5. **Stored dates.** ✅  
+   Store `YYYY.MM.DD` (`2026.10.06`). The review list’s ISO dates are the same calendar days. The page prints the
+   stored string, and mixed separators break `localeCompare`.
+6. **`quote` on the new rows.** `quote` is required, and no component reads it. The Lovable rows and the three newer
+   posts have no pull-quote. **Recommend:** make `quote` optional and omit it on the nine new rows. Keep the
+   Scherkenbach `quote` and `excerpt`. Do not invent excerpts. Confirm before Segment 1.
+
+## Implementation Checklist
+
+**Segment 1 — Seed the review archive** (`profound-book-club`)
+
+- [ ] Confirm Q6, then make `quote` optional. Leave Scherkenbach’s `quote` and `excerpt` as they are
+- [ ] Add the nine reviews from the list above, newest first, in `conversations`. Each row: the stated title, author
+      `Mike Harris`, date `YYYY.MM.DD`, platform `Blog`, source `Test & Analysis`, the article URL, and
+      `relatedBookId`. No `excerpt`. No second Scherkenbach row
+- [ ] Sidewinder’s URL is the 15 Sep 2026 article, not the tag page. Leadership Is Language is the 6 Oct 2026 article
+      and `relatedBookId` is `leadership-is-language`
+- [ ] `pnpm run lint` and `pnpm run build`
+- [ ] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
+      browser before the push
+- [ ] Commit and push to `main`: `[sc-608] Publish the Test & Analysis reviews`
+- [ ] That push’s pipeline is green before Final
+
+**Final — Review and verify**
+
+- [ ] The segment’s pipeline run is green
+
+**Manual link check** — open each URL and confirm the live post title. Sidewinder is the article, not the tag page.
+
+- [ ] **2026-10-06** — Help to move from test execution to decision-making – A Review of Leadership is Language by L. David Marquet  
+      https://testandanalysis.home.blog/2026/10/06/help-to-move-from-test-execution-to-decision-making-a-review-of-leadership-is-language-by-l-david-marquet/
+- [ ] **2026-09-15** — Creative teamwork for quality – A Review of “Sidewinder – Creative Missile Development at China Lake” by Ron Westrum  
+      https://testandanalysis.home.blog/2026/09/15/creative-teamwork-for-quality-a-review-of-sidewinder-creative-missile-development-at-china-lake-by-ron-westrum/
+- [ ] **2026-06-02** — How to get the most from the constraint on your (testing) process – A review of The Phoenix Project by Gene Kim, Kevin Behr, and George Spafford  
+      https://testandanalysis.home.blog/2026/06/02/how-to-get-the-most-from-the-constraint-on-your-testing-process-the-phoenix-project-by-gene-kim-kevin-behr-and-george-spafford/
+- [ ] **2025-09-16** — Quality Comes First — a review of Deming's Road to Continual Improvement by William W. Scherkenbach  
+      https://testandanalysis.home.blog/2025/09/16/quality-comes-first-a-review-of-demings-road-to-continual-improvement-by-william-w-scherkenbach/
+- [ ] **2025-06-10** — We Can Learn So Much From How AI Got Here — a review of Rebels of Reason by John Willis with Derek Lewis  
+      https://testandanalysis.home.blog/2025/06/10/we-can-learn-so-much-from-how-ai-got-here-a-review-of-rebels-of-reason-by-john-willis-with-derek-lewis/
+- [ ] **2024-09-24** — A Great Resource for Leaders in Test and Quality — a review of Learning to Lead, Leading to Learn by Katie Anderson  
+      https://testandanalysis.home.blog/2024/09/24/a-great-resource-for-leaders-in-test-and-quality-a-review-of-learning-to-lead-leading-to-learn-by-katie-anderson/
+- [ ] **2024-04-16** — Think Slowly When You Are Testing — and Think Slowly When You Are Automating  
+      https://testandanalysis.home.blog/2024/04/16/think-slowly-when-you-are-testing-and-think-slowly-when-you-are-automating/
+- [ ] **2024-02-20** — Get Insights from The World of W. Edwards Deming by Cecelia S. Kilian  
+      https://testandanalysis.home.blog/2024/02/20/get-insights-from-the-world-of-w-edwards-deming-by-cecelia-s-kilian/
+- [ ] **2024-01-23** — A Review of Understanding Variation — The Key to Managing Chaos by Donald J. Wheeler  
+      https://testandanalysis.home.blog/2024/01/23/a-review-of-understanding-variation-the-key-to-managing-chaos-by-donald-j-wheeler/
+- [ ] **2023-10-03** — A Review of Deming's Journey to Profound Knowledge by John Willis with Derek Lewis  
+      https://testandanalysis.home.blog/2023/10/03/a-review-of-demings-journey-to-profound-knowledge-by-john-botchagalupe-willis-with-derek-lewis/
+- [ ] In the browser, on desktop and at a width under 720px: the home teaser shows Leadership Is Language, Sidewinder,
+      and the Phoenix Project review, with no pull-quote on those three. `/conversations` lists all ten, newest first.
+      Scherkenbach still shows its pull-quote. Each card’s **Re:** line links to `/#book-{id}`. Those ten chronology
+      rows show **See conversation** to `/conversations`. `leaders-handbook` (current) and the other rows with no
+      review show no pill
+- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`
+- [ ] No new application unit-test harness; coverage for this story is the existing smoke check, the manual link
+      pass, and the browser pass
+- [ ] `conversations.ts` stays under 200 lines
