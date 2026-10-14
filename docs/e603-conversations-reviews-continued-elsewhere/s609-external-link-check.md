@@ -193,15 +193,15 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
 - [x] `pnpm run build` and `pnpm run check-external-links`. The script fails and names that URL as expected and absent
       from the site
 - [x] No dev deploy. Do not use `[skip ci]` — the pipeline has to run
-- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
-- [ ] Commit and push to `main`: `[sc-609] Confirm inventory drift fails the pipeline`
-- [ ] Deploy jobs stay green. The link-check job is red, and Slack reports that failure. Confirm the red job and the
+- [x] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
+- [x] Commit and push to `main`: `[sc-609] Confirm inventory drift fails the pipeline`
+- [x] Deploy jobs stay green. The link-check job is red, and Slack reports that failure. Confirm the red job and the
       drift message in the log before Segment 2c
 
 **Segment 2c — Restore the expected list** (`profound-book-club`, docs)
 
-- [ ] Remove `https://example.com/not-on-the-site` from `docs/external-links.md`
-- [ ] `pnpm run check-external-links` passes
+- [x] Remove `https://example.com/not-on-the-site` from `docs/external-links.md`
+- [x] `pnpm run check-external-links` passes
 - [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Restore the external-link inventory`
 - [ ] That push's pipeline is green, including the link-check job, before Segment 2d
