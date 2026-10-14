@@ -29,7 +29,8 @@ to Mike Harris.
 
 ## Scope
 
-**In:** `src/content/conversations.ts` only. The Scherkenbach `excerpt` stays (Story 2). New rows have no excerpt.
+**In:** `src/content/conversations.ts` only. The Scherkenbach `excerpt` stays (Story 2). New rows set `quote` to
+`_TBD_` and have no excerpt.
 
 **Out:** New chronology rows; current-book or upcoming-book edits; page or nav design; CDK / `4ls-org`.
 
@@ -91,7 +92,7 @@ one review in the data, only `demings-road` shows **See conversation**. Epic del
 
 | Piece | Path / note |
 | ----- | ----------- |
-| Live record | `src/content/conversations.ts` — `Conversation` requires `quote`. One row (Scherkenbach): author Mike Harris, date `2025.09.16`, source Test & Analysis, platform Blog, `relatedBookId: 'demings-road'`, and the same sentence on `quote` and `excerpt`. Update that row in place; do not add a second Scherkenbach entry |
+| Live record | `src/content/conversations.ts` — `Conversation` requires `quote`. Scherkenbach keeps its quote and excerpt. The nine new rows set `quote` to `_TBD_` and omit `excerpt`, so the placeholder does not render. Update Scherkenbach in place |
 | Sort and cards | `src/components/ConversationList.astro` — copies the array and sorts `date` with `localeCompare` descending. Renders `excerpt` when set, then **Re:** when `relatedBookId` matches a chronology id, then `author · source` and the stored date. Nothing reads `quote`. Do not change this component |
 | Dates | Story 1 stores `YYYY.MM.DD`. Hyphens and dots do not sort together: `localeCompare` stops at the separator. Store `2026.10.06`, not `2026-10-06` |
 | Reference list | `profound-conversations/src/content/conversations.ts` — the seven older posts (author there is “Test & Analysis”; source is the hostname). Copy titles, URLs, and `relatedBookId`s. Do not copy that author or source. Sidewinder, Leadership Is Language, and Phoenix Project are not in that file |
@@ -120,18 +121,19 @@ calling the story done. The check is titles and links; book relations stay as li
 5. **Stored dates.** ✅  
    Store `YYYY.MM.DD` (`2026.10.06`). The review list’s ISO dates are the same calendar days. The page prints the
    stored string, and mixed separators break `localeCompare`.
-6. **`quote` on the new rows.** `quote` is required, and no component reads it. The Lovable rows and the three newer
-   posts have no pull-quote. **Recommend:** make `quote` optional and omit it on the nine new rows. Keep the
-   Scherkenbach `quote` and `excerpt`. Do not invent excerpts. Confirm before Segment 1.
+6. **`quote` on the new rows.** ✅  
+   `quote` stays required. The nine new rows use `quote: '_TBD_'` until a sentence is supplied. Scherkenbach keeps its
+   quote and excerpt. New rows have no excerpt, so the placeholder does not render. The Quotes checklist tracks each
+   replacement. Filling a quote does not block Segment 1.
 
 ## Implementation Checklist
 
 **Segment 1 — Seed the review archive** (`profound-book-club`)
 
-- [ ] Confirm Q6, then make `quote` optional. Leave Scherkenbach’s `quote` and `excerpt` as they are
+- [ ] Leave `quote` required. Leave Scherkenbach’s `quote` and `excerpt` as they are
 - [ ] Add the nine reviews from the list above, newest first, in `conversations`. Each row: the stated title, author
-      `Mike Harris`, date `YYYY.MM.DD`, platform `Blog`, source `Test & Analysis`, the article URL, and
-      `relatedBookId`. No `excerpt`. No second Scherkenbach row
+      `Mike Harris`, date `YYYY.MM.DD`, platform `Blog`, source `Test & Analysis`, the article URL, `relatedBookId`,
+      and `quote: '_TBD_'`. No `excerpt`. No second Scherkenbach row
 - [ ] Sidewinder’s URL is the 15 Sep 2026 article, not the tag page. Leadership Is Language is the 6 Oct 2026 article
       and `relatedBookId` is `leadership-is-language`
 - [ ] `pnpm run lint` and `pnpm run build`
@@ -143,6 +145,15 @@ calling the story done. The check is titles and links; book relations stay as li
 **Final — Review and verify**
 
 - [ ] The segment’s pipeline run is green
+- [ ] In the browser, on desktop and at a width under 720px: the home teaser shows Leadership Is Language, Sidewinder,
+      and the Phoenix Project review, with no pull-quote on those three. `/conversations` lists all ten, newest first.
+      Scherkenbach still shows its pull-quote. Each card’s **Re:** line links to `/#book-{id}`. Those ten chronology
+      rows show **See conversation** to `/conversations`. `leaders-handbook` (current) and the other rows with no
+      review show no pill
+- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`
+- [ ] No new application unit-test harness; coverage for this story is the existing smoke check, the manual link
+      pass, and the browser pass
+- [ ] `conversations.ts` stays under 200 lines
 
 **Manual link check** — open each URL and confirm the live post title. Sidewinder is the article, not the tag page.
 
@@ -166,12 +177,25 @@ calling the story done. The check is titles and links; book relations stay as li
       https://testandanalysis.home.blog/2024/01/23/a-review-of-understanding-variation-the-key-to-managing-chaos-by-donald-j-wheeler/
 - [ ] **2023-10-03** — A Review of Deming's Journey to Profound Knowledge by John Willis with Derek Lewis  
       https://testandanalysis.home.blog/2023/10/03/a-review-of-demings-journey-to-profound-knowledge-by-john-botchagalupe-willis-with-derek-lewis/
-- [ ] In the browser, on desktop and at a width under 720px: the home teaser shows Leadership Is Language, Sidewinder,
-      and the Phoenix Project review, with no pull-quote on those three. `/conversations` lists all ten, newest first.
-      Scherkenbach still shows its pull-quote. Each card’s **Re:** line links to `/#book-{id}`. Those ten chronology
-      rows show **See conversation** to `/conversations`. `leaders-handbook` (current) and the other rows with no
-      review show no pill
-- [ ] After the localhost dev deploy, `pnpm run smoke-test` still passes for `/` and `/conversations`
-- [ ] No new application unit-test harness; coverage for this story is the existing smoke check, the manual link
-      pass, and the browser pass
-- [ ] `conversations.ts` stays under 200 lines
+
+**Quotes** — replace `quote: '_TBD_'` when the sentence is ready. Scherkenbach already has one. These do not block
+Segment 1. Leave `excerpt` unset so the placeholder stays off the card.
+
+- [ ] **2026-10-06** — Leadership Is Language (`leadership-is-language`)
+  - “As testers, we know the way we communicate matters. We can learn from how David Marquet used language to improve his submarine’s performance.”
+- [ ] **2026-09-15** — Sidewinder (`sidewinder`)
+  - "The development of the Sidewinder missile is a successful example of how to run a creative research and development team."
+- [ ] **2026-06-02** — The Phoenix Project (`phoenix-project`)
+  - "This novel is a gateway to learning because it shows how the company also benefits from using the four types of work and the three ways, and many other techniques."
+- [ ] **2025-06-10** — Rebels of Reason (`rebels-of-reason`)
+  - "Testing professionals need to develop an understanding of AI that will help us to test applications that use AI and utilise tools that incorporate AI."
+- [ ] **2024-09-24** — Learning to Lead, Leading to Learn (`learning-to-lead`)
+  - "If you are a Test\QE\QA Manager or Lead or want to become one this book will give you many insights that will help you build your own chain of learning to become a people-centred leader."
+- [ ] **2024-04-16** — Think Slowly When You Are Testing… (`wiring-winning-org`)
+    - "When we test and when we automate there are benefits in “Slowing ourselves down so that we can be more deliberative and self-reflective”"
+- [ ] **2024-02-20** — The World of W. Edwards Deming (`world-of-deming`)
+    - "The details of Deming’s life are interesting, however I am interested in him because I want the same things he did. I want companies to be successful businesses by continually improving the quality of their products and services."
+- [ ] **2024-01-23** — Understanding Variation (`twenty-things`)
+    - "This book can help you start to use control charts to analyse data from your test and development processes."
+- [ ] **2023-10-03** — Deming's Journey to Profound Knowledge (`demings-journey`)
+    - "W. Edwards Deming is often referred to as the “grandfather of quality”, and this new well-researched book about him and his philosophy gives us many new and useful insights."
