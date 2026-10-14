@@ -214,16 +214,16 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
 - [x] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails because the URL is not
       active
 - [x] No dev deploy
-- [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
-- [ ] Commit and push to `main`: `[sc-609] Confirm a bad external link fails the pipeline`
-- [ ] Stage and prod deploy first. The hidden href is on the live site until Segment 2e. Expect the deploy jobs green
+- [x] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
+- [x] Commit and push to `main`: `[sc-609] Confirm a bad external link fails the pipeline`
+- [x] Stage and prod deploy first. The hidden href is on the live site until Segment 2e. Expect the deploy jobs green
       and the link-check job red, with Slack reporting that failure. Confirm the red job before Segment 2e
 
 **Segment 2e — Remove the hidden link** (`profound-book-club`)
 
-- [ ] Remove the hidden anchor and its URL from `docs/external-links.md`
-- [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script passes
-- [ ] No dev deploy
+- [x] Remove the hidden anchor and its URL from `docs/external-links.md`
+- [x] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script passes
+- [x] No dev deploy
 - [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Remove the external-link failure fixture`
 - [ ] That push's pipeline is green, including the link-check job, before Final

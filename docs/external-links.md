@@ -50,9 +50,6 @@ checked for **active** only.
   https://deming.org/events/deming-strategies-for-sustainable-success-innovate-streamline-lead/
 - Deming's 14 Points — video series  
   https://www.youtube.com/@DemingInstitute
-- Hidden anchor in `BaseLayout.astro`, on every page, not shown in the layout. Removed after the pipeline shows
-  this miss.  
-  https://example.com/profound-book-club-missing
 
 ## Excluded
 
