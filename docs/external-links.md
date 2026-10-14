@@ -70,8 +70,10 @@ checked for **active** only.
 host differs from the link we stored, or whose path changes by more than a trailing slash. `http` to `https` on the
 same host is fine.
 
-**Current** (reviews only): decode HTML entities, collapse whitespace, then `og:title` equals the stored title, or
-`<title>` starts with it. Of Interest has no title check. The YouTube card title is ours, not the channel page title.
+**Current** (reviews only): decode HTML entities, then compare words in order. Case, dashes, and quotation marks are
+ignored, and either title may contain extra words (the card text is not always byte-identical to the WordPress
+title). `og:title` is checked first, then `<title>`. Of Interest has no title check. The YouTube card title is ours,
+not the channel page title.
 
 Probe on 14 Oct 2026, one request with a named user agent and no browser: the seminar returned 200 with no redirect;
 the YouTube channel URL returned 200 with no redirect; the Leadership Is Language `og:title` matched the stored title

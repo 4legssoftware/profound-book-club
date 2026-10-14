@@ -131,8 +131,9 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
    the links are the same in both environments. The existing Thursday cron re-runs `main`, so this check rides along.
 2. **Current vs active.** ~~Is HTTP success enough for Of Interest, with title matching reserved for reviews?~~
    **Resolved:** Yes. **Active** for every inventoried link: GET, follow redirects, final status 2xx. **Current** for
-   reviews only: after HTML-entity decode and whitespace normalize, `og:title` equals the stored title (or `<title>`
-   starts with it). Of Interest stays active-only — the YouTube card title is ours, not the channel page's `<title>`.
+   reviews only: the stored title's words appear in order in `og:title` (or `<title>`). Case, dashes, and quotation
+   marks are ignored, and either side may include extra words. The card titles are not byte-identical to the older
+   WordPress titles. Of Interest stays active-only. The YouTube card title is ours, not the channel page's `<title>`.
    An unexpected redirect is a final URL whose host differs, or whose path is more than a trailing-slash change.
    `http` → `https` on the same host is fine.
 3. **Proving a miss fails the pipeline.** ~~Fixture only, or a hidden link on the live site?~~ **Resolved:** Both.
@@ -162,25 +163,25 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 **Segment 2a — Script and a green pipeline run** (`profound-book-club`)
 
-- [ ] Add `scripts/check-external-links.ts` and `pnpm run check-external-links` (`tsx`, same pattern as
+- [x] Add `scripts/check-external-links.ts` and `pnpm run check-external-links` (`tsx`, same pattern as
       `check-action-versions`). It reads `dist/` by default (tell the user to build if `dist/` is missing) and accepts
       a directory argument for a fixture. It crawls visitor `http`/`https` links, compares that set to the visitor
       URLs in `docs/external-links.md`, then checks active/current. A URL on only one side fails before any fetch and
       names the URL. A listed link that is not active fails separately. Hidden anchors count. Exit non-zero on a
       miss. No new dependencies. Do not change `smoke-test.cjs`
-- [ ] Add a `main.yml` job parallel to `smoke-tests-prod` (same `needs`), downloading the `dist` artifact and running
+- [x] Add a `main.yml` job parallel to `smoke-tests-prod` (same `needs`), downloading the `dist` artifact and running
       `pnpm run check-external-links`. No AWS credentials. Add the job to `summary` and `notify` so a failure fails
       the workflow and Slack. Do not add it to the stage path or run it twice
-- [ ] `pnpm run lint` and `pnpm run build`, then `pnpm run check-external-links` once. It passes for the twelve links
-- [ ] Negative check, not deployed: run the script against a fixture directory (one HTML file with a single bad
+- [x] `pnpm run lint` and `pnpm run build`, then `pnpm run check-external-links` once. It passes for the twelve links
+- [x] Negative check, not deployed: run the script against a fixture directory (one HTML file with a single bad
       `https` href, for example `https://example.com/profound-book-club-missing`). The script exits non-zero. The
       fixture is not under `src/` or `public/` and does not appear in `dist/`
-- [ ] Drift checks, not deployed. Against the real `dist/`, run the script with an expected-list copy that drops one
+- [x] Drift checks, not deployed. Against the real `dist/`, run the script with an expected-list copy that drops one
       real URL. It exits non-zero and names that URL as on the site and absent from the expected list. Run again with
       a copy that adds `https://example.com/not-on-the-site`. It exits non-zero and names that URL as expected and
       absent from the site. Leave `docs/external-links.md` unchanged for this push
-- [ ] No dev deploy — the site output is unchanged
-- [ ] Commit and push to `main`: `[sc-609] Check that external links stay active`
+- [x] No dev deploy — the site output is unchanged
+- [x] Commit and push to `main`: `[sc-609] Check that external links stay active`
 - [ ] That push's pipeline is green, including the new link-check job, before Segment 2b
 
 **Segment 2b — Expected list drift fails the workflow** (`profound-book-club`, docs)
