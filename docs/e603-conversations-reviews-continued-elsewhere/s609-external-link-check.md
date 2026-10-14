@@ -189,10 +189,10 @@ only after an explicit go-ahead. "Proceed with segment N" starts the work. It do
 
 **Segment 2b — Expected list drift fails the workflow** (`profound-book-club`, docs)
 
-- [ ] Add `https://example.com/not-on-the-site` to the visitor URLs in `docs/external-links.md`. Do not change the site
-- [ ] `pnpm run build` and `pnpm run check-external-links`. The script fails and names that URL as expected and absent
+- [x] Add `https://example.com/not-on-the-site` to the visitor URLs in `docs/external-links.md`. Do not change the site
+- [x] `pnpm run build` and `pnpm run check-external-links`. The script fails and names that URL as expected and absent
       from the site
-- [ ] No dev deploy. Do not use `[skip ci]` — the pipeline has to run
+- [x] No dev deploy. Do not use `[skip ci]` — the pipeline has to run
 - [ ] Stop. Show the staged diff and the commit message. Wait for an explicit go-ahead
 - [ ] Commit and push to `main`: `[sc-609] Confirm inventory drift fails the pipeline`
 - [ ] Deploy jobs stay green. The link-check job is red, and Slack reports that failure. Confirm the red job and the

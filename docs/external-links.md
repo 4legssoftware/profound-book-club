@@ -50,6 +50,8 @@ checked for **active** only.
   https://deming.org/events/deming-strategies-for-sustainable-success-innovate-streamline-lead/
 - Deming's 14 Points — video series  
   https://www.youtube.com/@DemingInstitute
+- Drift fixture. Not a page on the site. Removed after the pipeline shows this miss.  
+  https://example.com/not-on-the-site
 
 ## Excluded
 
