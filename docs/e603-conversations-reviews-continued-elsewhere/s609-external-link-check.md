@@ -136,9 +136,15 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
    An unexpected redirect is a final URL whose host differs, or whose path is more than a trailing-slash change.
    `http` → `https` on the same host is fine.
 3. **Proving a miss fails the pipeline.** ~~Fixture only, or a hidden link on the live site?~~ **Resolved:** Both.
-   Segment 2a proves the script fails on a fixture that is not deployed. Segment 2b adds one hidden anchor (`hidden`,
-   not a visible card) to a non-2xx URL. That push deploys the hidden href to stage and prod, then the link-check job
-   goes red. Segment 2c removes it and the next run is green.
+   Segment 2a proves the script fails on a fixture that is not deployed. Segment 2d adds one hidden anchor (`hidden`,
+   not a visible card) to a non-2xx URL and records that URL in the expected list, so the red job is the status
+   check. That push deploys the hidden href to stage and prod. Segment 2e removes it and the next run is green.
+4. **Keeping the list in sync.** ~~Hand-edit the snapshot, or crawl the built pages?~~ **Resolved:** Crawl `dist/`
+   on every run. Compare that set to the visitor URLs in `docs/external-links.md`. A URL on only one side fails the
+   script, names the URL, and fails the pipeline job. Slack reports that job failure. The failure is distinct from
+   a link that is listed and rendered but not active. Segment 2a proves both drift directions locally. Segment 2b
+   puts one extra URL in the expected list only, so the live HTML is unchanged, and the job goes red. Segment 2c
+   restores the list.
 
 ## Implementation Checklist
 
@@ -158,8 +164,10 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 - [ ] Add `scripts/check-external-links.ts` and `pnpm run check-external-links` (`tsx`, same pattern as
       `check-action-versions`). It reads `dist/` by default (tell the user to build if `dist/` is missing) and accepts
-      a directory argument for a fixture. It prints the inventory, checks active/current as the note defines, and
-      exits non-zero on a miss. Hidden anchors count. No new dependencies. Do not change `smoke-test.cjs`
+      a directory argument for a fixture. It crawls visitor `http`/`https` links, compares that set to the visitor
+      URLs in `docs/external-links.md`, then checks active/current. A URL on only one side fails before any fetch and
+      names the URL. A listed link that is not active fails separately. Hidden anchors count. Exit non-zero on a
+      miss. No new dependencies. Do not change `smoke-test.cjs`
 - [ ] Add a `main.yml` job parallel to `smoke-tests-prod` (same `needs`), downloading the `dist` artifact and running
       `pnpm run check-external-links`. No AWS credentials. Add the job to `summary` and `notify` so a failure fails
       the workflow and Slack. Do not add it to the stage path or run it twice
@@ -167,23 +175,46 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 - [ ] Negative check, not deployed: run the script against a fixture directory (one HTML file with a single bad
       `https` href, for example `https://example.com/profound-book-club-missing`). The script exits non-zero. The
       fixture is not under `src/` or `public/` and does not appear in `dist/`
+- [ ] Drift checks, not deployed. Against the real `dist/`, run the script with an expected-list copy that drops one
+      real URL. It exits non-zero and names that URL as on the site and absent from the expected list. Run again with
+      a copy that adds `https://example.com/not-on-the-site`. It exits non-zero and names that URL as expected and
+      absent from the site. Leave `docs/external-links.md` unchanged for this push
 - [ ] No dev deploy — the site output is unchanged
 - [ ] Commit and push to `main`: `[sc-609] Check that external links stay active`
 - [ ] That push's pipeline is green, including the new link-check job, before Segment 2b
 
-**Segment 2b — A hidden bad link fails the workflow** (`profound-book-club`)
+**Segment 2b — Expected list drift fails the workflow** (`profound-book-club`, docs)
+
+- [ ] Add `https://example.com/not-on-the-site` to the visitor URLs in `docs/external-links.md`. Do not change the site
+- [ ] `pnpm run build` and `pnpm run check-external-links`. The script fails and names that URL as expected and absent
+      from the site
+- [ ] No dev deploy. Do not use `[skip ci]` — the pipeline has to run
+- [ ] Commit and push to `main`: `[sc-609] Confirm inventory drift fails the pipeline`
+- [ ] Deploy jobs stay green. The link-check job is red, and Slack reports that failure. Confirm the red job and the
+      drift message in the log before Segment 2c
+
+**Segment 2c — Restore the expected list** (`profound-book-club`, docs)
+
+- [ ] Remove `https://example.com/not-on-the-site` from `docs/external-links.md`
+- [ ] `pnpm run check-external-links` passes
+- [ ] Commit and push to `main`: `[sc-609] Restore the external-link inventory`
+- [ ] That push's pipeline is green, including the link-check job, before Segment 2d
+
+**Segment 2d — A hidden bad link fails the workflow** (`profound-book-club`)
 
 - [ ] Add one hidden anchor, not a visible review or Of Interest card. Use `hidden` so it is absent from the layout
-      and present in the built HTML. Point it at a non-2xx URL (the same example host path as the fixture)
-- [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails on that URL
+      and present in the built HTML. Point it at a non-2xx URL (the same example host path as the fixture). Add that
+      URL to `docs/external-links.md` in the same commit so the failure is the status check, not inventory drift
+- [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script fails because the URL is not
+      active
 - [ ] No dev deploy
 - [ ] Commit and push to `main`: `[sc-609] Confirm a bad external link fails the pipeline`
-- [ ] Stage and prod deploy first. The hidden href is on the live site until Segment 2c. Expect the deploy jobs green
-      and the link-check job red, with Slack reporting that failure. Confirm the red job before Segment 2c
+- [ ] Stage and prod deploy first. The hidden href is on the live site until Segment 2e. Expect the deploy jobs green
+      and the link-check job red, with Slack reporting that failure. Confirm the red job before Segment 2e
 
-**Segment 2c — Remove the hidden link** (`profound-book-club`)
+**Segment 2e — Remove the hidden link** (`profound-book-club`)
 
-- [ ] Remove the hidden anchor
+- [ ] Remove the hidden anchor and its URL from `docs/external-links.md`
 - [ ] `pnpm run lint`, `pnpm run build`, and `pnpm run check-external-links`. The script passes
 - [ ] No dev deploy
 - [ ] Commit and push to `main`: `[sc-609] Remove the external-link failure fixture`
@@ -191,12 +222,13 @@ Of Interest — source `src/content/psas.ts`, page `/`. Label is the PSA title (
 
 **Final — Review and verify**
 
-- [ ] Segment 2c's pipeline run is green (or, if Segment 2 was skipped, Segment 1 is on `main` and
+- [ ] Segment 2e's pipeline run is green (or, if Segment 2 was skipped, Segment 1 is on `main` and
       `docs/external-links.md` states what to build next)
-- [ ] Segment 2a's fixture run exited non-zero, and Segment 2b's link-check job failed the workflow
+- [ ] Segment 2a showed both drift directions and a bad fixture link exiting non-zero. Segment 2b's link-check job
+      failed on inventory drift. Segment 2d's link-check job failed because the hidden URL was not active
 - [ ] The committed script run matches `docs/external-links.md`: twelve visitor links, exclusions present, review
-      titles current, Of Interest links active. The hidden anchor is gone
-- [ ] No new application unit-test harness. Coverage is the green script run, the fixture failure, and the red
-      pipeline job. `smoke-test` still covers our own pages in the pipeline
+      titles current, Of Interest links active. The hidden anchor and the extra expected URL are gone
+- [ ] No new application unit-test harness. Coverage is the green script run, the local drift and fixture failures,
+      and the two red pipeline jobs. `smoke-test` still covers our own pages in the pipeline
 - [ ] If `scripts/check-external-links.ts` is over 200 lines, split helpers in a follow-up segment: commit, push, and
       wait for that pipeline run before closing

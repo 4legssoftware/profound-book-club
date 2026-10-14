@@ -77,8 +77,10 @@ Probe on 14 Oct 2026, one request with a named user agent and no browser: the se
 the YouTube channel URL returned 200 with no redirect; the Leadership Is Language `og:title` matched the stored title
 (`&#8211;` is the same en dash we store), and `<title>` was that string plus ` – TestAndAnalysis`.
 
-Run `pnpm run check-external-links` locally. The script reads `dist/` (build first) and accepts a directory argument
-so a fixture can be checked without shipping it. Hidden anchors count. Exit non-zero on a miss. No new dependencies.
+Run `pnpm run check-external-links` locally. The script crawls visitor links from `dist/` (build first) and compares
+that set to the visitor URLs in this file. A URL on only one side fails the run and names the URL, before any fetch.
+A listed link that is rendered but not active fails separately. Hidden anchors count. The script accepts a directory
+argument so a fixture can be checked without shipping it. Exit non-zero on a miss. No new dependencies.
 
 The pipeline runs that command once, in a job parallel to `smoke-tests-prod`, after production is already deployed.
 The job downloads the `dist` artifact from `build` and does not use AWS credentials. `summary` and `notify` include
