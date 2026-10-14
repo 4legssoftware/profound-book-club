@@ -89,7 +89,7 @@ export const chronology: PastBook[] = [
     id: 'sys-tao',
     date: '2025.06',
     title: 'Sys-Tao',
-    author: 'Woody Williams',
+    author: 'Bob Browne',
     connection: 'adjacent',
     kind: 'Philosophy',
   },
