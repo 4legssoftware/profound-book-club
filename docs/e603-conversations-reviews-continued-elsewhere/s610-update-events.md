@@ -85,15 +85,15 @@ to `main` (Commit → Acceptance → Production); **dev** is manual from localho
 - [x] `pnpm run lint` and `pnpm run build`
 - [x] Deploy content to dev (`source scripts/pro-dev.sh` && `./scripts/deploy-content-dev.sh`), then verify in the
       browser before the push
-- [ ] Commit and push to `main`: `[sc-610] Replace the forum card with the Deming seminar`
-- [ ] That push's pipeline is green before Final
+- [x] Commit and push to `main`: `[sc-610] Replace the forum card with the Deming seminar`
+- [x] That push's pipeline is green before Final
 
 **Final — Review and verify**
 
-- [ ] The segment's pipeline run is green
-- [ ] In the browser, on desktop and at a width under 720px: Of Interest shows the seminar card (label, title,
+- [x] The segment's pipeline run is green
+- [x] In the browser, on desktop and at a width under 720px: Of Interest shows the seminar card (label, title,
       blurb, Visit) and the unchanged video series. Visit opens the Deming event URL. The forum title and
       `in2in.org` URL are gone
-- [ ] `pnpm run smoke-test` still passes for `/` (`id="psa"`)
-- [ ] No new application unit-test harness; coverage for this story is the existing smoke check and the browser pass
-- [ ] `psas.ts` stays under 200 lines
+- [x] `pnpm run smoke-test` still passes for `/` (`id="psa"`)
+- [x] No new application unit-test harness; coverage for this story is the existing smoke check and the browser pass
+- [x] `psas.ts` stays under 200 lines
