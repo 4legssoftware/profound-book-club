@@ -251,6 +251,70 @@ function checkWwwRedirect() {
   });
 }
 
+const CANONICAL_ORIGIN = 'https://profound-book-club.org';
+const SITEMAP_INDEX_PATH = '/sitemap-index.xml';
+const SITEMAP_PATH = '/sitemap-0.xml';
+const ROBOTS_PATH = '/robots.txt';
+const SITEMAP_LINE = `Sitemap: ${CANONICAL_ORIGIN}${SITEMAP_INDEX_PATH}`;
+
+async function checkFetchOk(path) {
+  const result = await fetchPage(path);
+
+  if (result.error) {
+    recordFailure(`${result.fullUrl} - ${result.error}`);
+    return null;
+  }
+
+  if (result.statusCode !== 200) {
+    recordFailure(`${result.fullUrl} - ${result.statusCode}`);
+    return null;
+  }
+
+  recordPass(`${result.fullUrl} - ${result.statusCode}`);
+  return result;
+}
+
+function locTag(pageUrl) {
+  return `<loc>${pageUrl}</loc>`;
+}
+
+async function checkRobotsAndSitemap() {
+  const robots = await checkFetchOk(ROBOTS_PATH);
+  if (robots && !robots.body.includes(SITEMAP_LINE)) {
+    recordFailure(`${robots.fullUrl} - missing ${SITEMAP_LINE}`);
+  } else if (robots) {
+    recordPass(`${robots.fullUrl} - Sitemap line present`);
+  }
+
+  const index = await checkFetchOk(SITEMAP_INDEX_PATH);
+  const sitemapLoc = locTag(`${CANONICAL_ORIGIN}${SITEMAP_PATH}`);
+  if (index && !index.body.includes(sitemapLoc)) {
+    recordFailure(`${index.fullUrl} - missing ${sitemapLoc}`);
+  }
+
+  const sitemap = await checkFetchOk(SITEMAP_PATH);
+  if (!sitemap) {
+    return;
+  }
+
+  const requiredLocs = [
+    locTag(`${CANONICAL_ORIGIN}/`),
+    locTag(`${CANONICAL_ORIGIN}/conversations/`),
+  ];
+  const missing = requiredLocs.filter((loc) => !sitemap.body.includes(loc));
+  for (const loc of missing) {
+    recordFailure(`${sitemap.fullUrl} - missing ${loc}`);
+  }
+
+  if (sitemap.body.includes('/404')) {
+    recordFailure(`${sitemap.fullUrl} - lists /404`);
+  }
+
+  if (missing.length === 0 && !sitemap.body.includes('/404')) {
+    recordPass(`${sitemap.fullUrl} - apex pages only`);
+  }
+}
+
 async function runSmokeTests() {
   console.log(`\n🧪 Running smoke tests for ${url.origin} (${ENVIRONMENT})\n`);
 
@@ -258,6 +322,7 @@ async function runSmokeTests() {
     await checkPage(page);
   }
 
+  await checkRobotsAndSitemap();
   await checkWwwRedirect();
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
