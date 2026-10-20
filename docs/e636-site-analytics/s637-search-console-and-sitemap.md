@@ -26,23 +26,41 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 **Out**
 
 - On-site analytics ([sc-611](./s611-self-hosted-umami.md))
-- Broader SEO work (meta descriptions, Open Graph, schema.org markup)
+- Broader SEO work (meta descriptions, Open Graph, schema.org markup, canonical link tags)
 - `noindex` for stage and dev (see Notes)
+
+## Split recommendation
+
+One story is enough. The epic already pairs the sitemap and the DNS verification because they are one outcome: a
+verified property with a sitemap submitted. The two repos ship as separate segments below. Splitting them into Shortcut
+tickets would leave a sitemap story that cannot close the second acceptance criterion.
 
 ## Related implementation
 
-- `astro.config.mjs` already sets `site: 'https://profound-book-club.org'`, so sitemap URLs will use the canonical apex.
-  There is no `robots.txt` in `public/` and no sitemap integration.
-- The pages are `/`, `/conversations`, and `/404`. Leave `/404` out of the sitemap.
-- `scripts/smoke-test.cjs` checks `/` and `/conversations`. That's where to assert that the sitemap and `robots.txt`
-  exist.
-- `4ls-org/infrastructure/modules/common/route53-profound-book-club.tf` has no apex TXT record yet. Route 53 allows
-  one TXT record set per name. If [sc-613](../other-features/sc-613-club-announcements.md) puts Buttondown's SPF on the
-  apex first, add the Google token to that record set instead of creating a second one.
+- `astro.config.mjs` sets `site: 'https://profound-book-club.org'` and `output: 'static'`. Sitemap URLs use that
+  canonical apex on every deploy, including stage and dev. There is no `robots.txt` under `public/` (only
+  `favicon.svg`) and no sitemap integration. The layout has no canonical link tags; adding them is out of scope.
+- Pages are `/`, `/conversations`, and `/404`. Leave `/404` out of the sitemap.
+- The pipeline builds `dist/` once, syncs it to stage and then prod, and invalidates `/*`. No CloudFront behavior
+  change is needed for `.xml` or `.txt`. `aws s3 sync` sets content types from the extension.
+- `scripts/smoke-test.cjs` (279 lines) checks `/` and `/conversations`, then the `www` redirect. CI runs it with
+  `ENVIRONMENT=stage` and `ENVIRONMENT=prod` against those hosts. Assert status and body content. The sitemap on stage
+  still lists apex URLs, so do not require the sitemap host to match the host under test.
+- Dev content deploys from localhost with `source scripts/pro-dev.sh` and `./scripts/deploy-content-dev.sh` (build,
+  sync, invalidate `/*`).
+- `4ls-org` has no `TXT` records today. The apex in
+  `infrastructure/modules/common/route53-profound-book-club.tf` is an `A` alias, which can sit beside a new `TXT`
+  record set. Route 53 allows one `TXT` record set per name. If
+  [sc-613](../other-features/sc-613-club-announcements.md) puts Buttondown's SPF on the apex first, add the Google
+  token to that record set instead of creating a second one. The verification token is public DNS; committing it is
+  fine.
 
 ## Questions
 
-1. **sitemap.xml file name.** `@astrojs/sitemap` writes `sitemap-index.xml` and `sitemap-0.xml`, not `sitemap.xml`.
+The checklist assumes the recommended answer. Resolve this at kickoff before coding.
+
+1. **sitemap.xml file name.** `@astrojs/sitemap` writes `sitemap-index.xml` plus `sitemap-0.xml`, not a single
+   `sitemap.xml`. Google accepts a sitemap index.
    - **(a) Recommended:** use the integration, submit `sitemap-index.xml`, and reference it from `robots.txt`. This
      meets the intent of the criterion.
    - (b) Write a small `src/pages/sitemap.xml.ts` endpoint if the literal file name matters.
@@ -51,12 +69,15 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 
 ### Segment 1: Sitemap and robots.txt (`profound-book-club`)
 
-- [ ] Extend `scripts/smoke-test.cjs` first: `/sitemap-index.xml` and `/robots.txt` return 200, and `robots.txt`
-  includes the `Sitemap:` line
+- [ ] Extend `scripts/smoke-test.cjs` first. `/sitemap-index.xml`, `/sitemap-0.xml`, and `/robots.txt` return 200.
+  `robots.txt` includes `Sitemap: https://profound-book-club.org/sitemap-index.xml`. The sitemap lists the home page
+  and `/conversations` on the apex, and does not list `/404`.
 - [ ] Add `@astrojs/sitemap` to `astro.config.mjs` and filter out `/404`
 - [ ] Add `public/robots.txt` with `Sitemap: https://profound-book-club.org/sitemap-index.xml`
 - [ ] Check `dist/` locally: the sitemap lists only canonical apex URLs (`/` and `/conversations`)
 - [ ] `pnpm run lint`, `pnpm run check`, `pnpm run format:check`, and `pnpm run build` pass
+- [ ] Deploy content to dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`).
+  `ENVIRONMENT=dev pnpm run smoke-test` passes
 - [ ] Commit and push to `main`: `[sc-637] Publish a sitemap and robots.txt`
 - [ ] Pipeline is green and both stage and prod smoke tests pass before starting Segment 2
 
@@ -65,8 +86,9 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 - [ ] Manual: add `profound-book-club.org` as a **Domain** property in Search Console and copy the
   `google-site-verification=…` token
 - [ ] Add an apex `TXT` record to `route53-profound-book-club.tf`, or extend sc-613's record set if it already exists
-- [ ] From `4ls-org/infrastructure`: `terraform fmt -check`, `validate`, `tflint`, and `tfsec` pass. **Stop and review
-  the TFC plan** (expect exactly one TXT record added or changed)
+- [ ] From `4ls-org/infrastructure`: `terraform fmt -check -recursive`, `terraform init -backend=false`,
+  `terraform validate`, `tflint`, and `tfsec` pass. **Stop and review the TFC plan** (expect exactly one TXT record
+  added or changed)
 - [ ] Commit and push to `main` in `4ls-org`: `[sc-637] Add the Search Console verification record for
   profound-book-club.org`
 - [ ] TFC apply succeeds, `dig TXT profound-book-club.org` shows the token, and Search Console reports the property as
@@ -77,6 +99,8 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 
 - [ ] Verification: the Segment 1 pipeline run is green, the Segment 2 TFC plan was clean, and Search Console shows the
   property verified and the sitemap read successfully
+- [ ] Coverage: this segment does not touch CDK. The smoke test is the check that the sitemap and `robots.txt` stay
+  published
 - [ ] Long files: `smoke-test.cjs` is already over 200 lines. If the new checks make it noticeably harder to follow,
   split it as its own segment: commit, push, and wait for the pipeline
 - [ ] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
