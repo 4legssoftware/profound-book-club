@@ -57,13 +57,10 @@ tickets would leave a sitemap story that cannot close the second acceptance crit
 
 ## Questions
 
-The checklist assumes the recommended answer. Resolve this at kickoff before coding.
-
 1. **sitemap.xml file name.** `@astrojs/sitemap` writes `sitemap-index.xml` plus `sitemap-0.xml`, not a single
    `sitemap.xml`. Google accepts a sitemap index.
-   - **(a) Recommended:** use the integration, submit `sitemap-index.xml`, and reference it from `robots.txt`. This
-     meets the intent of the criterion.
-   - (b) Write a small `src/pages/sitemap.xml.ts` endpoint if the literal file name matters.
+   - **Decided: (a).** Use the integration, submit `sitemap-index.xml`, and reference it from `robots.txt`.
+   - (b) Write a small `src/pages/sitemap.xml.ts` endpoint if the literal file name matters. Not chosen.
 
 ## Implementation Checklist
 
