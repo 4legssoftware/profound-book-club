@@ -66,17 +66,21 @@ tickets would leave a sitemap story that cannot close the second acceptance crit
 
 ### Segment 1: Sitemap and robots.txt (`profound-book-club`)
 
-- [ ] Extend `scripts/smoke-test.cjs` first. `/sitemap-index.xml`, `/sitemap-0.xml`, and `/robots.txt` return 200.
+- [x] Extend `scripts/smoke-test.cjs` first. `/sitemap-index.xml`, `/sitemap-0.xml`, and `/robots.txt` return 200.
   `robots.txt` includes `Sitemap: https://profound-book-club.org/sitemap-index.xml`. The sitemap lists the home page
   and `/conversations` on the apex, and does not list `/404`.
-- [ ] Add `@astrojs/sitemap` to `astro.config.mjs` and filter out `/404`
-- [ ] Add `public/robots.txt` with `Sitemap: https://profound-book-club.org/sitemap-index.xml`
-- [ ] Check `dist/` locally: the sitemap lists only canonical apex URLs (`/` and `/conversations`)
-- [ ] `pnpm run lint`, `pnpm run check`, `pnpm run format:check`, and `pnpm run build` pass
-- [ ] Deploy content to dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`).
-  `ENVIRONMENT=dev pnpm run smoke-test` passes
-- [ ] Commit and push to `main`: `[sc-637] Publish a sitemap and robots.txt`
-- [ ] Pipeline is green and both stage and prod smoke tests pass before starting Segment 2
+- [x] Add `@astrojs/sitemap` to `astro.config.mjs` and filter out `/404`
+- [x] Add `public/robots.txt` with `Sitemap: https://profound-book-club.org/sitemap-index.xml`
+- [x] Check `dist/` locally: the sitemap lists only canonical apex URLs (`/` and `/conversations/`)
+- [x] `pnpm run lint`, `pnpm run check`, `pnpm run format:check`, and `pnpm run build` pass
+- [x] Deploy content to dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`).
+  `ENVIRONMENT=dev pnpm run smoke-test` passes (10 passed, 2026-10-20)
+- [x] Commit and push to `main`: `[sc-637] Publish a sitemap and robots.txt` (`c3fea65`)
+- [ ] Pipeline is green and both stage and prod smoke tests pass before starting Segment 2. **Not run yet:**
+  `c3fea65` was pushed together with `c3f5571`, a `[skip ci]` docs commit. GitHub skips the whole push when the newest
+  commit has `[skip ci]`, so the sitemap never deployed. As of 2026-10-21, stage and prod still serve the 404 page,
+  with status 200, at `/robots.txt` and `/sitemap-index.xml`. Run the workflow with `workflow_dispatch` or push a
+  commit without `[skip ci]`
 
 ### Segment 2: Search Console Domain verification (`4ls-org`, plus manual steps in Search Console)
 
