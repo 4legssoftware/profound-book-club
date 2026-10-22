@@ -76,33 +76,35 @@ tickets would leave a sitemap story that cannot close the second acceptance crit
 - [x] Deploy content to dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`).
   `ENVIRONMENT=dev pnpm run smoke-test` passes (10 passed, 2026-10-20)
 - [x] Commit and push to `main`: `[sc-637] Publish a sitemap and robots.txt` (`c3fea65`)
-- [ ] Pipeline is green and both stage and prod smoke tests pass before starting Segment 2. **Not run yet:**
-  `c3fea65` was pushed together with `c3f5571`, a `[skip ci]` docs commit. GitHub skips the whole push when the newest
-  commit has `[skip ci]`, so the sitemap never deployed. As of 2026-10-21, stage and prod still serve the 404 page,
-  with status 200, at `/robots.txt` and `/sitemap-index.xml`. Run the workflow with `workflow_dispatch` or push a
-  commit without `[skip ci]`
+- [x] Pipeline is green and both stage and prod smoke tests pass before starting Segment 2. `c3fea65` was first pushed
+  behind a `[skip ci]` docs commit, so GitHub skipped that push. It deployed with `247e651`
+  ([run 39635002405](https://github.com/4legssoftware/profound-book-club/actions/runs/39635002405), 2026-10-21)
 
 ### Segment 2: Search Console Domain verification (`4ls-org`, plus manual steps in Search Console)
 
-- [ ] Manual: add `profound-book-club.org` as a **Domain** property in Search Console and copy the
+- [x] Manual: add `profound-book-club.org` as a **Domain** property in Search Console and copy the
   `google-site-verification=…` token
-- [ ] Add an apex `TXT` record to `route53-profound-book-club.tf`, or extend sc-613's record set if it already exists
-- [ ] From `4ls-org/infrastructure`: `terraform fmt -check -recursive`, `terraform init -backend=false`,
+- [x] Add an apex `TXT` record to `route53-profound-book-club.tf`, or extend sc-613's record set if it already exists.
+  New record set `profound_book_club_apex_txt`; sc-613 had not added SPF yet
+- [x] From `4ls-org/infrastructure`: `terraform fmt -check -recursive`, `terraform init -backend=false`,
   `terraform validate`, `tflint`, and `tfsec` pass. **Stop and review the TFC plan** (expect exactly one TXT record
-  added or changed)
-- [ ] Commit and push to `main` in `4ls-org`: `[sc-637] Add the Search Console verification record for
-  profound-book-club.org`
-- [ ] TFC apply succeeds, `dig TXT profound-book-club.org` shows the token, and Search Console reports the property as
-  verified
-- [ ] Manual: submit `https://profound-book-club.org/sitemap-index.xml` in Search Console and note the date here
+  added or changed). Plan: 1 to add, 0 to change, 0 to destroy
+- [x] Commit and push to `main` in `4ls-org`: `[sc-637] Add the Search Console verification record for
+  profound-book-club.org` (`58b24ae`, [run 39842213431](https://github.com/4legssoftware/4ls-org/actions/runs/39842213431))
+- [x] TFC apply succeeds, `dig TXT profound-book-club.org` shows the token, and Search Console reports the property as
+  verified (2026-10-22)
+- [x] Manual: submit `https://profound-book-club.org/sitemap-index.xml` in Search Console and note the date here.
+  Submitted and read 2026-10-22, status Success. Discovered pages showed 0 at first, because Google reads the child
+  `sitemap-0.xml` separately; expect 2
 
 ### Final
 
-- [ ] Verification: the Segment 1 pipeline run is green, the Segment 2 TFC plan was clean, and Search Console shows the
+- [x] Verification: the Segment 1 pipeline run is green, the Segment 2 TFC plan was clean, and Search Console shows the
   property verified and the sitemap read successfully
-- [ ] Coverage: this segment does not touch CDK. The smoke test is the check that the sitemap and `robots.txt` stay
+- [x] Coverage: this segment does not touch CDK. The smoke test is the check that the sitemap and `robots.txt` stay
   published
-- [ ] Long files: `smoke-test.cjs` is already over 200 lines. If the new checks make it noticeably harder to follow,
+- [ ] Long files: `smoke-test.cjs` is already over 200 lines (343 after Segment 1). Undecided: leave it as is, or move
+  the sitemap checks into their own module. If the new checks make it noticeably harder to follow,
   split it as its own segment: commit, push, and wait for the pipeline
 - [ ] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
 
