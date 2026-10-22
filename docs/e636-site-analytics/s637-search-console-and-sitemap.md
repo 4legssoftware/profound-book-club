@@ -103,8 +103,10 @@ tickets would leave a sitemap story that cannot close the second acceptance crit
   property verified and the sitemap read successfully
 - [x] Coverage: this segment does not touch CDK. The smoke test is the check that the sitemap and `robots.txt` stay
   published
-- [ ] Long files: `smoke-test.cjs` is already over 200 lines (343 after Segment 1). Undecided: leave it as is, or move
-  the sitemap checks into their own module. If the new checks make it noticeably harder to follow,
+- [x] Long files: `smoke-test.cjs` reached 343 lines after Segment 1. Split into `scripts/smoke-test.ts` plus modules
+  under `scripts/smoke-test/` (target, http, results, and one file per check, each under 75 lines), matching
+  `scripts/external-links/`, and run with `tsx`. Output against dev is identical before and after, for both a passing
+  run and a forced-failure run If the new checks make it noticeably harder to follow,
   split it as its own segment: commit, push, and wait for the pipeline
 - [ ] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
 

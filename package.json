@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "smoke-test": "node scripts/smoke-test.cjs",
+    "smoke-test": "tsx scripts/smoke-test.ts",
     "check-external-links": "tsx scripts/check-external-links.ts",
     "check-action-versions": "tsx scripts/check-action-versions.ts"
   },
