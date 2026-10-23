@@ -3,7 +3,7 @@
 **Shortcut:** [sc-637](https://app.shortcut.com/4legssoftware/story/637)
 
 **Related epic:** [`e636-site-analytics.md`](./e636-site-analytics.md), Story 1. It covers the search side of
-[ADR-002](../adrs/adr-002-site-analytics.md). The on-site Umami work is [sc-611](./s611-self-hosted-umami.md).
+[ADR-002](../adrs/adr-002-site-analytics.md). The on-site Umami work is [sc-611](./s611-umami-cloud.md).
 
 ## Summary
 
@@ -25,7 +25,7 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 
 **Out**
 
-- On-site analytics ([sc-611](./s611-self-hosted-umami.md))
+- On-site analytics ([sc-611](./s611-umami-cloud.md))
 - Broader SEO work (meta descriptions, Open Graph, schema.org markup, canonical link tags)
 - `noindex` for stage and dev. Out of scope at kickoff, then added as Segment 3
 
@@ -144,7 +144,7 @@ Added after the Final block, at the user's request, instead of as a separate sto
   CloudFront distributions instead.
 - CloudFront used to serve `/404.html` with status 200 for missing paths, which Google reports as soft 404s. Segment 3
   returns 404.
-- [sc-611](./s611-self-hosted-umami.md) adds a CSP `ResponseHeadersPolicy` to the same default behavior, and a behavior
+- [sc-611](./s611-umami-cloud.md) adds a CSP `ResponseHeadersPolicy` to the same default behavior, and a behavior
   takes only one policy. sc-611 has to merge the two: security headers everywhere, plus `X-Robots-Tag` for stage and
   dev only.
 - How to read the property after it is verified: [`docs/search-console-runbook.md`](../search-console-runbook.md).

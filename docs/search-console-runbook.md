@@ -34,7 +34,7 @@ sooner for that single page.
   say the site is being offered for that query.
 - Whether a new page (a new conversation, a future route) has been crawled and indexed after it ships. Add it to the
   sitemap by publishing the page; `@astrojs/sitemap` picks up every page except `/404`.
-- Whether search traffic and on-site pageviews (Umami, once [sc-611](./e636-site-analytics/s611-self-hosted-umami.md)
+- Whether search traffic and on-site pageviews (Umami, once [sc-611](./e636-site-analytics/s611-umami-cloud.md)
   is live) tell the same story about which page people open.
 
 ## What to look out for
