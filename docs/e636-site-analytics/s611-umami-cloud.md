@@ -14,13 +14,13 @@ first CSP.
 
 ## Acceptance Criteria
 
-- [ ] profound-book-club.org is a website on an Umami Cloud Hobby account, and visits appear in that dashboard
-- [ ] The Umami tracking script loads on every page in Production from `https://cloud.umami.is`, with this site's
+- [x] profound-book-club.org is a website on an Umami Cloud Hobby account, and visits appear in that dashboard
+- [x] The Umami tracking script loads on every page in Production from `https://cloud.umami.is`, with this site's
   website id
-- [ ] No cookies are set and no consent banner is needed
-- [ ] The site's CSP (CloudFront ResponseHeadersPolicy) allows `https://cloud.umami.is` for the script and
+- [x] No cookies are set and no consent banner is needed
+- [x] The site's CSP (CloudFront ResponseHeadersPolicy) allows `https://cloud.umami.is` for the script and
   `https://gateway.umami.is` for the collection endpoint, and no other analytics origin
-- [ ] Acceptance and dev traffic do not pollute Production stats (the script does not load outside Production)
+- [x] Acceptance and dev traffic do not pollute Production stats (the script does not load outside Production)
 
 ## Scope
 
@@ -145,8 +145,8 @@ Kickoff chose (a) for both questions. This checklist matches those decisions.
 - [x] Deploy dev content from localhost (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`).
   `ENVIRONMENT=dev pnpm run smoke-test` passed 17 of 17 (2026-10-23). Headless Chrome on dev kept `src="/analytics.js"`
   and did not add a `cloud.umami.is` script
-- [ ] Commit and push to `main`: `[sc-611] Track Production pageviews with Umami Cloud`
-- [ ] Pipeline is green, then verify:
+- [x] Commit and push to `main`: `[sc-611] Track Production pageviews with Umami Cloud`
+- [x] Pipeline is green, then verify:
     - stage makes no requests to `cloud.umami.is`
     - prod loads the script under the CSP with no violations
     - a visit shows up in the Umami dashboard
@@ -155,16 +155,23 @@ Kickoff chose (a) for both questions. This checklist matches those decisions.
 
 ### Final
 
-- [ ] Verification: both segment pipeline runs are green. CDK tests and synth passed. The site build passed. No
-  `4ls-org` change was required
-- [ ] Include a runbook for working with Umami
-- [ ] Coverage: the site stack asserts the security headers policy and the noindex split. The smoke test asserts that
-  every page references `/analytics.js`
-- [ ] Long files: review any non-test file over 200 lines, especially `cloudfront-distribution.ts` and
-  `security-headers-policy.ts`. If one needs splitting, do it as its own segment: commit, push, and wait for the
-  pipeline
-- [ ] Check every acceptance criterion against what is live in prod, and record the date of the first week of data
-- [ ] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
+- [x] Verification: the CSP pipeline ([run 40021614122](https://github.com/4legssoftware/profound-book-club/actions/runs/40021614122)),
+  the tracker pipeline ([run 40024468485](https://github.com/4legssoftware/profound-book-club/actions/runs/40024468485)),
+  and the gateway fix ([run 40025751192](https://github.com/4legssoftware/profound-book-club/actions/runs/40025751192))
+  are green. CDK tests passed with those commits. The site build passed. No `4ls-org` change was required
+- [x] Umami runbook: [`../runbooks/umami-runbook.md`](../runbooks/umami-runbook.md)
+- [x] Coverage: the site stack asserts the security headers policy and the noindex split. The smoke test asserts that
+  every page references `/analytics.js` and that `/analytics.js` returns 200. Stage and prod smoke tests passed 17 of
+  17 on 2026-10-23
+- [x] Long files: `cloudfront-distribution.ts` is 93 lines and `security-headers-policy.ts` is 54. The files this story
+  added are under 200 lines. `src/components/Hero.astro` is 386 lines. It was already the home-page chart and styles
+  before this story, which added the animation-delay rules so the CSP could stay free of `'unsafe-inline'`. Left as
+  one component
+- [x] Acceptance criteria checked against production on 2026-10-23. The script loads from `cloud.umami.is`, the send
+  goes to `gateway.umami.is` with no CSP violation, `document.cookie` is empty, and stage does not inject the script.
+  Collection started 2026-10-23. The first week of data runs through 2026-10-30. Hobby drops events older than six
+  months
+- [x] Story lifecycle evaluation is the checklist above. No further refactor segment
 
 ## Notes
 
