@@ -27,7 +27,7 @@ in Google Search Console and submitting a sitemap. Nothing runs on the site, and
 
 - On-site analytics ([sc-611](./s611-self-hosted-umami.md))
 - Broader SEO work (meta descriptions, Open Graph, schema.org markup, canonical link tags)
-- `noindex` for stage and dev (see Notes)
+- `noindex` for stage and dev. Out of scope at kickoff, then added as Segment 3
 
 ## Split recommendation
 
@@ -106,12 +106,32 @@ tickets would leave a sitemap story that cannot close the second acceptance crit
 - [x] Long files: `smoke-test.cjs` reached 343 lines after Segment 1. Split into `scripts/smoke-test.ts` plus modules
   under `scripts/smoke-test/` (target, http, results, and one file per check, each under 75 lines), matching
   `scripts/external-links/`, and run with `tsx`. Output against dev is identical before and after, for both a passing
-  run and a forced-failure run If the new checks make it noticeably harder to follow,
-  split it as its own segment: commit, push, and wait for the pipeline
-- [ ] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
+  run and a forced-failure run
+- [x] See the `story-kickoff` skill for the evaluation and refactor steps of the story lifecycle
+
+### Segment 3: Keep stage and dev out of search, and return real 404s (`profound-book-club`, CDK)
+
+Added after the Final block, at the user's request, instead of as a separate story.
+
+- [x] CDK tests first: stage and dev get a `ResponseHeadersPolicy` with `X-Robots-Tag: noindex` on the default
+  behavior; prod has none; both error responses return status 404
+- [x] `cloudfront-distribution.ts`: add the noindex policy for non-prod, and change the 403 and 404 error responses
+  from status 200 to 404. Still serves `/404.html`
+- [x] Smoke test: new `check-indexing.ts` expects the header on stage and dev and its absence on prod, and expects a
+  missing path to return 404 with the not-found page
+- [x] `pnpm test` and synth for dev, stage, and prod pass. Dev `cdk diff` showed only the policy, the two status codes,
+  and the policy reference
+- [x] Deploy dev infrastructure from localhost. `ENVIRONMENT=dev` smoke test passes 12 of 12 (2026-10-23)
+- [ ] Commit and push to `main`: `[sc-637] Keep stage and dev out of search and return real 404s`
+- [ ] Pipeline is green, and the stage and prod smoke tests pass, including the new checks
 
 ## Notes
 
-- A Domain property also covers `stage.` and `dev.`. Those hosts are crawlable today and serve the same sitemap, which
-  points at apex URLs. Adding `noindex` or a stricter `robots.txt` for non-prod hosts is worth a small follow-up story.
-  Because the build is shared, it would need a CloudFront-level header or function rather than a build-time file.
+- A Domain property also covers `stage.` and `dev.`. Those hosts serve the same build as prod, so a build-time
+  `robots.txt` or meta tag can't tell them apart. Segment 3 sends `X-Robots-Tag: noindex` from the stage and dev
+  CloudFront distributions instead.
+- CloudFront used to serve `/404.html` with status 200 for missing paths, which Google reports as soft 404s. Segment 3
+  returns 404.
+- [sc-611](./s611-self-hosted-umami.md) adds a CSP `ResponseHeadersPolicy` to the same default behavior, and a behavior
+  takes only one policy. sc-611 has to merge the two: security headers everywhere, plus `X-Robots-Tag` for stage and
+  dev only.

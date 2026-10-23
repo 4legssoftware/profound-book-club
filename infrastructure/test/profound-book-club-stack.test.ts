@@ -31,12 +31,12 @@ describe('ProfoundBookClubStack', () => {
         CustomErrorResponses: Match.arrayWith([
           Match.objectLike({
             ErrorCode: 404,
-            ResponseCode: 200,
+            ResponseCode: 404,
             ResponsePagePath: '/404.html',
           }),
           Match.objectLike({
             ErrorCode: 403,
-            ResponseCode: 200,
+            ResponseCode: 404,
             ResponsePagePath: '/404.html',
           }),
         ]),
@@ -78,6 +78,35 @@ describe('ProfoundBookClubStack', () => {
               EventType: 'viewer-request',
             }),
           ]),
+        }),
+      }),
+    });
+    template.resourceCountIs('AWS::CloudFront::ResponseHeadersPolicy', 0);
+  });
+
+  test.each(['dev', 'stage'] as const)('%s distribution sends X-Robots-Tag: noindex', (environment) => {
+    const app = new App();
+    const stack = new ProfoundBookClubStack(app, `TestStackNoindex-${environment}`, {
+      env: envConfig[environment],
+      fqdnRoot: envConfig[environment].fqdnRoot,
+      bucketName: envConfig[environment].bucketName,
+      environment,
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.resourceCountIs('AWS::CloudFront::ResponseHeadersPolicy', 1);
+    template.hasResourceProperties('AWS::CloudFront::ResponseHeadersPolicy', {
+      ResponseHeadersPolicyConfig: Match.objectLike({
+        CustomHeadersConfig: {
+          Items: [{ Header: 'X-Robots-Tag', Value: 'noindex', Override: true }],
+        },
+      }),
+    });
+    template.hasResourceProperties('AWS::CloudFront::Distribution', {
+      DistributionConfig: Match.objectLike({
+        DefaultCacheBehavior: Match.objectLike({
+          ResponseHeadersPolicyId: Match.anyValue(),
         }),
       }),
     });

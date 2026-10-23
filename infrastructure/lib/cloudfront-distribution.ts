@@ -12,6 +12,7 @@ import {
   HttpVersion,
   Function as CloudFrontFunction,
   FunctionEventType,
+  ResponseHeadersPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import { ICertificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -43,6 +44,17 @@ export class CloudFrontDistribution extends Construct {
         ]
       : undefined;
 
+    // Stage and dev serve the same build as prod, so only a header set per distribution can keep them out of search.
+    const responseHeadersPolicy =
+      environment === 'prod'
+        ? undefined
+        : new ResponseHeadersPolicy(this, 'NoindexHeaders', {
+            comment: `profound-book-club ${environment} noindex`,
+            customHeadersBehavior: {
+              customHeaders: [{ header: 'X-Robots-Tag', value: 'noindex', override: true }],
+            },
+          });
+
     this.distribution = new Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
@@ -52,21 +64,23 @@ export class CloudFrontDistribution extends Construct {
         compress: true,
         cachePolicy: CachePolicy.CACHING_OPTIMIZED,
         functionAssociations,
+        responseHeadersPolicy,
       },
       defaultRootObject: 'index.html',
       domainNames: domainNames && domainNames.length > 0 ? domainNames : undefined,
       certificate,
       minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
+      // S3 behind OAC answers 403 for a missing key. Both map to a real 404 so search engines don't see soft 404s.
       errorResponses: [
         {
           httpStatus: 404,
-          responseHttpStatus: 200,
+          responseHttpStatus: 404,
           responsePagePath: '/404.html',
           ttl: Duration.minutes(5),
         },
         {
           httpStatus: 403,
-          responseHttpStatus: 200,
+          responseHttpStatus: 404,
           responsePagePath: '/404.html',
           ttl: Duration.minutes(5),
         },

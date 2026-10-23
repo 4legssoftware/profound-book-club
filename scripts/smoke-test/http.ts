@@ -1,10 +1,11 @@
-import http from 'http';
+import http, { type IncomingHttpHeaders } from 'http';
 import https from 'https';
 
 export type FetchResult = {
   fullUrl: string;
   statusCode: number;
   location: string;
+  headers: IncomingHttpHeaders;
   body: string;
   error?: string;
 };
@@ -17,7 +18,7 @@ export function fetchPage(origin: URL, path: string): Promise<FetchResult> {
     const chunks: Buffer[] = [];
 
     const failed = (error: string) =>
-      resolve({ fullUrl, statusCode: 0, location: '', body: '', error });
+      resolve({ fullUrl, statusCode: 0, location: '', headers: {}, body: '', error });
 
     const req = client.request(
       {
@@ -37,6 +38,7 @@ export function fetchPage(origin: URL, path: string): Promise<FetchResult> {
             fullUrl,
             statusCode: res.statusCode ?? 0,
             location: res.headers.location || '',
+            headers: res.headers,
             body: Buffer.concat(chunks).toString('utf-8'),
           });
         });

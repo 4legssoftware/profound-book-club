@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { checkIndexing } from './smoke-test/check-indexing.js';
 import { checkPages } from './smoke-test/check-pages.js';
 import { checkRobotsAndSitemap } from './smoke-test/check-sitemap.js';
 import { checkWwwRedirect } from './smoke-test/check-www-redirect.js';
@@ -14,6 +15,7 @@ async function main(): Promise<void> {
 
   await checkPages(url, results);
   await checkRobotsAndSitemap(url, results);
+  await checkIndexing(url, environment, results);
   await checkWwwRedirect(fqdnRoot, results);
 
   process.exit(results.report() ? 0 : 1);
