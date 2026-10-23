@@ -1,8 +1,67 @@
 import { App } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { CertificateStack } from '../lib/certificate-stack';
-import { envConfig, getWwwHostname } from '../lib/env-config';
+import { Environment, envConfig, getWwwHostname } from '../lib/env-config';
 import { ProfoundBookClubStack } from '../profound-book-club-stack';
+
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  "script-src 'self' https://cloud.umami.is",
+  "connect-src 'self' https://cloud.umami.is",
+  "style-src 'self' https://fonts.googleapis.com",
+  "font-src https://fonts.gstatic.com",
+  "img-src 'self' data:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+
+function expectSecurityHeaders(template: Template, environment: Environment): void {
+  template.resourceCountIs('AWS::CloudFront::ResponseHeadersPolicy', 1);
+  template.hasResourceProperties('AWS::CloudFront::ResponseHeadersPolicy', {
+    ResponseHeadersPolicyConfig: Match.objectLike({
+      SecurityHeadersConfig: {
+        ContentSecurityPolicy: {
+          ContentSecurityPolicy: CONTENT_SECURITY_POLICY,
+          Override: true,
+        },
+        ContentTypeOptions: { Override: true },
+        FrameOptions: { FrameOption: 'DENY', Override: true },
+        ReferrerPolicy: {
+          ReferrerPolicy: 'strict-origin-when-cross-origin',
+          Override: true,
+        },
+        StrictTransportSecurity: {
+          AccessControlMaxAgeSec: 63072000,
+          IncludeSubdomains: true,
+          Override: true,
+        },
+      },
+    }),
+  });
+
+  const policies = template.findResources('AWS::CloudFront::ResponseHeadersPolicy');
+  const policy = Object.values(policies)[0] as {
+    Properties: { ResponseHeadersPolicyConfig: { CustomHeadersConfig?: { Items: unknown[] } } };
+  };
+  const customHeaders = policy.Properties.ResponseHeadersPolicyConfig.CustomHeadersConfig;
+
+  if (environment === 'prod') {
+    expect(customHeaders).toBeUndefined();
+  } else {
+    expect(customHeaders).toEqual({
+      Items: [{ Header: 'X-Robots-Tag', Value: 'noindex', Override: true }],
+    });
+  }
+
+  template.hasResourceProperties('AWS::CloudFront::Distribution', {
+    DistributionConfig: Match.objectLike({
+      DefaultCacheBehavior: Match.objectLike({
+        ResponseHeadersPolicyId: Match.anyValue(),
+      }),
+    }),
+  });
+}
 
 describe('ProfoundBookClubStack', () => {
   test('creates private S3 bucket with OAC-backed CloudFront distribution', () => {
@@ -81,10 +140,10 @@ describe('ProfoundBookClubStack', () => {
         }),
       }),
     });
-    template.resourceCountIs('AWS::CloudFront::ResponseHeadersPolicy', 0);
+    expectSecurityHeaders(template, 'prod');
   });
 
-  test.each(['dev', 'stage'] as const)('%s distribution sends X-Robots-Tag: noindex', (environment) => {
+  test.each(['dev', 'stage'] as const)('%s distribution sends security headers and noindex', (environment) => {
     const app = new App();
     const stack = new ProfoundBookClubStack(app, `TestStackNoindex-${environment}`, {
       env: envConfig[environment],
@@ -95,21 +154,7 @@ describe('ProfoundBookClubStack', () => {
 
     const template = Template.fromStack(stack);
 
-    template.resourceCountIs('AWS::CloudFront::ResponseHeadersPolicy', 1);
-    template.hasResourceProperties('AWS::CloudFront::ResponseHeadersPolicy', {
-      ResponseHeadersPolicyConfig: Match.objectLike({
-        CustomHeadersConfig: {
-          Items: [{ Header: 'X-Robots-Tag', Value: 'noindex', Override: true }],
-        },
-      }),
-    });
-    template.hasResourceProperties('AWS::CloudFront::Distribution', {
-      DistributionConfig: Match.objectLike({
-        DefaultCacheBehavior: Match.objectLike({
-          ResponseHeadersPolicyId: Match.anyValue(),
-        }),
-      }),
-    });
+    expectSecurityHeaders(template, environment);
   });
 });
 

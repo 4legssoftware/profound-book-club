@@ -12,12 +12,12 @@ import {
   HttpVersion,
   Function as CloudFrontFunction,
   FunctionEventType,
-  ResponseHeadersPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import { ICertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Construct } from 'constructs';
 import { Environment } from './env-config';
+import { securityHeadersPolicy } from './security-headers-policy';
 
 interface CloudFrontDistributionProps {
   environment: Environment;
@@ -44,16 +44,8 @@ export class CloudFrontDistribution extends Construct {
         ]
       : undefined;
 
-    // Stage and dev serve the same build as prod, so only a header set per distribution can keep them out of search.
-    const responseHeadersPolicy =
-      environment === 'prod'
-        ? undefined
-        : new ResponseHeadersPolicy(this, 'NoindexHeaders', {
-            comment: `profound-book-club ${environment} noindex`,
-            customHeadersBehavior: {
-              customHeaders: [{ header: 'X-Robots-Tag', value: 'noindex', override: true }],
-            },
-          });
+    // One policy per behavior. Stage and dev also send noindex because they serve the same build as prod.
+    const responseHeadersPolicy = securityHeadersPolicy(this, environment);
 
     this.distribution = new Distribution(this, 'Distribution', {
       defaultBehavior: {

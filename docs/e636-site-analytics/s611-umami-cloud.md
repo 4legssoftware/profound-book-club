@@ -104,7 +104,7 @@ Kickoff chose (a) for both questions. This checklist matches those decisions.
 
 ### Segment 1: Site CSP and security headers (`profound-book-club`, CDK and Astro config)
 
-- [ ] Update `profound-book-club-stack.test.ts` first. The prod assertion that counts
+- [x] Update `profound-book-club-stack.test.ts` first. The prod assertion that counts
   `AWS::CloudFront::ResponseHeadersPolicy` as 0 has to change. Assert that each distribution's default behavior has
   one policy and that:
   - `script-src` and `connect-src` allow `'self'` and `https://cloud.umami.is`, and nothing else
@@ -112,14 +112,18 @@ Kickoff chose (a) for both questions. This checklist matches those decisions.
   - HSTS and `nosniff` are present
   - stage and dev still send `X-Robots-Tag: noindex`
   - prod does not send `X-Robots-Tag`
-- [ ] Add `infrastructure/lib/security-headers-policy.ts` and attach it in `cloudfront-distribution.ts`, including the
-  noindex header only when `environment !== 'prod'`
-- [ ] Set `build.inlineStylesheets: 'never'` in `astro.config.mjs`, or whatever Question 2 settles on
-- [ ] Deploy dev infrastructure from localhost (`source scripts/pro-dev.sh`, then
-  `./scripts/deploy-infrastructure-dev.sh`). Check `/`, `/conversations`, and `/404`: fonts and styles load, and the
-  browser console shows no CSP violations. `ENVIRONMENT=dev pnpm run smoke-test` still passes, including the noindex
-  check
-- [ ] `pnpm run lint`, `pnpm run check`, `pnpm run format:check`, `pnpm run build`, plus infrastructure `pnpm run test`
+- [x] Add `infrastructure/lib/security-headers-policy.ts` and attach it in `cloudfront-distribution.ts`, including the
+  noindex header only when `environment !== 'prod'`. HSTS is two years with `includeSubDomains`, and no preload.
+  `Referrer-Policy` is `strict-origin-when-cross-origin`. `X-Frame-Options` is `DENY`
+- [x] Set `build.inlineStylesheets: 'never'` in `astro.config.mjs`
+- [x] Two page details would have violated that policy, so they moved with the dev content deploy. Font `preconnect`
+  hints are a `connect-src` request, and that directive does not allow the font hosts. The hero chart's
+  `animation-delay` attributes are inline styles. The delays are now in the hero stylesheet, in the same order
+- [x] Deploy dev infrastructure from localhost (`source scripts/pro-dev.sh`, then
+  `./scripts/deploy-infrastructure-dev.sh`), then dev content (`./scripts/deploy-content-dev.sh`). `/`,
+  `/conversations`, and a missing path send the policy. Fraunces, Inter, and JetBrains Mono load. A headless Chrome
+  pass logged no CSP violations. `ENVIRONMENT=dev pnpm run smoke-test` passed 13 of 13, including noindex (2026-10-23)
+- [x] `pnpm run lint`, `pnpm run check`, `pnpm run format:check`, `pnpm run build`, plus infrastructure `pnpm run test`
   and `pnpm exec cdk synth`, pass
 - [ ] Commit and push to `main`: `[sc-611] Add a CSP and security headers to the site distribution`
 - [ ] Pipeline is green, and a manual check of the stage and prod consoles shows no CSP violations, before starting
