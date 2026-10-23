@@ -14,11 +14,16 @@
 
 import { readFileSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = join(__dirname, '..');
+function repoRoot(): string {
+  const scriptPath = process.argv[1];
+  if (!scriptPath) {
+    throw new Error('Could not resolve the script path');
+  }
+  return join(dirname(scriptPath), '..');
+}
+
+const projectRoot = repoRoot();
 
 interface GitHubAction {
   name: string;

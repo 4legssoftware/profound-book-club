@@ -2,13 +2,20 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
-import { fileURLToPath } from 'url';
 
 import { checkLink } from './external-links/check-links.js';
 import { crawl } from './external-links/crawl-html.js';
 import { parseExpected } from './external-links/parse-expected.js';
 
-const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+function repoRoot(): string {
+  const scriptPath = process.argv[1];
+  if (!scriptPath) {
+    throw new Error('Could not resolve the script path');
+  }
+  return join(dirname(scriptPath), '..');
+}
+
+const projectRoot = repoRoot();
 
 function parseArgs(argv: string[]): { htmlDir: string; expectedPath: string } {
   let htmlDir = join(projectRoot, 'dist');

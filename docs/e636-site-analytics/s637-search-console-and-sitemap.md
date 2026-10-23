@@ -122,8 +122,20 @@ Added after the Final block, at the user's request, instead of as a separate sto
 - [x] `pnpm test` and synth for dev, stage, and prod pass. Dev `cdk diff` showed only the policy, the two status codes,
   and the policy reference
 - [x] Deploy dev infrastructure from localhost. `ENVIRONMENT=dev` smoke test passes 12 of 12 (2026-10-23)
-- [ ] Commit and push to `main`: `[sc-637] Keep stage and dev out of search and return real 404s`
-- [ ] Pipeline is green, and the stage and prod smoke tests pass, including the new checks
+- [x] Commit and push to `main`: `[sc-637] Keep stage and dev out of search and return real 404s` (`84c962e`)
+- [x] Pipeline is green, and the stage and prod smoke tests pass, including the new checks
+  ([run 39988699276](https://github.com/4legssoftware/profound-book-club/actions/runs/39988699276), 2026-10-23)
+
+### Todo
+- [x] `noindex` for stage and dev, from the story's Notes. Shipped in Segment 3 (`84c962e`). Stage and dev send
+  `X-Robots-Tag: noindex`; prod does not. Stage and prod smoke tests passed in run 39988699276.
+- [x] A content check on `/conversations`. `check-pages.ts` requires `class="conversations-page"` and the back link
+  to the home page, so a 200 that serves the home page or the not-found page fails. `ENVIRONMENT=prod` smoke test
+  passed 13 of 13 (2026-10-23)
+- [x] The two existing `tsc` errors in `check-action-versions.ts` and `check-external-links.ts`. Both used
+  `import.meta.url` to find the repo root; `NodeNext` without `"type": "module"` rejects that. They now use
+  `process.argv[1]`. `pnpm exec tsc --noEmit` is clean
+- [x] A runbook for checking Search Console: [`docs/search-console-runbook.md`](../search-console-runbook.md)
 
 ## Notes
 
@@ -135,3 +147,4 @@ Added after the Final block, at the user's request, instead of as a separate sto
 - [sc-611](./s611-self-hosted-umami.md) adds a CSP `ResponseHeadersPolicy` to the same default behavior, and a behavior
   takes only one policy. sc-611 has to merge the two: security headers everywhere, plus `X-Robots-Tag` for stage and
   dev only.
+- How to read the property after it is verified: [`docs/search-console-runbook.md`](../search-console-runbook.md).

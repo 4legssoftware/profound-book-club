@@ -9,6 +9,9 @@ const REQUIRED_SECTION_IDS = ['current', 'chronology', 'conversations', 'psa', '
 const ASTRO_STYLESHEET_PATTERN =
   /rel=["']stylesheet["'][^>]*href=["'][^"']*\/_astro\/[^"']+\.css["']|href=["'][^"']*\/_astro\/[^"']+\.css["'][^>]*rel=["']stylesheet["']/i;
 
+const CONVERSATIONS_PAGE_MARKER = 'class="conversations-page"';
+const CONVERSATIONS_BACK_LINK = 'Back to the home page';
+
 function requiredSectionIds(): string[] {
   return upcomingBook ? ['upcoming', ...REQUIRED_SECTION_IDS] : REQUIRED_SECTION_IDS;
 }
@@ -31,6 +34,20 @@ function checkHomePageContent(fullUrl: string, html: string, results: Results): 
   results.pass(`${fullUrl} - section anchors present (${sectionIds.join(', ')})`);
 }
 
+function checkConversationsPageContent(fullUrl: string, html: string, results: Results): void {
+  if (!html.includes(CONVERSATIONS_PAGE_MARKER)) {
+    results.fail(`${fullUrl} - missing conversations page marker`);
+    return;
+  }
+
+  if (!html.includes(CONVERSATIONS_BACK_LINK)) {
+    results.fail(`${fullUrl} - missing back link to the home page`);
+    return;
+  }
+
+  results.pass(`${fullUrl} - conversations page content present`);
+}
+
 export async function checkPages(origin: URL, results: Results): Promise<void> {
   for (const path of PAGES) {
     const { fullUrl, statusCode, body, error } = await fetchPage(origin, path);
@@ -49,6 +66,10 @@ export async function checkPages(origin: URL, results: Results): Promise<void> {
 
     if (path === '/') {
       checkHomePageContent(fullUrl, body, results);
+    }
+
+    if (path === '/conversations') {
+      checkConversationsPageContent(fullUrl, body, results);
     }
   }
 }
