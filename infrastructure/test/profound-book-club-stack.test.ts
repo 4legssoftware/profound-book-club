@@ -7,7 +7,7 @@ import { ProfoundBookClubStack } from '../profound-book-club-stack';
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "script-src 'self' https://cloud.umami.is",
-  "connect-src 'self' https://cloud.umami.is",
+  "connect-src 'self' https://cloud.umami.is https://gateway.umami.is",
   "style-src 'self' https://fonts.googleapis.com",
   "font-src https://fonts.gstatic.com",
   "img-src 'self' data:",

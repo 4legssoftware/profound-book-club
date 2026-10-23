@@ -11,7 +11,8 @@ import { Environment } from './env-config';
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "script-src 'self' https://cloud.umami.is",
-  "connect-src 'self' https://cloud.umami.is",
+  // Cloud serves the script from cloud.umami.is and posts pageviews to gateway.umami.is.
+  "connect-src 'self' https://cloud.umami.is https://gateway.umami.is",
   "style-src 'self' https://fonts.googleapis.com",
   "font-src https://fonts.gstatic.com",
   "img-src 'self' data:",

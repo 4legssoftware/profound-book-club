@@ -41,7 +41,7 @@ unaffected.
 
 Add profound-book-club.org to an Umami Cloud Hobby account. Load the tracker on Production pages only, from
 `cloud.umami.is`. Add the site's first content-security policy on the existing CloudFront response-headers policy.
-Its CSP accounts for Google Fonts and allows only the Umami Cloud origin for analytics. Stage and dev keep
+Its CSP accounts for Google Fonts and allows `cloud.umami.is` for the script and `gateway.umami.is` for collection. Stage and dev keep
 `X-Robots-Tag: noindex`.
 
 Story 1 has no dependencies and has shipped. Story 2 does not depend on it.

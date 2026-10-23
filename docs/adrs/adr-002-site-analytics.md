@@ -46,7 +46,7 @@ The questions we want answered:
 
 **3. Plausible (cloud).** Cookie-free, small script, polished dashboard, built-in Search Console integration. Starter is about $9/mo for one site and three years of retention. The runner-up if we want a longer history than Umami's free plan.
 
-**4. Umami Cloud.** Cookie-free, script about 2 KB. Hobby is free for one website, 100,000 events a month, and six months of retention. The script and the collection endpoint live on `cloud.umami.is`. Pro is $20/mo for up to 20 sites and two years of retention. Heatmaps and session replay start on the Business plan, so Hobby stays pageviews-shaped.
+**4. Umami Cloud.** Cookie-free, script about 2 KB. Hobby is free for one website, 100,000 events a month, and six months of retention. The script is served from `cloud.umami.is`. Pageviews are sent to `gateway.umami.is`. Pro is $20/mo for up to 20 sites and two years of retention. Heatmaps and session replay start on the Business plan, so Hobby stays pageviews-shaped.
 
 **5. Umami self-hosted.** Same cookie-free tool on our own infrastructure. Umami v3 requires PostgreSQL. A `t4g.small` plus a public IPv4 address is about $16/mo, and we would own upgrades, backups, an internet-facing admin, and a prod SSO exception so localhost could deploy the stack. Rejected at story prep on 2026-10-23, before any instance was created. The cost and the upkeep fired the revisit trigger.
 
@@ -68,7 +68,7 @@ automatically get a banner. Session replay is also the category that draws Calif
 Adopt **Google Search Console** for the search side and **Umami Cloud Hobby** for on-site traffic on profound-book-club.org.
 
 - Search Console is verified as a Domain property via a TXT record in Terraform (Route 53, org root account), and a sitemap is published through the pipeline and submitted. This shipped in [sc-637](https://app.shortcut.com/4legssoftware/story/637).
-- The book club site is the one website on an Umami Cloud Hobby account. The tracking script and the collection endpoint are `https://cloud.umami.is`. The CSP allows that origin for the script and for the collection endpoint, and no other analytics origin.
+- The book club site is the one website on an Umami Cloud Hobby account. The tracking script is `https://cloud.umami.is/script.js`. Collection is `https://gateway.umami.is/api/send`. The CSP allows the script host on `script-src` and both hosts on `connect-src`, and no other analytics origin.
 - The tracking script loads on every Production page. Acceptance and dev traffic stay out of the stats.
 - Tracking is pageviews only. Custom events are added by the story that needs them. The mailing-list signup event belongs to [sc-613](https://app.shortcut.com/4legssoftware/story/613) ([`adr-001-mailing-list.md`](./adr-001-mailing-list.md)).
 - A second site, including the 4 Legs site, does not join this Hobby account. When that site wants stats, try another tool and compare it with Umami over time. Prefer a cookie-free tool there too when it still answers the questions.
@@ -84,13 +84,13 @@ Why Umami Cloud rather than self-hosting, GA4, or Plausible:
 **Positive**
 
 - Search and on-site data together answer all three questions above.
-- No cookies and no consent banner on the book club site. The CSP adds one vendor origin.
+- No cookies and no consent banner on the book club site. The CSP adds the Umami script host and the collection host.
 - No server, database, backup job, or DNS record for analytics.
 
 **Negative / costs we accept**
 
 - Six months of retention. Older pageviews expire.
-- The script and the data live on Umami's domain, so the CSP names `cloud.umami.is`, and an ad blocker that knows that host can drop the script.
+- The script and the data live on Umami's domains (`cloud.umami.is` and `gateway.umami.is`), and an ad blocker that knows those hosts can drop the script. Umami has changed the collection host before, which breaks a strict CSP until `connect-src` is updated.
 - Hobby is one website. Watching the 4 Legs site in the same account would mean Umami Pro at $20/mo, which this decision does not buy.
 - We depend on Umami's free plan. If that plan changes, the revisit triggers below apply.
 

@@ -18,8 +18,8 @@ first CSP.
 - [ ] The Umami tracking script loads on every page in Production from `https://cloud.umami.is`, with this site's
   website id
 - [ ] No cookies are set and no consent banner is needed
-- [ ] The site's CSP (CloudFront ResponseHeadersPolicy) allows only `https://cloud.umami.is` for the script and the
-  collection endpoint
+- [ ] The site's CSP (CloudFront ResponseHeadersPolicy) allows `https://cloud.umami.is` for the script and
+  `https://gateway.umami.is` for the collection endpoint, and no other analytics origin
 - [ ] Acceptance and dev traffic do not pollute Production stats (the script does not load outside Production)
 
 ## Scope
@@ -65,9 +65,9 @@ Production pageviews in Umami Cloud. The CSP and the tracker ship as two segment
   expects an external `/_astro/*.css` link.
 - **Smoke tests** live in `scripts/smoke-test.ts` plus one module per check under `scripts/smoke-test/`. CDK tests
   are `pnpm run test` from `infrastructure/`.
-- **Umami Cloud.** The Hobby script and collection endpoint are both `https://cloud.umami.is` (`/script.js` and
-  `/api/send`). `data-domains` matches `window.location.hostname`. The website id is public. Store the account login
-  in 1Password. Hobby has no heatmaps or session replay.
+- **Umami Cloud.** The Hobby script is `https://cloud.umami.is/script.js`. Collection is
+  `POST https://gateway.umami.is/api/send`, not the script host. `data-domains` matches `window.location.hostname`.
+  The website id is public. Store the account login in 1Password. Hobby has no heatmaps or session replay.
 
 ## Questions
 
@@ -84,7 +84,7 @@ Resolve these one at a time at kickoff, in this order.
     - **Decided: (a).** Enforce the policy directly, after a dev deploy shows a clean console.
         - `default-src 'self'`
         - `script-src 'self' https://cloud.umami.is`
-        - `connect-src 'self' https://cloud.umami.is`
+        - `connect-src 'self' https://cloud.umami.is https://gateway.umami.is`
         - `style-src 'self' https://fonts.googleapis.com`
         - `font-src https://fonts.gstatic.com`
         - `img-src 'self' data:`
@@ -107,7 +107,8 @@ Kickoff chose (a) for both questions. This checklist matches those decisions.
 - [x] Update `profound-book-club-stack.test.ts` first. The prod assertion that counts
   `AWS::CloudFront::ResponseHeadersPolicy` as 0 has to change. Assert that each distribution's default behavior has
   one policy and that:
-    - `script-src` and `connect-src` allow `'self'` and `https://cloud.umami.is`, and nothing else
+    - `script-src` allows `'self'` and `https://cloud.umami.is`, and nothing else
+    - `connect-src` allows `'self'`, `https://cloud.umami.is`, and `https://gateway.umami.is`, and nothing else
     - `font-src` and `style-src` allow the Google Fonts origins
     - HSTS and `nosniff` are present
     - stage and dev still send `X-Robots-Tag: noindex`
