@@ -74,13 +74,14 @@ Production pageviews in Umami Cloud. The CSP and the tracker ship as two segment
 Resolve these one at a time at kickoff, in this order.
 
 1. **Production-only tracking with one build artifact.**
-   - **(a) Recommended:** a same-origin `public/analytics.js` loader that injects the Umami script only when
+   - **Decided: (a).** A same-origin `public/analytics.js` loader injects the Umami script only when
      `location.hostname === 'profound-book-club.org'`, with `data-domains="profound-book-club.org"` as a second
      guard. The tracker never loads outside Production.
    - (b) Use `data-domains` alone. The script still loads on stage, which does not meet the criterion as written.
+     Not chosen.
 2. **CSP shape.** The acceptance criteria require a CloudFront `ResponseHeadersPolicy`. A `<meta>` CSP does not meet
    them on its own. Merge with the existing noindex policy. One policy per distribution.
-   - **(a) Recommended:** enforce the policy directly, after a dev deploy shows a clean console.
+   - **Decided: (a).** Enforce the policy directly, after a dev deploy shows a clean console.
      - `default-src 'self'`
      - `script-src 'self' https://cloud.umami.is`
      - `connect-src 'self' https://cloud.umami.is`
@@ -95,11 +96,11 @@ Resolve these one at a time at kickoff, in this order.
      Include HSTS, `nosniff`, `Referrer-Policy`, and frame options in the same policy. Stage and dev keep
      `X-Robots-Tag: noindex`. Prod does not send that header.
    - (b) Ship `Content-Security-Policy-Report-Only` first, then enforce in a follow-up commit once stage is clean.
-     Report-only does not meet the acceptance criterion until the enforcing commit ships.
+     Report-only does not meet the acceptance criterion until the enforcing commit ships. Not chosen.
 
 ## Implementation Checklist
 
-The checklist assumes the recommended answers. Update it if kickoff chooses otherwise.
+Kickoff chose (a) for both questions. This checklist matches those decisions.
 
 ### Segment 1: Site CSP and security headers (`profound-book-club`, CDK and Astro config)
 
