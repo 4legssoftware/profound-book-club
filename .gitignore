@@ -26,4 +26,5 @@ cdk.context.json
 *.d.ts
 !jest.config.js
 !scripts/smoke-test.js
+!public/analytics.js
 # Allow JS files in specific locations if needed (add exceptions here)

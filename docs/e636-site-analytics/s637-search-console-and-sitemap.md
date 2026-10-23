@@ -135,7 +135,7 @@ Added after the Final block, at the user's request, instead of as a separate sto
 - [x] The two existing `tsc` errors in `check-action-versions.ts` and `check-external-links.ts`. Both used
   `import.meta.url` to find the repo root; `NodeNext` without `"type": "module"` rejects that. They now use
   `process.argv[1]`. `pnpm exec tsc --noEmit` is clean
-- [x] A runbook for checking Search Console: [`docs/search-console-runbook.md`](../search-console-runbook.md)
+- [x] A runbook for checking Search Console: [`../runbooks/search-console-runbook.md`](../runbooks/search-console-runbook.md)
 
 ## Notes
 
@@ -147,4 +147,4 @@ Added after the Final block, at the user's request, instead of as a separate sto
 - [sc-611](./s611-umami-cloud.md) adds a CSP `ResponseHeadersPolicy` to the same default behavior, and a behavior
   takes only one policy. sc-611 has to merge the two: security headers everywhere, plus `X-Robots-Tag` for stage and
   dev only.
-- How to read the property after it is verified: [`docs/search-console-runbook.md`](../search-console-runbook.md).
+- How to read the property after it is verified: [`../runbooks/search-console-runbook.md`](../runbooks/search-console-runbook.md).

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { checkAnalytics } from './smoke-test/check-analytics.js';
 import { checkIndexing } from './smoke-test/check-indexing.js';
 import { checkPages } from './smoke-test/check-pages.js';
 import { checkRobotsAndSitemap } from './smoke-test/check-sitemap.js';
@@ -14,6 +15,7 @@ async function main(): Promise<void> {
   console.log(`\n🧪 Running smoke tests for ${url.origin} (${environment})\n`);
 
   await checkPages(url, results);
+  await checkAnalytics(url, results);
   await checkRobotsAndSitemap(url, results);
   await checkIndexing(url, environment, results);
   await checkWwwRedirect(fqdnRoot, results);

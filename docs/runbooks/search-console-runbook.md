@@ -2,8 +2,8 @@
 
 How to read [Google Search Console](https://search.google.com/search-console) for the `profound-book-club.org` Domain
 property. The property, the verification TXT record, and the submitted sitemap are recorded in
-[`s637-search-console-and-sitemap.md`](./e636-site-analytics/s637-search-console-and-sitemap.md). Why this data matters
-is in [`adr-002-site-analytics.md`](./adrs/adr-002-site-analytics.md): queries, impressions, clicks, and indexing.
+[`s637-search-console-and-sitemap.md`](../e636-site-analytics/s637-search-console-and-sitemap.md). Why this data matters
+is in [`adr-002-site-analytics.md`](../adrs/adr-002-site-analytics.md): queries, impressions, clicks, and indexing.
 
 Check about once a month, and again after a page is added or the sitemap changes. Open the Domain property
 `profound-book-club.org` (the one with the `sc-domain:` prefix).
@@ -34,7 +34,7 @@ sooner for that single page.
   say the site is being offered for that query.
 - Whether a new page (a new conversation, a future route) has been crawled and indexed after it ships. Add it to the
   sitemap by publishing the page; `@astrojs/sitemap` picks up every page except `/404`.
-- Whether search traffic and on-site pageviews (Umami, once [sc-611](./e636-site-analytics/s611-umami-cloud.md)
+- Whether search traffic and on-site pageviews (Umami, once [sc-611](../e636-site-analytics/s611-umami-cloud.md)
   is live) tell the same story about which page people open.
 
 ## What to look out for
@@ -52,5 +52,5 @@ sooner for that single page.
 - Verification failing. The token lives in the apex TXT record in `4ls-org`
   (`infrastructure/modules/common/route53-profound-book-club.tf`). Route 53 allows one TXT record set per name. Another
   apex TXT value, such as Buttondown SPF from
-  [sc-613](./other-features/sc-613-club-announcements.md), has to be added to that same record. Replacing the record
+  [sc-613](../other-features/sc-613-club-announcements.md), has to be added to that same record. Replacing the record
   drops the Google token and the property becomes unverified.
