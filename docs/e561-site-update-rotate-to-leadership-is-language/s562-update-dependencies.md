@@ -35,7 +35,7 @@ Story 1 is **do first**. Epic delivery: trunk-based commits to `main` (Commit â†
 manual from localhost. Do not widen into content rotation.
 
 E1 website foundation is **complete** â€” see
-[`docs/e1-website-foundation/website-foundation-summary.md`](../e1-website-foundation/website-foundation-summary.md).
+[`docs/changelogs/20260626-website-foundation.md`](../changelogs/20260626-website-foundation.md).
 
 ## Split recommendation
 

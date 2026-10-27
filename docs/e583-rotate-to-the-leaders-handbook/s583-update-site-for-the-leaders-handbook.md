@@ -48,7 +48,7 @@ Pattern from epic
 Shortcut story combines retire + promote + schedule (tasks 584–586) in one ticket.
 
 E1 website foundation is **complete** — see
-[`docs/e1-website-foundation/website-foundation-summary.md`](../e1-website-foundation/website-foundation-summary.md).
+[`docs/changelogs/20260626-website-foundation.md`](../changelogs/20260626-website-foundation.md).
 
 ## Split recommendation
 

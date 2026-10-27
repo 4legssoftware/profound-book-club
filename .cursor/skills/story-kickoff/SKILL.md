@@ -12,7 +12,7 @@ description: >-
 Use in **`profound-book-club`** and follow **`4ls-org`** conventions when the story spans org/Terraform DNS work.
 Repository conventions in `.cursor/rules/rules.mdc` still apply.
 
-**E1 (complete):** `docs/e1-website-foundation/website-foundation-summary.md`
+**E1 (complete):** `docs/changelogs/20260626-website-foundation.md`
 
 For **pre-implementation doc prep** (epic alignment, split recommendation, segmented checklist shape), use the
 **prepare-story** skill first when the story doc is not ready — or when the user asks to prepare rather than implement.

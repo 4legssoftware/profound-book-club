@@ -2,7 +2,7 @@
 
 Static site and infrastructure for [The Profound Book Club](https://profound-book-club.org) — Astro static site (single page + styled 404).
 
-Website foundation: [`docs/e1-website-foundation/website-foundation-summary.md`](docs/e1-website-foundation/website-foundation-summary.md).
+Website foundation: [`docs/changelogs/20260626-website-foundation.md`](docs/changelogs/20260626-website-foundation.md).
 
 Contributions from outside the maintainer team go through fork + pull request — see [CONTRIBUTING.md](CONTRIBUTING.md).
 

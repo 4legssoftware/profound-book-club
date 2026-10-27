@@ -14,8 +14,8 @@ description: >-
 ## Before you start
 
 1. **Epic identity** — If unclear, **ask** for the epic document path or title (e.g.
-   `docs/e1-website-foundation/website-foundation-summary.md` — post-wrap-up canonical entry; working epic path was
-   `epic-website-foundation.md` before deletion).
+   `docs/e629-resources/e629-resources.md` while in progress; after wrap-up the canonical entry is a changelog such as
+   `docs/changelogs/20261027-site-analytics.md`).
 2. **Story set** — Discover story files linked from the epic or co-located in the same `docs/e*-*/` folder (`s*.md`,
    `story-*.md`, or names listed in the epic). If ambiguous, **ask** which files belong to this epic.
 3. **Repos** — Note whether work spanned **`profound-book-club`** and **`4ls-org`** (and **4ls-site** as reference);
@@ -76,8 +76,9 @@ write those **only** → write the **brief epic summary** (linking to new or exi
 
 ### Brief summary doc (new file)
 
-- Add **one** concise summary markdown intended to live on after the epic’s working documents are removed. Suggested filename:
-  `docs/e1-website-foundation/website-foundation-summary.md` (or `<epic-slug>-summary.md` under the epic folder).
+- Add **one** concise summary markdown intended to live on after the epic’s working documents are removed, at
+  `docs/changelogs/YYYYMMDD-<slug>.md`, dated by the wrap-up day (e.g. `docs/changelogs/20261027-site-analytics.md`).
+  The slug is the epic name without its `e*-` number.
 - **Voice**: suitable for a team Slack post — short paragraphs, concrete outcomes, names of key behaviors or endpoints only
   when useful.
 - **Links**: include relative links to any **retained** artifacts (runbooks, diagrams, and **any dedicated docs the user

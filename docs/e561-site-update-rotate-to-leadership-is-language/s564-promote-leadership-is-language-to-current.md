@@ -58,7 +58,7 @@ Story 3 in the rotation sequence (after Chronology retirement). Schedule (origin
 delivery: trunk-based commits to `main` (Commit → Acceptance → Production); **dev** is manual from localhost.
 
 E1 website foundation is **complete** — see
-[`docs/e1-website-foundation/website-foundation-summary.md`](../e1-website-foundation/website-foundation-summary.md).
+[`docs/changelogs/20260626-website-foundation.md`](../changelogs/20260626-website-foundation.md).
 
 ## Split recommendation
 

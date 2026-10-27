@@ -4,7 +4,7 @@ alwaysApply: true
 
 # Profound Book Club — Project Rules
 
-Website foundation (complete): `docs/e1-website-foundation/website-foundation-summary.md`.
+Website foundation (complete): `docs/changelogs/20260626-website-foundation.md`.
 
 ## Init Rules
 
@@ -66,4 +66,6 @@ Website foundation (complete): `docs/e1-website-foundation/website-foundation-su
 ## Documentation Style
 
 * Name markdown documents with all lower case names and kabob-case
-* Epic and story docs live under `docs/e*-*/` (e.g. `docs/e1-website-foundation/`)
+* Epic and story docs live under `docs/e*-*/` while the epic is in progress (e.g. `docs/e629-resources/`)
+* Completed epics are summarized in `docs/changelogs/YYYYMMDD-<slug>.md`, dated by the wrap-up day (e.g.
+ `docs/changelogs/20261027-site-analytics.md`); the epic's working docs are then removed

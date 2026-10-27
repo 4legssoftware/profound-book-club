@@ -11,10 +11,10 @@ description: >-
 
 # Prepare story (Profound Book Club)
 
-Use this when turning a **story markdown** (under `docs/e*-*/`, e.g. `docs/e1-website-foundation/`) into something ready
+Use this when turning a **story markdown** (under `docs/e*-*/`, e.g. `docs/e629-resources/`) into something ready
 to implement. Repository conventions in `.cursor/rules/rules.mdc` still apply.
 
-**E1 (complete):** `docs/e1-website-foundation/website-foundation-summary.md` — website foundation on AWS (dev manual,
+**E1 (complete):** `docs/changelogs/20260626-website-foundation.md` — website foundation on AWS (dev manual,
 stage/prod via pipeline), modeled on **4ls-site**. Work may span **`profound-book-club`** (app + CDK) and **`4ls-org`**
 (OU/accounts, Route 53 DNS via Terraform). For new epics, add `docs/e*-*/epic-*.md` and link stories from there.
 
