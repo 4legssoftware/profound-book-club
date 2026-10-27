@@ -5,11 +5,9 @@
 - **Revised:** 2026-10-23
 - **Decider:** Rob Park
 - **Epic:** [epic 636](https://app.shortcut.com/4legssoftware/epic/636) — Site analytics
-  ([`docs/e636-site-analytics/e636-site-analytics.md`](../e636-site-analytics/e636-site-analytics.md))
-- **Stories:** [sc-637](https://app.shortcut.com/4legssoftware/story/637) — Search Console and sitemap
-  ([`s637-search-console-and-sitemap.md`](../e636-site-analytics/s637-search-console-and-sitemap.md));
+  ([`docs/changelogs/e636-site-analytics.md`](../changelogs/e636-site-analytics.md))
+- **Stories:** [sc-637](https://app.shortcut.com/4legssoftware/story/637) — Search Console and sitemap;
   [sc-611](https://app.shortcut.com/4legssoftware/story/611) — Umami Cloud pageviews
-  ([`s611-umami-cloud.md`](../e636-site-analytics/s611-umami-cloud.md))
 
 ## Context
 

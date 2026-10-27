@@ -3,7 +3,7 @@
 How to read [Umami Cloud](https://cloud.umami.is) for profound-book-club.org. The account is the Hobby plan. The login
 is in 1Password. Why this data matters is in [`adr-002-site-analytics.md`](../adrs/adr-002-site-analytics.md): visits,
 referrers, and pages. The implementation is recorded in
-[`s611-umami-cloud.md`](../e636-site-analytics/s611-umami-cloud.md).
+[`e636-site-analytics.md`](../changelogs/e636-site-analytics.md).
 
 Check about once a month, alongside [Search Console](./search-console-runbook.md). Open the website
 `profound-book-club.org`.
