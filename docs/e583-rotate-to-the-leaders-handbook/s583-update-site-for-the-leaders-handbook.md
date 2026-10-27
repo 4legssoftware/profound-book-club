@@ -42,10 +42,9 @@ stage→prod pipeline smoke.
 ## Related prior rotation
 
 Pattern from epic
-[`e561-site-update-rotate-to-leadership-is-language`](../e561-site-update-rotate-to-leadership-is-language/e561-site-update-rotate-to-leadership-is-language.md)
-([sc-563](../e561-site-update-rotate-to-leadership-is-language/s563-retire-sidewinder-to-the-chronology.md) +
-[sc-564](../e561-site-update-rotate-to-leadership-is-language/s564-promote-leadership-is-language-to-current.md)). This
-Shortcut story combines retire + promote + schedule (tasks 584–586) in one ticket.
+[`e561`](../changelogs/20261027-site-update-rotate-to-leadership-is-language.md) (sc-563 + sc-564), now written up as the
+[book rotation runbook](../runbooks/book-rotation-runbook.md). This Shortcut story combines retire + promote + schedule
+(tasks 584–586) in one ticket.
 
 E1 website foundation is **complete** — see
 [`docs/changelogs/20260626-website-foundation.md`](../changelogs/20260626-website-foundation.md).
