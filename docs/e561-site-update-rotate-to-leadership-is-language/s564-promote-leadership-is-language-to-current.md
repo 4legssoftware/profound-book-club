@@ -71,7 +71,7 @@ E1 website foundation is **complete** — see
 | ----- | ----------- |
 | Current book data | `src/content/currentBook.ts` — № XVII *Leadership Is Language*, schedule, abstract, positioning |
 | Current UI | `src/components/CurrentBook.astro` — typographic CSS **book-card**; renders `currentBook.schedule` |
-| Upcoming | `src/content/upcomingBook.ts` — `null` after promotion ([sc-554](../other-features/sc-554-next-book.md) was source seed) |
+| Upcoming | `src/content/upcomingBook.ts` — `null` after promotion (sc-554 was source seed) |
 | Upcoming UI / nav | Hidden when `upcomingBook == null` |
 | Chronology | `src/content/chronology.ts` — *Leadership Is Language* `2026.08` with `current: true`; *Sidewinder* completed |
 | SEO / schema | `src/layouts/BaseLayout.astro` — JSON-LD uses `currentBook` |

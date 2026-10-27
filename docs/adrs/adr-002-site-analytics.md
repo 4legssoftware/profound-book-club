@@ -5,7 +5,7 @@
 - **Revised:** 2026-10-23
 - **Decider:** Rob Park
 - **Epic:** [epic 636](https://app.shortcut.com/4legssoftware/epic/636) — Site analytics
-  ([`docs/changelogs/e636-site-analytics.md`](../changelogs/e636-site-analytics.md))
+  ([`../changelogs/20261027-site-analytics.md`](../changelogs/20261027-site-analytics.md))
 - **Stories:** [sc-637](https://app.shortcut.com/4legssoftware/story/637) — Search Console and sitemap;
   [sc-611](https://app.shortcut.com/4legssoftware/story/611) — Umami Cloud pageviews
 

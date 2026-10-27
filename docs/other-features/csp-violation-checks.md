@@ -2,7 +2,7 @@
 
 **Shortcut:** not created yet
 
-**Background:** [`docs/changelogs/e636-site-analytics.md`](../changelogs/e636-site-analytics.md) and
+**Background:** [`../changelogs/20261027-site-analytics.md`](../changelogs/20261027-site-analytics.md) and
 [ADR-002](../adrs/adr-002-site-analytics.md)
 
 ## Summary

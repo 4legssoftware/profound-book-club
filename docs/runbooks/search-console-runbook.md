@@ -2,7 +2,7 @@
 
 How to read [Google Search Console](https://search.google.com/search-console) for the `profound-book-club.org` Domain
 property. The property, the verification TXT record, and the submitted sitemap are recorded in
-[`e636-site-analytics.md`](../changelogs/e636-site-analytics.md). Why this data matters
+[`20261027-site-analytics.md`](../changelogs/20261027-site-analytics.md). Why this data matters
 is in [`adr-002-site-analytics.md`](../adrs/adr-002-site-analytics.md): queries, impressions, clicks, and indexing.
 
 Check about once a month, and again after a page is added or the sitemap changes. Open the Domain property
