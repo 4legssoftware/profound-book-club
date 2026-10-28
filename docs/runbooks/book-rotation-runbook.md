@@ -7,12 +7,15 @@ and repeated for *The Leader's Handbook* (sc-583).
 
 Rotations are content-only. They touch `src/content/` and nothing in CDK or `4ls-org`. If dependencies are stale, update
 them in a separate commit first (`package-updates-book-club` skill), so the rotation ships from a known-good base.
+Catalog rules for ids, Up Next, and reviews live in [content conventions](../content-conventions.md).
 
 ## Before you start
 
 Have these confirmed before editing:
 
 - Title, author, and the book's Roman numeral (one past the current `currentBook.number`).
+- Stable chronology `id`. Copy the profound-conversations slug when the book already has one. Otherwise use a short
+  kebab slug, and do not change it once it is published.
 - Start month for the Chronology (`YYYY.MM`).
 - `kind` (for example `Leadership`, `Systems`, `Education`) and `connection` (`direct` if Deming or a close colleague
   wrote it, `adjacent` otherwise).
@@ -26,9 +29,9 @@ Fill in `src/content/upcomingBook.ts` (number, title, author, `startDate`, `seas
 
 ## Rotate
 
-1. **`src/content/chronology.ts`** — remove `current: true` from the outgoing book's row. Keep its `date`, `kind`, and
-   `connection`. Append the new book with `current: true`. Chronology rows render `Current selection` when `current` is
-   set and `kind · Direct/Adjacent` otherwise.
+1. **`src/content/chronology.ts`** — remove `current: true` from the outgoing book's row. Keep its `id`, `date`, `kind`,
+   and `connection`. Append the new book with its `id` and `current: true`. Chronology rows render `Current selection`
+   when `current` is set and `kind · Direct/Adjacent` otherwise.
 2. **`src/content/currentBook.ts`** — overwrite the single slot: `number`, `title`, `author`, `status:
    'Currently reading'`, `season` (for example `fall 2026`), `abstract`, `positioning`, and `schedule`. The JSON-LD in
    `BaseLayout.astro` reads from this file, so it updates with it.
@@ -68,3 +71,4 @@ are copied from profound-conversations; change them only when the club's cadence
 - **The cover is the typographic CSS book card** in `CurrentBook.astro` (styles in `src/styles/current-book.css`).
   There are no jacket images to source.
 - **There is one current slot.** Promoting a book overwrites `currentBook.ts`; the history lives in `chronology.ts`.
+- **Each chronology row has a stable `id`.** Reviews and `#book-{id}` anchors use it. Leave an existing slug unchanged.
