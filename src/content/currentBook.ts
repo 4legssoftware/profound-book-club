@@ -34,5 +34,10 @@ export const currentBook = {
     { week: 'Week 6', date: 'Nov 20', chapters: 'Chapter 9' },
     { week: '—', date: 'Nov 27', chapters: 'No meeting · U.S. holiday weekend', break: true },
     { week: 'Week 7', date: 'Dec 4', chapters: 'Chapter 10' },
+    {
+      week: 'Week 8',
+      date: 'Dec 11',
+      chapters: 'Related reading · The Germ Theory of Management · Myron Tribus',
+    },
   ] satisfies ScheduleItem[],
 };
