@@ -1,13 +1,14 @@
 # External links
 
 Visitor-facing `http` and `https` links in the built site, and the check that they stay active and current.
-Collected from `dist/` after `pnpm run build` on 14 Oct 2026 (`index.html`, `conversations/index.html`, `404.html`).
+Collected from `dist/` after `pnpm run build` (`index.html`, `conversations/index.html`, `404.html`). The set below
+was first collected on 14 Oct 2026. The current-book PDF was added on 29 Oct 2026.
 
 The check is a small TypeScript script plus one pipeline job. A plain GET is enough for every link below.
 
 ## Visitor links
 
-Thirteen links. Home renders the three newest reviews, both Of Interest cards, and the Germ Theory PDF.
+Thirteen links. Home renders the three newest reviews, both Of Interest cards, and the current-book PDF.
 `/conversations` renders all ten reviews. No other external visitor link appears in the built HTML.
 
 ### Reviews
@@ -53,11 +54,15 @@ checked for **active** only.
 
 ### Current book
 
-Source `src/content/currentBook.ts`. Page `/` only. Week 8 and the resource title share this URL. Checked for
-**active** only.
+Source `src/content/currentBook.ts`. Page `/` only. Checked for **active** only. Week 8 and the resource title share
+one URL. The attribution line is not a link.
 
-- The Germ Theory of Management  
-  https://www.spcpress.com/ink/pdf/Germ-Theory-of-Management.pdf
+| Page | Label |
+| ---- | ----- |
+| `/` | Related reading · The Germ Theory of Management · Myron Tribus |
+| `/` | The Germ Theory of Management |
+
+- https://www.spcpress.com/ink/pdf/Germ-Theory-of-Management.pdf
 
 ## Excluded
 
@@ -80,12 +85,16 @@ same host is fine.
 
 **Current** (reviews only): decode HTML entities, then compare words in order. Case, dashes, and quotation marks are
 ignored, and either title may contain extra words (the card text is not always byte-identical to the WordPress
-title). `og:title` is checked first, then `<title>`. Of Interest has no title check. The YouTube card title is ours,
-not the channel page title.
+title). `og:title` is checked first, then `<title>`. Of Interest and the current-book PDF have no title check. The
+YouTube card title is ours, not the channel page title.
 
 Probe on 14 Oct 2026, one request with a named user agent and no browser: the seminar returned 200 with no redirect;
 the YouTube channel URL returned 200 with no redirect; the Leadership Is Language `og:title` matched the stored title
 (`&#8211;` is the same en dash we store), and `<title>` was that string plus ` – TestAndAnalysis`.
+
+A new review URL goes in the Reviews list, in the same order as its title row. Any other new visitor URL goes after
+`### Of Interest`. URLs above that heading are paired one-to-one with the review title table, so a non-review URL
+placed there fails the check before any fetch. List a shared URL once and name each anchor.
 
 Run `pnpm run check-external-links` locally. The script crawls visitor links from `dist/` (build first) and compares
 that set to the visitor URLs in this file. A URL on only one side fails the run and names the URL, before any fetch.

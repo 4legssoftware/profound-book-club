@@ -82,6 +82,9 @@ For **pre-implementation doc prep** (epic alignment, split recommendation, segme
   they exist
 - **Terraform** (`4ls-org`): clean plan for the story’s scope; apply only when the story and user expect it
 - **Site build**: production build script from `package.json` when the repo scaffold exists
+- **Visitor links**: if the story adds or changes an external visitor link, `docs/external-links.md` lists it (review
+  URLs in the Reviews list; every other URL after `### Of Interest`) and `pnpm run check-external-links` passed.
+  Checklist shape is in the **prepare-story** skill.
 - **Pipeline** (Story 4+): confirm workflow syntax and OIDC role assumptions match epic decisions
 
 ### 8. Check file size and refactor

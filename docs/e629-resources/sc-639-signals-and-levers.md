@@ -115,46 +115,46 @@ rules. A split of that file is its own segment if the addition makes it harder t
 
 Content only. Meets the upcoming-book criterion and the longer schedule. The PDF link is Segment 2.
 
-- [ ] Question 3 is decided. Set `src/content/upcomingBook.ts` to № XIX, the full title, Elisabeth Hendrickson
+- [x] Question 3 is decided. Set `src/content/upcomingBook.ts` to № XIX, the full title, Elisabeth Hendrickson
       and Joel Tosi, `Jan 8, 2027`, season `winter 2027`, and the two-paragraph blurb from question 3. Leave
       `connection` unset.
-- [ ] Append the confirmed extra week to `schedule` in `src/content/currentBook.ts`. The `chapters` text names *The
+- [x] Append the confirmed extra week to `schedule` in `src/content/currentBook.ts`. The `chapters` text names *The
       Germ Theory of Management* and Myron Tribus. Leave `chronology.ts` and `site.ts` unchanged.
-- [ ] `pnpm run lint`, `pnpm run format:check`, and `pnpm run build`.
-- [ ] Deploy dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`). On
+- [x] `pnpm run lint`, `pnpm run format:check`, and `pnpm run build`.
+- [x] Deploy dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`). On
       `https://dev.profound-book-club.org`: Up Next shows the full title, Elisabeth Hendrickson and Joel Tosi, Jan 8,
       2027, and the two-paragraph blurb; the Upcoming nav link is present; Week 8 is Dec 11 on the current schedule;
       *The Leader's Handbook* is still `Current selection` in the chronology.
-- [ ] Commit and push to `main`: `[sc-639] Announce Signals & Levers and extend the current schedule`. No `[skip ci]`.
-- [ ] That pipeline is green through Production before Segment 2. Spot-check `https://profound-book-club.org`.
+- [x] Commit and push to `main`: `[sc-639] Announce Signals & Levers and extend the current schedule`. No `[skip ci]`.
+- [x] That pipeline is green through Production before Segment 2. Spot-check `https://profound-book-club.org`.
 
 ### Segment 2 — Link *The Germ Theory of Management* from the current book (`profound-book-club`)
 
 Question 1 is decided: ship the short current-book list and the Week 8 link. Do not skip this segment.
 
-- [ ] Add an optional `url` on `ScheduleItem` and render it in `CurrentBook.astro` as the week label
+- [x] Add an optional `url` on `ScheduleItem` and render it in `CurrentBook.astro` as the week label
       (`target="_blank"`, `rel="noopener noreferrer"`). Point Week 8 at
       `https://www.spcpress.com/ink/pdf/Germ-Theory-of-Management.pdf`.
-- [ ] Add the short current-book resource list from question 1: one title, the same PDF URL, attribution Myron
+- [x] Add the short current-book resource list from question 1: one title, the same PDF URL, attribution Myron
       Tribus. Keep the data beside the current book so sc-634 can replace the block. Do not add `/resources`, a
       catalog file, a Sergent credit, or a chronology pill.
-- [ ] Add the new visitor URL to `docs/external-links.md` once, even though the schedule and the resource list share
+- [x] Add the new visitor URL to `docs/external-links.md` once, even though the schedule and the resource list share
       it.
-- [ ] `pnpm run lint`, `pnpm run format:check`, `pnpm run build`, and `pnpm run check-external-links`.
-- [ ] Deploy dev. On the home page, open the Week 8 label and the resource title; both reach the SPC Press PDF. Check
+- [x] `pnpm run lint`, `pnpm run format:check`, `pnpm run build`, and `pnpm run check-external-links`.
+- [x] Deploy dev. On the home page, open the Week 8 label and the resource title; both reach the SPC Press PDF. Check
       the current-book column at phone width.
-- [ ] Commit and push to `main`: `[sc-639] Link Germ Theory of Management from the current book`. No `[skip ci]`.
-- [ ] That pipeline is green through Production. Spot-check the PDF links on `https://profound-book-club.org`.
+- [x] Commit and push to `main`: `[sc-639] Link Germ Theory of Management from the current book`. No `[skip ci]`.
+- [x] That pipeline is green through Production. Spot-check the PDF links on `https://profound-book-club.org`.
 
 ### Final
 
-- [ ] Segment 2's pipeline run is green. Dev was checked before each push.
-- [ ] No new application test suite. The build, the external-link check, and the existing smoke test cover this
+- [x] Segment 2's pipeline run is green. Dev was checked before each push.
+- [x] No new application test suite. The build, the external-link check, and the existing smoke test cover this
       change. Once `upcomingBook` is set, smoke requires `#upcoming`.
-- [ ] If resource styles were added to `src/styles/current-book.css` and the file is harder to follow, split it in its
+- [x] If resource styles were added to `src/styles/current-book.css` and the file is harder to follow, split it in its
       own segment, push, and wait for that pipeline. Leave the file as it stands when the addition is only a few
       rules.
-- [ ] Story-kickoff alignment: questions 1–3 are answered in this doc before implementation starts.
+- [x] Story-kickoff alignment: questions 1–3 are answered in this doc before implementation starts.
 
 ## Notes
 

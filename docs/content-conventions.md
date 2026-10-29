@@ -2,7 +2,8 @@
 
 Rules for the typed catalog in `src/content/`. The site is curated here. Rendering only reads these files.
 How to rotate a book: [book rotation runbook](runbooks/book-rotation-runbook.md).
-How visitor links stay active: [external links](external-links.md).
+How visitor links stay active: [external links](external-links.md). A new visitor link is recorded there in the same
+change.
 
 ## Books
 
@@ -36,4 +37,4 @@ conversations**) and that pill opens `/conversations`, the full list.
 The card shows `excerpt` as a pull-quote. `quote` is stored and is not rendered. Only the Scherkenbach review has an
 excerpt.
 
-A new review URL is also added to `docs/external-links.md` in the same change.
+A review URL goes in that file's Reviews list, one URL per title row, in the same change.

@@ -101,6 +101,18 @@ Where the story touches **CDK** (`profound-book-club/infrastructure`), **Terrafo
 Stories that are **org-only** (e.g. Story 1 AWS Organization) focus on Terraform/IAM verification and access checks rather
 than site build steps.
 
+### Visitor links
+
+When a segment adds or changes a visitor-facing `http` or `https` link, that segment's checklist includes both of
+these, in the same change as the link:
+
+1. Update [`docs/external-links.md`](../../../docs/external-links.md). A review URL goes in the Reviews list, one URL
+   per title row, same order. Every other visitor URL goes after `### Of Interest`. List a shared URL once and name
+   each anchor.
+2. `pnpm run build`, then `pnpm run check-external-links`, before that segment's commit.
+
+The **Final** block confirms the inventory still matches the built links when the story touched any.
+
 ### Commit size & segment granularity
 
 When a story checklist would land **> ~400 added lines** or **> ~25 files** in one commit, split **sub-segments in the doc
