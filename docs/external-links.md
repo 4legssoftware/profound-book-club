@@ -7,8 +7,8 @@ The check is a small TypeScript script plus one pipeline job. A plain GET is eno
 
 ## Visitor links
 
-Twelve links. Home renders the three newest reviews and both Of Interest cards. `/conversations` renders all ten
-reviews. No other external visitor link appears in the built HTML.
+Thirteen links. Home renders the three newest reviews, both Of Interest cards, and the Germ Theory PDF.
+`/conversations` renders all ten reviews. No other external visitor link appears in the built HTML.
 
 ### Reviews
 
@@ -50,6 +50,14 @@ checked for **active** only.
   https://deming.org/events/deming-strategies-for-sustainable-success-innovate-streamline-lead/
 - Deming's 14 Points — video series  
   https://www.youtube.com/@DemingInstitute
+
+### Current book
+
+Source `src/content/currentBook.ts`. Page `/` only. Week 8 and the resource title share this URL. Checked for
+**active** only.
+
+- The Germ Theory of Management  
+  https://www.spcpress.com/ink/pdf/Germ-Theory-of-Management.pdf
 
 ## Excluded
 

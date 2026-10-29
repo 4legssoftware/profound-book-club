@@ -3,7 +3,16 @@ export type ScheduleItem = {
   date: string;
   chapters: string;
   break?: boolean;
+  url?: string;
 };
+
+export type BookResource = {
+  title: string;
+  attribution: string;
+  url: string;
+};
+
+const germTheoryOfManagementUrl = 'https://www.spcpress.com/ink/pdf/Germ-Theory-of-Management.pdf';
 
 export const currentBook = {
   number: 'XVIII',
@@ -38,6 +47,14 @@ export const currentBook = {
       week: 'Week 8',
       date: 'Dec 11',
       chapters: 'Related reading · The Germ Theory of Management · Myron Tribus',
+      url: germTheoryOfManagementUrl,
     },
   ] satisfies ScheduleItem[],
+  resources: [
+    {
+      title: 'The Germ Theory of Management',
+      attribution: 'Myron Tribus',
+      url: germTheoryOfManagementUrl,
+    },
+  ] satisfies BookResource[],
 };

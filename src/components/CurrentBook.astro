@@ -47,10 +47,33 @@ import '../styles/current-book.css';
           <div class:list={['schedule-row', row.break && 'schedule-row--break']}>
             <span class="schedule-week">{row.week}</span>
             <span class="schedule-date">{row.date}</span>
-            <span class="schedule-content">{row.chapters}</span>
+            <span class="schedule-content">
+              {row.url ? (
+                <a href={row.url} target="_blank" rel="noopener noreferrer">
+                  {row.chapters}
+                </a>
+              ) : (
+                row.chapters
+              )}
+            </span>
           </div>
         ))}
       </div>
+      {currentBook.resources.length > 0 && (
+        <div class="current-resources">
+          <span class="current-resources-label">Additional Resources</span>
+          <ul class="current-resources-list">
+            {currentBook.resources.map((resource) => (
+              <li>
+                <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                  {resource.title}
+                </a>
+                <span class="current-resources-attribution">— {resource.attribution}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </div>
 </section>

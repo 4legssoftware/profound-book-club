@@ -229,6 +229,54 @@
   color: var(--ink-soft);
 }
 
+#current .schedule-content a,
+#current .current-resources-list a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.18em;
+}
+
+#current .schedule-content a:hover,
+#current .current-resources-list a:hover {
+  color: var(--accent);
+}
+
+#current .current-resources {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+#current .current-resources-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+#current .current-resources-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+#current .current-resources-list a {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+#current .current-resources-attribution {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--ink-mute);
+}
+
 @media (max-width: 900px) {
   #current .current-grid {
     grid-template-columns: 1fr;
