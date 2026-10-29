@@ -85,8 +85,14 @@ Sergent, and ends with `Browse resources →` (`/resources?book={current id}`). 
 straight to the PDF and opens it in a new tab. A title without one links to its entry on the Resources page. The block
 follows the current book through rotation without extra editing beyond the catalog.
 
+### 6. Announce *Signals & Levers* and add *The Germ Theory of Management* [sc-639]
+
+Content update on the current rotation. See [sc-639](sc-639-signals-and-levers.md). Announce the next book and extend
+*The Leader's Handbook* by one week that reads Myron Tribus's paper. The PDF stays on SPC Press. This story does not
+wait on stories 4–5, and it does not add the catalog, the filters, the chronology pills, or hosted files.
+
 Stories 1 → 2 → 3 need no PDFs and can ship before any files are ready. Stories 4 → 5 depend on the files and on
-permission to share them.
+permission to share them. Story 6 can ship on its own.
 
 ## Dependencies / Open questions
 
