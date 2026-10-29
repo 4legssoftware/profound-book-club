@@ -83,19 +83,31 @@ rules. A split of that file is its own segment if the addition makes it harder t
 
 ## Questions
 
-1. **Where the Germ Theory link lives until sc-634.** The acceptance criterion asks for the current book's resources.
-   The epic's Additional Resources block, Sergent credit, and `Browse resources →` link do not exist yet, and a
-   `Browse resources` link would open a page this story does not build. Recommended shape for this ticket: a short
-   list on the current book with one row — the title links to the SPC Press PDF in a new tab, and the line credits
-   Myron Tribus. The Week 8 label also names the paper and Myron Tribus, and uses the same URL. sc-634 later replaces
-   this list with the catalog-driven block and moves the entry into the catalog. Confirm this shape before coding.
-2. **The gap after Dec 11.** Recommended schedule change is one new row only: Week 8, Dec 11, 2026. Dec 18, Dec 25,
-   and Jan 1 stay off both schedules. Up Next carries the Jan 8 start. Dec 25 and Jan 1 are U.S. holiday Fridays; Dec
-   18 is an open Friday with no row. Confirm that gap is intended.
-3. **Up Next fields beyond the acceptance criteria.** Recommended entry: № XIX, title *Signals & Levers*, author
-   `Hendrickson & Tosi`, `startDate` `Jan 8, 2027`, season `winter 2027`. Leave `blurb` and `connection` unset until
-   there is real copy and a rotation-time `kind`. Confirm the author string (given names or the surname pair) and
-   that shipping without a blurb is acceptable.
+1. **Where the Germ Theory link lives until sc-634.** Decided: a short list on the current book with one row. The
+   title links to the SPC Press PDF in a new tab, and the line credits Myron Tribus. The Week 8 label names the paper
+   and Myron Tribus and uses the same URL. sc-634 later replaces this list with the catalog-driven block and moves
+   the entry into the catalog. No `/resources` page, Sergent credit, or `Browse resources` link in this story.
+2. **The gap after Dec 11.** Decided: one new row only, Week 8 on Dec 11, 2026. Dec 18, Dec 25, and Jan 1 stay off
+   both schedules. Up Next carries the Jan 8 start.
+3. **Up Next fields beyond the acceptance criteria.** Decided:
+
+   - № XIX
+   - Title: *Signals & Levers: Systems Thinking Tools to Unblock Software Delivery*
+   - Author: Elisabeth Hendrickson and Joel Tosi
+   - `startDate`: `Jan 8, 2027`
+   - Season: `winter 2027`
+   - `connection` stays unset until the later rotation has a `kind`
+   - `blurb` is the two paragraphs below. The title and author lines already show the selection and the writers, so
+     the blurb starts at "It is an especially fitting read…"
+
+   > It is an especially fitting read for the Profound Book Club: a practical exploration of how to distinguish signal
+   > from noise, understand variation, see the system behind recurring problems, and choose interventions that lead to
+   > lasting improvement rather than change theater.
+   >
+   > The book weaves its teachings through a fictional software-delivery storyline, giving the ideas a concrete,
+   > recognizable context reminiscent of *The Phoenix Project*. Alongside the narrative, Hendrickson and Tosi draw on
+   > statistical process control, systems thinking, and economic theory to help us frame problems as testable
+   > hypotheses, reveal causal relationships, and avoid "solutions" that merely shift problems elsewhere.
 
 ## Implementation Checklist
 
@@ -103,23 +115,22 @@ rules. A split of that file is its own segment if the addition makes it harder t
 
 Content only. Meets the upcoming-book criterion and the longer schedule. The PDF link is Segment 2.
 
-- [ ] Resolve questions 2 and 3.
-- [ ] Set `src/content/upcomingBook.ts` from the confirmed Up Next fields. Leave `blurb` unset when there is no real
-      copy.
+- [ ] Question 3 is decided. Set `src/content/upcomingBook.ts` to № XIX, the full title, Elisabeth Hendrickson
+      and Joel Tosi, `Jan 8, 2027`, season `winter 2027`, and the two-paragraph blurb from question 3. Leave
+      `connection` unset.
 - [ ] Append the confirmed extra week to `schedule` in `src/content/currentBook.ts`. The `chapters` text names *The
       Germ Theory of Management* and Myron Tribus. Leave `chronology.ts` and `site.ts` unchanged.
 - [ ] `pnpm run lint`, `pnpm run format:check`, and `pnpm run build`.
 - [ ] Deploy dev (`source scripts/pro-dev.sh`, then `./scripts/deploy-content-dev.sh`). On
-      `https://dev.profound-book-club.org`: Up Next shows the title, authors, and Jan 8, 2027; the Upcoming nav link
-      is present; Week 8 is on the current schedule; *The Leader's Handbook* is still `Current selection` in the
-      chronology; Up Next has no placeholder blurb.
+      `https://dev.profound-book-club.org`: Up Next shows the full title, Elisabeth Hendrickson and Joel Tosi, Jan 8,
+      2027, and the two-paragraph blurb; the Upcoming nav link is present; Week 8 is Dec 11 on the current schedule;
+      *The Leader's Handbook* is still `Current selection` in the chronology.
 - [ ] Commit and push to `main`: `[sc-639] Announce Signals & Levers and extend the current schedule`. No `[skip ci]`.
 - [ ] That pipeline is green through Production before Segment 2. Spot-check `https://profound-book-club.org`.
 
 ### Segment 2 — Link *The Germ Theory of Management* from the current book (`profound-book-club`)
 
-Depends on question 1. Skip this segment only if kickoff decides the Week 8 label with no link already meets the
-resources criterion; in that case fold a plain-text credit into Segment 1 and do not add a URL.
+Question 1 is decided: ship the short current-book list and the Week 8 link. Do not skip this segment.
 
 - [ ] Add an optional `url` on `ScheduleItem` and render it in `CurrentBook.astro` as the week label
       (`target="_blank"`, `rel="noopener noreferrer"`). Point Week 8 at
@@ -137,8 +148,7 @@ resources criterion; in that case fold a plain-text credit into Segment 1 and do
 
 ### Final
 
-- [ ] Segment 2's pipeline run is green (or Segment 1's, if question 1 dropped Segment 2). Dev was checked before each
-      push.
+- [ ] Segment 2's pipeline run is green. Dev was checked before each push.
 - [ ] No new application test suite. The build, the external-link check, and the existing smoke test cover this
       change. Once `upcomingBook` is set, smoke requires `#upcoming`.
 - [ ] If resource styles were added to `src/styles/current-book.css` and the file is harder to follow, split it in its
@@ -148,7 +158,7 @@ resources criterion; in that case fold a plain-text credit into Segment 1 and do
 
 ## Notes
 
-- Dates: the extra week for the current book may affect the gap before 2027-01-08; confirm the current book's new end
-  date still lands before the next book starts. Dec 11, 2026 does, if question 2 is confirmed.
+- The extra week ends Dec 11, 2026, before *Signals & Levers* starts on Jan 8, 2027. Dec 18, Dec 25, and Jan 1 are
+  intentionally unscheduled.
 - The PDF is hosted by SPC Press, so this story links out and skips the epic's PDF hosting and permission-to-publish
   path.
