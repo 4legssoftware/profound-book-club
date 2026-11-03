@@ -2,14 +2,15 @@
 
 Visitor-facing `http` and `https` links in the built site, and the check that they stay active and current.
 Collected from `dist/` after `pnpm run build` (`index.html`, `conversations/index.html`, `404.html`). The set below
-was first collected on 14 Oct 2026. The current-book PDF was added on 29 Oct 2026.
+was first collected on 14 Oct 2026. The current-book PDF was added on 29 Oct 2026. The 4 Legs Software post was
+added on 3 Nov 2026.
 
 The check is a small TypeScript script plus one pipeline job. A plain GET is enough for every link below.
 
 ## Visitor links
 
-Thirteen links. Home renders the three newest reviews, both Of Interest cards, and the current-book PDF.
-`/conversations` renders all ten reviews. No other external visitor link appears in the built HTML.
+Fourteen links. Home renders the three newest reviews, both Of Interest cards, and the current-book PDF.
+`/conversations` renders all eleven reviews. No other external visitor link appears in the built HTML.
 
 ### Reviews
 
@@ -18,9 +19,10 @@ means the live title still matches that label.
 
 | Page | Label |
 | ---- | ----- |
+| `/`, `/conversations` | Leadership Is Language |
 | `/`, `/conversations` | Help to move from test execution to decision-making – A Review of Leadership is Language by L. David Marquet |
 | `/`, `/conversations` | Creative teamwork for quality – A Review of “Sidewinder – Creative Missile Development at China Lake” by Ron Westrum |
-| `/`, `/conversations` | How to get the most from the constraint on your (testing) process – A review of The Phoenix Project by Gene Kim, Kevin Behr, and George Spafford |
+| `/conversations` | How to get the most from the constraint on your (testing) process – A review of The Phoenix Project by Gene Kim, Kevin Behr, and George Spafford |
 | `/conversations` | Quality Comes First — a review of Deming's Road to Continual Improvement by William W. Scherkenbach |
 | `/conversations` | We Can Learn So Much From How AI Got Here — a review of Rebels of Reason by John Willis with Derek Lewis |
 | `/conversations` | A Great Resource for Leaders in Test and Quality — a review of Learning to Lead, Leading to Learn by Katie Anderson |
@@ -29,6 +31,7 @@ means the live title still matches that label.
 | `/conversations` | A Review of Understanding Variation — The Key to Managing Chaos by Donald J. Wheeler |
 | `/conversations` | A Review of Deming's Journey to Profound Knowledge by John Willis with Derek Lewis |
 
+- https://4legssoftware.com/posts/leadership-is-language.html
 - https://testandanalysis.home.blog/2026/10/06/help-to-move-from-test-execution-to-decision-making-a-review-of-leadership-is-language-by-l-david-marquet/
 - https://testandanalysis.home.blog/2026/09/15/creative-teamwork-for-quality-a-review-of-sidewinder-creative-missile-development-at-china-lake-by-ron-westrum/
 - https://testandanalysis.home.blog/2026/06/02/how-to-get-the-most-from-the-constraint-on-your-testing-process-the-phoenix-project-by-gene-kim-kevin-behr-and-george-spafford/

@@ -30,7 +30,8 @@ Meeting time and place are copied from profound-conversations. Change them in bo
 
 Reviews live in `conversations.ts`, newest first. Dates are `YYYY.MM.DD` so a string sort stays chronological.
 
-A Test & Analysis post is author Mike Harris, source Test & Analysis, platform Blog. `relatedBookId` is a chronology
+A Test & Analysis post is author Mike Harris, source Test & Analysis, platform Blog. A 4 Legs Software post is
+author Rob Park, source 4 Legs Software, platform Blog. `relatedBookId` is a chronology
 `id`. The card’s **Re:** line uses that id. A chronology row with a review shows **See conversation** (or **See N
 conversations**) and that pill opens `/conversations`, the full list.
 

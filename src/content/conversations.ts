@@ -15,6 +15,16 @@ export const conversationsIntro =
 
 export const conversations: Conversation[] = [
   {
+    title: 'Leadership Is Language',
+    author: 'Rob Park',
+    date: '2026.11.01',
+    platform: 'Blog',
+    source: '4 Legs Software',
+    url: 'https://4legssoftware.com/posts/leadership-is-language.html',
+    quote: 'What makes time blue or red is the words we use.',
+    relatedBookId: 'leadership-is-language',
+  },
+  {
     title:
       'Help to move from test execution to decision-making – A Review of Leadership is Language by L. David Marquet',
     author: 'Mike Harris',
