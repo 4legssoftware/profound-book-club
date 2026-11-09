@@ -9,12 +9,13 @@ Modeled on **4ls-site**; run from the **profound-book-club** repo root once Stor
 * Check for available package updates using `pnpm outdated`
 * Update all minor & patch versions to latest using `pnpm update` with specific packages
 * Run lint via `pnpm run lint` to ensure no code style issues
+* Run `pnpm run check` (`astro check`) so the type check matches the CI lint job
 * Run the production site build via the script defined in `package.json` (e.g. `pnpm run build` or `pnpm run site:build`)
   to verify the static site build succeeds
 * List out any major updates available, but do not update at this point
 * Re-check `package.json` `pnpm.overrides` to ensure each override is still necessary (and still the right minimum patched
   version); remove overrides that are no longer needed and re-run `pnpm install --no-frozen-lockfile` + `pnpm run lint` +
-  the site build script
+  `pnpm run check` + the site build script
 
 # Update minor & patch level package updates and verify for `/infrastructure`
 

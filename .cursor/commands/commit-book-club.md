@@ -5,6 +5,7 @@ permissions: ["all"]
 * run `pnpm lint` (if not already done and the repo has a lint script)
 * run `pnpm run format:check` — Prettier must be clean. ESLint does not cover formatting. If the check fails, run
   `pnpm run format`, then re-run `format:check`. Do not commit until it passes.
+* run `pnpm run check` — Astro type check. The CI lint job runs this. Do not commit until it passes.
 
 # Commit --> Push
 
