@@ -9,7 +9,7 @@ The check is a small TypeScript script plus one pipeline job. A plain GET is eno
 
 ## Visitor links
 
-Fourteen links. Home renders the three newest reviews, both Of Interest cards, and the current-book PDF.
+Fifteen links. Home renders the three newest reviews, the three Of Interest cards, and the current-book PDF.
 `/conversations` renders all eleven reviews. No other external visitor link appears in the built HTML.
 
 ### Reviews
@@ -50,10 +50,12 @@ URLs are in the same order as the table.
 Source `src/content/psas.ts`. Page `/` only. The label is the card title. The anchor text is `Visit`. These links are
 checked for **active** only.
 
-- Deming Strategies for Sustainable Success: Innovate, Streamline, Lead  
-  https://deming.org/events/deming-strategies-for-sustainable-success-innovate-streamline-lead/
-- Deming's 14 Points — video series  
-  https://www.youtube.com/@DemingInstitute
+- Tools & Methods Catalog in DemingNEXT  
+  https://www.youtube.com/playlist?list=PLdxAnF1F8MHA
+- 14 Points for Management  
+  https://www.youtube.com/playlist?list=PLIpkt_z8kJT8CIlnRfLk8r40LaTRJH9O5
+- In Their Own Words  
+  https://podcast.deming.org/
 
 ### Current book
 
