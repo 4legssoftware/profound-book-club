@@ -108,13 +108,13 @@ covers.
       playlist, 14 Points, then podcast, each Visit opens its URL, and the § III heading and the Of Interest nav link
       are unchanged. Check the three cards at a phone width.
 - [x] Stop here and wait for manual review of dev
-- [ ] Commit and push to `main`: `[sc-668] Replace the expired seminar and add the tools catalog playlist`
-- [ ] That push's pipeline is green (Commit → Acceptance → Production) before Final.
+- [x] Commit and push to `main`: `[sc-668] Replace the expired seminar with current Deming resources` (`99e173b`)
+- [x] That push's pipeline is green (Commit → Acceptance → Production) before Final.
+      https://github.com/4legssoftware/profound-book-club/actions/runs/45508628081
 
 ### Final
 
-- [ ] Production shows the podcast card and the playlist card, and not the seminar. The 14 Points card, heading, nav
-      link, and § III are unchanged.
-- [ ] No CDK or Terraform in this story. `psas.ts` stays a short catalog file. `PsaGrid.astro` was not part of the
-      change.
-- [ ] The external-link inventory matches the built Of Interest links.
+- [x] Production shows the tools playlist, 14 Points for Management, and the podcast, and not the seminar. The heading,
+      nav link, and § III are unchanged.
+- [x] No CDK or Terraform in this story. `psas.ts` is 50 lines. `PsaGrid.astro` was not part of the change.
+- [x] The external-link inventory matches the built Of Interest links. The pipeline's External Link Check passed.
